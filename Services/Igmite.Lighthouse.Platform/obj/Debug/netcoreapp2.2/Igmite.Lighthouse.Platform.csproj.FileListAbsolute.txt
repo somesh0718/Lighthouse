@@ -1,0 +1,32 @@
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Platform\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.deps.json
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Platform\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.runtimeconfig.json
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Platform\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.runtimeconfig.dev.json
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Platform\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Platform\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.pdb
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Platform\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Platform\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.pdb
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Platform\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.csproj.AssemblyReference.cache
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Platform\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Platform\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.AssemblyInfoInputs.cache
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Platform\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.AssemblyInfo.cs
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Platform\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.csproj.CoreCompileInputs.cache
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Platform\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.csproj.CopyComplete
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Platform\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Platform\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.pdb
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Platform\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.genruntimeconfig.cache
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Platform\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.deps.json
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Platform\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.runtimeconfig.json
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Platform\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.runtimeconfig.dev.json
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Platform\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Platform\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Platform\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Platform\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Platform\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.csproj.AssemblyReference.cache
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Platform\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Platform\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.AssemblyInfoInputs.cache
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Platform\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.AssemblyInfo.cs
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Platform\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.csproj.CoreCompileInputs.cache
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Platform\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.csproj.CopyComplete
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Platform\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Platform\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Platform\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.genruntimeconfig.cache

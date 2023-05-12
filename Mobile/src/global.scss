@@ -1,0 +1,185 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import "~@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+.cal-modal {
+  --height: 80%;
+  --border-radius: 10px;
+  padding: 25px;
+}
+
+.content-class {
+  --background: #fafafa;
+}
+
+.card-form {
+  margin: 5px;
+}
+
+// Applies a text wrap on ion options
+.alert-tappable.alert-radio {
+  height: auto;
+  contain: content;
+}
+
+.alert-checkbox-label.sc-ion-alert-md,
+.alert-checkbox-label.sc-ion-alert-ios,
+.alert-radio-label.sc-ion-alert-md,
+.alert-radio-label.sc-ion-alert-ios {
+  white-space: normal;
+}
+
+fieldset {
+  min-width: inherit;
+}
+
+.alert-tappable.sc-ion-alert-md {
+  position: relative;
+  height: 50px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.card-content-md {
+  padding-left: unset;
+  padding-right: unset;
+  -webkit-padding-start: 2px;
+  padding-inline-start: 2px;
+  -webkit-padding-end: 2px;
+  padding-inline-end: 2px;
+}
+
+.alert-wrapper {
+  width: 95% !important;
+  max-width: 95% !important;
+}
+
+.alert-head.sc-ion-alert-md {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
+.alert-radio-label.sc-ion-alert-md, .alert-checkbox-label.sc-ion-alert-md {
+  -webkit-padding-start: 36px !important;
+  padding-inline-start: 36px !important;
+  -webkit-padding-end: 10px !important;
+  padding-inline-end: 10px !important;
+}
+ 
+.alert-tappable.sc-ion-alert-md {
+  min-height: 40px !important;
+  height: max-content !important;
+}
+
+.student-by-class-section {
+  display: block;
+  width: 100%;
+  padding: 12px 0;
+}
+
+.student-header {
+  margin-top: 10px;
+}
+
+.student-list-item {
+  display: inline-flex;
+} 
+
+.student-item-seq {
+  padding-top: 6px;
+  margin-right: 10px;
+}
+
+.error-message{
+  color: red;
+  font-size: 12px;
+}
+
+.span-required {
+  color:red;
+  padding-left: 3px;
+}
+
+// //-- Validation failed
+// ion-item.ion-invalid.ion-touched{
+//   border-bottom: 2px solid var(--ion-color-danger) !important;
+// }
+
+// //-- Validation passed
+// ion-item.ion-valid.ion-touched{
+// border-bottom: 2px solid var(--ion-color-success) !important;
+// }
+
+.item-highlight {
+  height: 0px !important;
+}
+
+// ion-item {
+//   --highlight-height: 0;
+// }
+
+.add-session {
+  font-size: 40px;  
+  height: 40px;
+  color: blue;
+}
+
+.remove-session {
+  width: 100%;
+  height: 40px;
+  color: red;
+}
+
+.add-course-taught {
+  display: inline-flex;
+  align-items: center;
+}
+
+.add-course-text {
+  margin-top: 0px;
+  margin-left: 3px;
+}
+
+.login-logo {
+  margin: 0 auto;
+  height: 320px;
+}
+
+.login-logo-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: bold;
+  height: 40px;
+}
+
+.default-image {
+  font-size: 28px;
+  margin-top: 9px;
+  color: #2c75bb;
+}

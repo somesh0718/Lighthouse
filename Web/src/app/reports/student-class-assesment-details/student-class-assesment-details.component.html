@@ -1,0 +1,522 @@
+<div id="student-class-assesment-details-report" class="page-layout carded fullwidth inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
+            fxLayoutAlign.gt-sm="space-between center">
+
+            <!-- APP TITLE -->
+            <div class="logo mb-24 mb-md-0" fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="logo-icon s-32 mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+                    shopping_basket
+                </mat-icon>
+                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    STUDENT CLASS & ASSESSMENT DETAILS REPORT
+                    <a [routerLink]="['./']" class="refresh-data export-excel mt-24 mt-md-0" matTooltip="Refresh"
+                        matTooltipPosition="right">
+                        <img class="icon" src="assets\icons\refresh.png" />
+                    </a>
+                </span>
+            </div>
+            <!-- / APP TITLE -->
+
+            <!-- SEARCH -->
+            <div class="search-wrapper mx-32 mx-md-0">
+                <form name="studentClassAssesmentSearchForm" [formGroup]="studentClassAssesmentSearchForm">
+                    <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon>search</mat-icon>
+                        <input formControlName="SearchText" placeholder="Search By Student Unique Id"
+                            matTooltip="Search By Student Unique Id" matTooltipPosition='below'
+                            matTooltipClass="allow-cr">
+                    </div>
+                </form>
+            </div>
+            <!-- / SEARCH -->
+
+            <!-- ADD BUTTON -->
+            <div class="action-buttons">
+                <button class="export-excel" style="margin-bottom: 10px;" (click)="IsShowFilter=!IsShowFilter"
+                    matTooltip="Show/Hide Filters" matTooltipPosition="left">
+                    <img class="icon" src="assets\icons\filters.png" />
+                </button>
+
+                <a *ngIf="PageRights.IsExport" class="export-excel" (click)="exportFilterData()"
+                    matTooltip="Download with filters data" matTooltipPosition="left">
+                    <img class="icon" src="assets\icons\excel-filter.jpg" />
+                </a>
+
+                <a *ngIf="PageRights.IsExport" class="export-excel" (click)="exportBulkData()"
+                    matTooltip="Download without filters data" matTooltipPosition="left">
+                    <img class="icon" src="assets\icons\excel-bulk.jpg" />
+                </a>
+            </div>
+            <!-- / ADD BUTTON -->
+
+        </div>
+        <!-- / HEADER -->
+
+        <!-- Filter Section -->
+        <div class="filter-content-card" *ngIf="IsShowFilter">
+            <div class="filter-content">
+                <form name="studentClassAssesmentDetails" [formGroup]="studentClassAssesmentDetailsForm"
+                    class="student-enrollment-report" fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" fxFlex>
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px">
+                        <mat-form-field fxFlex="25" fxFlex.lt-md="75" fxFlex.lt-sm="100">
+                            <mat-label> Academic Year</mat-label>
+
+                            <mat-select formControlName="AcademicYearId" name="academicYearId" appearance="fill"
+                                required>
+                                <mat-option [value]="academicYearItem.Id"
+                                    *ngFor="let academicYearItem of academicyearList">
+                                    {{ academicYearItem.Name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="25" fxFlex.lt-md="75" fxFlex.lt-sm="100">
+                            <mat-label>Division</mat-label>
+
+                            <mat-select formControlName="DivisionId" name="divisionId" appearance="fill"
+                                (selectionChange)="onChangeDivision($event.value)"
+                                [required]="Constants.UserRoleIds.includes(UserModel.RoleCode)">
+                                <mat-option [value]="DivisionItem.Id" *ngFor="let DivisionItem of divisionList">
+                                    {{ DivisionItem.Name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="25" fxFlex.lt-md="75" fxFlex.lt-sm="100">
+                            <mat-label>District</mat-label>
+                            <mat-select #districtMatSelect formControlName="DistrictId" name="districtId"
+                                appearance="fill" multiple
+                                [required]="Constants.UserRoleIds.includes(UserModel.RoleCode)">
+                                <mat-option (click)="toggleDistrictSelections($event)" [value]="0">All Districts
+                                </mat-option>
+                                <mat-option *ngFor="let districtItem of districtList" [value]="districtItem.Id">
+                                    {{districtItem.Name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="50" fxFlex.lt-md="50" fxFlex.lt-sm="100">
+                            <mat-label>Class</mat-label>
+
+                            <mat-select formControlName="ClassId" appearance="outline">
+                                <mat-option [value]="classItem.Id" *ngFor="let classItem of classList">
+                                    {{ classItem.Name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px">
+
+                        <mat-form-field fxFlex="30" fxFlex.lt-md="75" fxFlex.lt-sm="100"
+                            *ngIf="UserModel.RoleCode != 'VT' && UserModel.RoleCode != 'VC'">
+                            <mat-label>Vocational Training Provider</mat-label>
+
+                            <mat-select formControlName="VTPId" name="vtpId" appearance="fill" #SelectVtp
+                                (selectionChange)="onChangeVTP($event.value)">
+                                <mat-select-filter class="select-filter" *ngIf="SelectVtp.focused" [array]="vtpList"
+                                    (filteredReturn)="this.vtpList = $event" [displayMember]="'Name'">
+                                </mat-select-filter>
+
+                                <mat-option [value]="vtpItem.Id" *ngFor="let vtpItem of vtpList">
+                                    {{ vtpItem.Name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="33" fxFlex.lt-md="75" fxFlex.lt-sm="100"
+                            *ngIf="UserModel.RoleCode != 'VT' && UserModel.RoleCode != 'VC'">
+                            <mat-label>Vocational Coordinator</mat-label>
+
+                            <mat-select formControlName="VCId" (selectionChange)="onChangeVC($event.value)">
+                                <mat-option [value]="vcItem.Id" *ngFor="let vcItem of vcList">
+                                    {{ vcItem.Name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="50" fxFlex.lt-md="75" fxFlex.lt-sm="100">
+                            <mat-label>School</mat-label>
+
+                            <mat-select formControlName="SchoolId" matTooltip="Select School" matTooltipPosition='above'
+                                matTooltipClass="allow-cr" (selectionChange)="onChangeSchool($event.value)">
+                                <mat-select-filter class="select-filter" [array]="schoolList"
+                                    (filteredReturn)="this.filteredSchoolItems = $event" [displayMember]="'Name'">
+                                </mat-select-filter>
+                                <mat-option [value]="schoolItem.Id" *ngFor="let schoolItem of filteredSchoolItems">
+                                    {{ schoolItem.Name }}
+                                </mat-option>
+                            </mat-select>
+
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="50" fxFlex.lt-md="75" fxFlex.lt-sm="100"
+                            *ngIf="UserModel.RoleCode != 'VT'">
+                            <mat-label>Vocational Trainer</mat-label>
+
+                            <mat-select formControlName="VTId" appearance="outline"
+                                (selectionChange)="onChangeVocationalTrainer($event.value)"
+                                [disabled]="PageRights.IsReadOnly">
+                                <mat-option [value]="vtItem.Id" *ngFor="let vtItem of vtList">
+                                    {{ vtItem.Name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px">
+
+                        <mat-form-field fxFlex="25" fxFlex.lt-md="75" fxFlex.lt-sm="100">
+                            <mat-label>Sector</mat-label>
+
+                            <mat-select formControlName="SectorId" name="sectorId" appearance="fill"
+                                (selectionChange)="onChangeSector($event.value)">
+                                <mat-option [value]="sectorItem.Id" *ngFor="let sectorItem of sectorList">
+                                    {{ sectorItem.Name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="25" fxFlex.lt-md="75" fxFlex.lt-sm="100">
+                            <mat-label>Select Job Role</mat-label>
+
+                            <mat-select formControlName="JobRoleId" name="jobRoleId" appearance="fill">
+                                <mat-option [value]="jobRoleItem.Id" *ngFor="let jobRoleItem of jobRoleList">
+                                    {{ jobRoleItem.Name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="30" fxFlex.lt-md="75" fxFlex.lt-sm="100">
+                            <mat-label>Gender</mat-label>
+
+                            <mat-select name="gender" formControlName="Gender" appearance="outline"
+                                [disabled]="PageRights.IsReadOnly">
+                                <mat-option [value]="gender.Id" *ngFor="let gender of genderList">
+                                    {{gender.Name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <div class="clear-filter pr-1" fxFlex="20" fxFlex.lt-md="75" fxFlex.lt-sm="100">
+                            <button mat-raised-button class="fuse-white filter-button"
+                                (click)="onLoadStudentClassAssesmentDetailsReportsByFilters()"
+                                matTooltip="Search with filters" matTooltipPosition="below"><span>SEARCH</span></button>
+                            <button mat-raised-button class="fuse-white filter-button" (click)="resetReportFilters()"
+                                matTooltip="Reset search filters" matTooltipPosition="below"><span>CLEAR</span></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- /Filter Section -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <mat-table class="student-enrollment-report-table responsive-table" #table [dataSource]="tableDataSource"
+                matTableExporter #exporter="matTableExporter" [hiddenColumns]="[0]" matSort fusePerfectScrollbar
+                [fusePerfectScrollbarOptions]="{'suppressScrollX': false}">
+
+                <!-- SrNo Column -->
+                <ng-container matColumnDef="SrNo">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>SrNo</mat-header-cell>
+                    <mat-cell *matCellDef="let studentClassAssesmentDetails; let RowIndex = index;">
+                        <p class="text-truncate">{{studentClassAssesmentDetails.SrNo}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- YearName Column -->
+                <ng-container matColumnDef="YearName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Academic Year
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let studentClassAssesmentDetails">
+                        <p class="text-truncate">{{studentClassAssesmentDetails.YearName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- State Column -->
+                <ng-container matColumnDef="State">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>State
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let studentClassAssesmentDetails">
+                        <p class="text-truncate">{{studentClassAssesmentDetails.State}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- District Column -->
+                <ng-container matColumnDef="District">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>District
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let studentClassAssesmentDetails">
+                        <p class="text-truncate">{{studentClassAssesmentDetails.District}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- School Column -->
+                <ng-container matColumnDef="School">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Name of the School
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let studentClassAssesmentDetails">
+                        <p class="text-truncate">{{studentClassAssesmentDetails.School}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- UDISE Column -->
+                <ng-container matColumnDef="UDISE">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>School Code
+                        (UDISE)
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let studentClassAssesmentDetails">
+                        <p class="text-truncate">{{studentClassAssesmentDetails.UDISE}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- HMName Column -->
+                <ng-container matColumnDef="HMName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Head / Co-ordinating
+                        person at School
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let studentClassAssesmentDetails">
+                        <p class="text-truncate">{{studentClassAssesmentDetails.HMName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- HMMobile Column -->
+                <ng-container matColumnDef="HMMobile">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Contact No of the
+                        Principal
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let studentClassAssesmentDetails">
+                        <p class="text-truncate">{{studentClassAssesmentDetails.HMMobile}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- HMEmail Column -->
+                <ng-container matColumnDef="HMEmail">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Email-ID of the
+                        Principal
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let studentClassAssesmentDetails">
+                        <p class="text-truncate">{{studentClassAssesmentDetails.HMEmail}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- VTPName Column -->
+                <ng-container matColumnDef="VTPName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>VTP Name
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let studentClassAssesmentDetails">
+                        <p class="text-truncate">{{studentClassAssesmentDetails.VTPName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- VCName Column -->
+                <ng-container matColumnDef="VCName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>VC Name
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let studentClassAssesmentDetails">
+                        <p class="text-truncate">{{studentClassAssesmentDetails.VCName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- VTName Column -->
+                <ng-container matColumnDef="VTName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>VT Name
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let studentClassAssesmentDetails">
+                        <p class="text-truncate">
+                            {{studentClassAssesmentDetails.VTName }}</p>
+                    </mat-cell>
+                </ng-container>VTName
+
+                <!-- VTMobile Column -->
+                <ng-container matColumnDef="VTMobile">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>VTPhoneNumber
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let studentClassAssesmentDetails">
+                        <p class="text-truncate">{{studentClassAssesmentDetails.VTMobile}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- FirstName Column -->
+                <ng-container matColumnDef="FirstName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>StudentFirstName
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let studentClassAssesmentDetails">
+                        <p class="text-truncate">{{studentClassAssesmentDetails.FirstName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- MiddleName Column -->
+                <ng-container matColumnDef="MiddleName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>StudentMiddleName
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let studentClassAssesmentDetails">
+                        <p class="text-truncate">{{studentClassAssesmentDetails.MiddleName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- LastName Column -->
+                <ng-container matColumnDef="LastName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>StudentLastName
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let studentClassAssesmentDetails">
+                        <p class="text-truncate">{{studentClassAssesmentDetails.LastName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Class Column -->
+                <ng-container matColumnDef="Class">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Class / Standard
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let studentClassAssesmentDetails">
+                        <p class="text-truncate">{{studentClassAssesmentDetails.Class}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Gender Column -->
+                <ng-container matColumnDef="Gender">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Gender
+                        (M/F)
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let studentClassAssesmentDetails">
+                        <p class="text-truncate">{{studentClassAssesmentDetails.Gender}}</p>
+                    </mat-cell>
+                </ng-container>
+
+
+                <!-- DOB Column -->
+                <ng-container matColumnDef="DOB">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Date of Birth<br>
+                        (DD-MM-YYYY)</mat-header-cell>
+                    <mat-cell *matCellDef="let studentClassAssesmentDetails">
+                        <p class="text-truncate">{{studentClassAssesmentDetails.DOB | date: 'dd/MM/yyyy'}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- StudentID1 Column -->
+                <ng-container matColumnDef="AadhaarNumber">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Student ID 1<br>
+                        AADHAAR number</mat-header-cell>
+                    <mat-cell *matCellDef="let studentClassAssesmentDetails">
+                        <p class="text-truncate">{{studentClassAssesmentDetails.AadhaarNumber}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- RollNo Column -->
+                <ng-container matColumnDef="RollNo">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Student ID 2<br>
+                        If AADHAAR is not available, Unique ID generated <br> by the Education Department / Education
+                        Board/Council
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let studentClassAssesmentDetails">
+                        <p class="text-truncate">{{studentClassAssesmentDetails.RollNo}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- FatherName Column -->
+                <ng-container matColumnDef="FatherName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Father's Name
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let studentClassAssesmentDetails">
+                        <p class="text-truncate">{{studentClassAssesmentDetails.FatherName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- MotherName Column -->
+                <ng-container matColumnDef="MotherName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Mother's Name
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let studentClassAssesmentDetails">
+                        <p class="text-truncate">{{studentClassAssesmentDetails.MotherName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- PrimaryContact Column -->
+                <ng-container matColumnDef="PrimaryContact">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Primary Contact Number
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let studentClassAssesmentDetails">
+                        <p class="text-truncate">{{studentClassAssesmentDetails.PrimaryContact}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- AlternativeContact Column -->
+                <ng-container matColumnDef="AlternativeContact">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Alternative Contact
+                        Number
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let studentClassAssesmentDetails">
+                        <p class="text-truncate">{{studentClassAssesmentDetails.AlternativeContact}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Category Column -->
+                <ng-container matColumnDef="Category">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Category<br>
+                        (Gen/OBC/SC/ST)
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let studentClassAssesmentDetails">
+                        <p class="text-truncate">{{studentClassAssesmentDetails.Category}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Sector Column -->
+                <ng-container matColumnDef="Sector">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Sector
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let studentClassAssesmentDetails">
+                        <p class="text-truncate">{{studentClassAssesmentDetails.Sector}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- JobRole Column -->
+                <ng-container matColumnDef="JobRole">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Job Role
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let studentClassAssesmentDetails">
+                        <p class="text-truncate">{{studentClassAssesmentDetails.JobRole}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- StreamName Column -->
+                <ng-container matColumnDef="StreamName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Stream
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let studentClassAssesmentDetails">
+                        <p class="text-truncate">{{studentClassAssesmentDetails.StreamName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+
+                <mat-row *matRowDef="let studentClassAssesmentDetails; columns: displayedColumns;"
+                    class="student-enrollment-report" matRipple>
+                </mat-row>
+            </mat-table>
+
+            <div class="no-data-found" *ngIf="tableDataSource.data.length === 0">No records found!</div>
+
+            <mat-paginator #ListPaginator [length]="SearchBy.TotalResults" [pageIndex]="SearchBy.PageIndex"
+                [pageSize]="SearchBy.PageSize" [pageSizeOptions]="SearchBy.PageSizeOptions"
+                [showFirstLastButtons]="SearchBy.ShowFirstLastButtons" (page)="onPageIndexChanged($event)">
+            </mat-paginator>
+        </div>
+        <!-- / CONTENT CARD -->
+    </div>
+    <!-- / CENTER -->
+</div>

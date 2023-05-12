@@ -1,0 +1,631 @@
+<div id="lab-condition-report" class="page-layout carded fullwidth inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
+            fxLayoutAlign.gt-sm="space-between center">
+
+            <!-- APP TITLE -->
+            <div class="logo mb-24 mb-md-0" fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="logo-icon s-32 mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+                    shopping_basket
+                </mat-icon>
+                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    REPORT FOR LAB CONDITION
+                    <a [routerLink]="['./']" class="refresh-data mt-24 mt-md-0">
+                        <mat-icon [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">refresh</mat-icon>
+                    </a>
+                </span>
+            </div>
+            <!-- / APP TITLE -->
+
+            <!-- SEARCH -->
+            <div class="search-wrapper mx-32 mx-md-0" style="width: 100%;
+            max-width: 480px;
+            border-radius: 28px;
+            overflow: hidden;background:white">
+                <div class="search" style=" width: 100%;
+                height: 48px;
+                line-height: 48px;
+                padding: 0 18px;" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input style="width: 100%;
+                    height: 48px;
+                    min-height: 48px;
+                    max-height: 48px;
+                    padding: 0 16px;
+                    border: none;
+                    outline: none;" #filter (keyup)="applySearchFilter($event.target.value)"
+                        placeholder="Search for a Lab condition Detail">
+                </div>
+            </div>
+            <!-- / SEARCH -->
+
+            <!-- ADD BUTTON -->
+            <div class="action-buttons">
+                <button mat-raised-button class="fuse-white filter-button" style="margin-bottom: 10px;"
+                    (click)="isShowFilterContainer=!isShowFilterContainer"><span>FILTERS</span></button>
+
+                <a *ngIf="PageRights.IsExport" class="export-excel"
+                    (click)="exporter.exportTable('xlsx', {fileName:'LabConditionReport', sheet: 'LabConditionReport', Props: {Author: 'Lighthouse'}})">
+                    <mat-icon> cloud_download</mat-icon>
+                </a>
+            </div>
+            <!-- / ADD BUTTON -->
+        </div>
+        <!-- / HEADER -->
+
+        <div fxLayout="row" fxLayoutAlign="start center">
+
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-content-card" *ngIf="isShowFilterContainer">
+            <div class="filter-content">
+                <form name="labConditionReportForm" [formGroup]="labConditionReportForm"
+                    class="field-industry-visit-status-report" fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto"
+                    fxFlex>
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px">
+                        <mat-form-field fxFlex="25" fxFlex.lt-md="75" fxFlex.lt-sm="100">
+                            <mat-label> Academic Year</mat-label>
+
+                            <mat-select formControlName="AcademicYearId" name="academicYearId" appearance="fill"
+                                required>
+                                <mat-option [value]="academicYearItem.Id"
+                                    *ngFor="let academicYearItem of academicyearList">
+                                    {{ academicYearItem.Name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="20" fxFlex.lt-md="75" fxFlex.lt-sm="100">
+                            <mat-label> Month</mat-label>
+
+                            <mat-select formControlName="MonthId" name="monthId" appearance="fill">
+                                <mat-option [value]="monthItem.Id" *ngFor="let monthItem of monthList">
+                                    {{ monthItem.Name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="25" fxFlex.lt-md="75" fxFlex.lt-sm="100">
+                            <mat-label>Division</mat-label>
+
+                            <mat-select formControlName="DivisionId" name="divisionId" appearance="fill"
+                                (selectionChange)="onChangeDivision($event.value)"
+                                [required]="Constants.UserRoleIds.includes(UserModel.RoleCode)">
+                                <mat-option [value]="DivisionItem.Id" *ngFor="let DivisionItem of divisionList">
+                                    {{ DivisionItem.Name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="25" fxFlex.lt-md="75" fxFlex.lt-sm="100">
+                            <mat-label>District</mat-label>
+                            <mat-select #districtMatSelect formControlName="DistrictId" name="districtId"
+                                appearance="fill" multiple
+                                [required]="Constants.UserRoleIds.includes(UserModel.RoleCode)">
+                                <mat-option (click)="toggleDistrictSelections($event)" [value]="0">All Districts
+                                </mat-option>
+                                <mat-option *ngFor="let districtItem of districtList" [value]="districtItem.Id">
+                                    {{districtItem.Name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="25" fxFlex.lt-md="75" fxFlex.lt-sm="100">
+                            <mat-label>Sector</mat-label>
+
+                            <mat-select formControlName="SectorId" name="sectorId" appearance="fill"
+                                (selectionChange)="onChangeSector($event.value)">
+                                <mat-option [value]="sectorItem.Id" *ngFor="let sectorItem of sectorList">
+                                    {{ sectorItem.Name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px">
+                        <mat-form-field fxFlex="25" fxFlex.lt-md="75" fxFlex.lt-sm="100">
+                            <mat-label>Select Job Role</mat-label>
+
+                            <mat-select formControlName="JobRoleId" name="jobRoleId" appearance="fill">
+                                <mat-option [value]="jobRoleItem.Id" *ngFor="let jobRoleItem of jobRoleList">
+                                    {{ jobRoleItem.Name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <!-- <mat-form-field fxFlex="25" fxFlex.lt-md="75" fxFlex.lt-sm="100">
+                            <mat-label>Class</mat-label>
+
+                            <mat-select formControlName="ClassId" name="classId" appearance="fill">
+                                <mat-option [value]="classItem.Id" *ngFor="let classItem of classList">
+                                    {{ classItem.Name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field> -->
+
+                        <mat-form-field fxFlex="30" fxFlex.lt-md="75" fxFlex.lt-sm="100">
+                            <mat-label>Vocational Training Provider</mat-label>
+
+                            <mat-select formControlName="VTPId" name="vtpId" appearance="fill" #SelectVtp>
+                                <mat-select-filter class="select-filter" *ngIf="SelectVtp.focused" [array]="vtpList"
+                                    (filteredReturn)="this.vtpList = $event" [displayMember]="'Name'">
+                                </mat-select-filter>
+                                <mat-option [value]="vtpItem.Id" *ngFor="let vtpItem of vtpList">
+                                    {{ vtpItem.Name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="25" fxFlex.lt-md="75" fxFlex.lt-sm="100">
+                            <mat-label>School Management</mat-label>
+
+                            <mat-select formControlName="SchoolManagementId" name="schoolManagementId"
+                                appearance="fill">
+                                <mat-option [value]="schoolManagementItem.Id"
+                                    *ngFor="let schoolManagementItem of schoolManagementList">
+                                    {{ schoolManagementItem.Name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <div class="clear-filter pr-1" fxFlex="20" fxFlex.lt-md="75" fxFlex.lt-sm="100">
+                            <button mat-raised-button class="fuse-white filter-button"
+                                (click)="getLabConditionReportReports()"><span>SEARCH</span></button>
+                            <button mat-raised-button class="fuse-white filter-button"
+                                (click)="resetReportFilters()"><span>CLEAR</span></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- /Filter Section -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <mat-table class="student-enrollment-report-table responsive-table" #table [dataSource]="tableDataSource"
+                matTableExporter #exporter="matTableExporter" [hiddenColumns]="[0]" matSort fusePerfectScrollbar
+                [fusePerfectScrollbarOptions]="{'suppressScrollX': false}">
+
+                <!-- SrNo Column -->
+                <ng-container matColumnDef="SrNo">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>SrNo</mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport; let RowIndex = index;">
+                        <p class="text-truncate">{{LabConditionReport.SrNo}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- SrNo Column -->
+                <ng-container matColumnDef="AcademicYear">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Academic Year
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.AcademicYear}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- DistrictName Column -->
+                <ng-container matColumnDef="DistrictName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm
+                        fxShow.gt-md>District</mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.DistrictName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- SchoolName Column -->
+                <ng-container matColumnDef="SchoolName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Name of the School
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.SchoolName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- UDISE Column -->
+                <ng-container matColumnDef="UDISE">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>School Code
+                        (UDISE)
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.UDISE}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- SectorName Column -->
+                <ng-container matColumnDef="SectorName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Sector Name
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.SectorName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- JobRoleName Column -->
+                <ng-container matColumnDef="JobRoleName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Job Role
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.JobRoleName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Composite Column -->
+                <ng-container matColumnDef="Composite">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Composite / Non
+                        Composite
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.Composite}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- VTPName Column -->
+                <ng-container matColumnDef="VTPName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>VTP Name
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.VTPName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- VCName Column -->
+                <ng-container matColumnDef="VCName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>VC Name
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.VCName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- VCEmail Column -->
+                <ng-container matColumnDef="VCEmail">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>VC Email Id
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.VCEmail}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- VTName Column -->
+                <ng-container matColumnDef="VTName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>VT Name
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">
+                            {{LabConditionReport.VTName }}</p>
+                    </mat-cell>
+                </ng-container>VTName
+
+                <!-- VTEmail Column -->
+                <ng-container matColumnDef="VTEmail">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>VT Email Id
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.VTEmail}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- TEReceiveStatus Column -->
+                <ng-container matColumnDef="TEReceiveStatus">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Tools & Equipment
+                        Receive Status
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.TEReceiveStatus}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- ReceiptDate Column -->
+                <ng-container matColumnDef="ReceiptDate">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Receipt date and year
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.ReceiptDate | date: 'dd-yyyy'}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- OATEStatus Column -->
+                <ng-container matColumnDef="OATEStatus">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Overall Tools &
+                        Equipment Status
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.OATEStatus}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- OFTEStatus Column -->
+                <ng-container matColumnDef="OFTEStatus">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Overall functionality
+                        status of tools & equipments
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.OFTEStatus}}</p>
+                    </mat-cell>
+                </ng-container>
+
+
+
+                <!-- Reason Column -->
+                <ng-container matColumnDef="Reason">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Major reason for
+                        patrial availability/functionality of tools
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.Reason}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- IsSelected Column -->
+                <ng-container matColumnDef="IsSelected">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>If Selected Not
+                        Available
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.IsSelected}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- IsSpecify Column -->
+                <ng-container matColumnDef="IsSpecify">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Please Specify
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.IsSpecify}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- RFNreceiveStatus Column -->
+                <ng-container matColumnDef="RFNreceiveStatus">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Reason for Not
+                        Receiving Status
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.RFNreceiveStatus}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- IsCommunicated Column -->
+                <ng-container matColumnDef="IsCommunicated">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Communicated with
+                        Samagra ?
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.IsCommunicated}}</p>
+                    </mat-cell>
+                </ng-container>
+
+
+                <!-- IsSetUpWorkShop Column -->
+                <ng-container matColumnDef="IsSetUpWorkShop">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Do school have
+                        dedicated room available for set up of workshop?
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.IsSetUpWorkShop}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- RoomType Column -->
+                <ng-container matColumnDef="RoomType">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Room
+                        type</mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.RoomType}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- AccommodateTools Column -->
+                <ng-container matColumnDef="AccommodateTools">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>How do you manage to
+                        accommodate tools?
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.AccommodateTools}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- RoomSize Column -->
+                <ng-container matColumnDef="RoomSize">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Room size (in sq. ft)
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.RoomSize}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- IsDoorLock Column -->
+                <ng-container matColumnDef="IsDoorLock">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Does the room have door
+                        which can be locked?
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.IsDoorLock}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Flooring Column -->
+                <ng-container matColumnDef="Flooring">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Condition of the
+                        Flooring
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.Flooring}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- RoomWindows Column -->
+                <ng-container matColumnDef="RoomWindows">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Do the Rooms have
+                        Windows?
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.RoomWindows}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- TotalWindowCount Column -->
+                <ng-container matColumnDef="TotalWindowCount">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Total Count of window
+                        in each room
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.TotalWindowCount}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- IsWindowGrills Column -->
+                <ng-container matColumnDef="IsWindowGrills">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Do the Windows have
+                        Grills
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.IsWindowGrills}}</p>
+                    </mat-cell>
+                </ng-container>
+
+
+                <!-- IsRoomActive Column -->
+                <ng-container matColumnDef="IsRoomActive">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Does the Room have
+                        active Electricity Connection
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.IsRoomActive}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- REFInstalled Column -->
+                <ng-container matColumnDef="REFInstalled">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Do the Room have
+                        Electric fitting installed?
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.REFInstalled}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- WorkingSwitchBoard Column -->
+                <ng-container matColumnDef="WorkingSwitchBoard">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Does the Room Have
+                        Working Switchboard
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.WorkingSwitchBoard}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- PSSCount Column -->
+                <ng-container matColumnDef="PSSCount">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Count of Plug Socket(s)
+                        in the Switchboard
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.PSSCount}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- WLCount Column -->
+                <ng-container matColumnDef="WLCount">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Count of Working lights
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.WLCount}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- WFCount Column -->
+                <ng-container matColumnDef="WFCount">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Count of Working Fans
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.WFCount}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- RoomDamaged Column -->
+                <ng-container matColumnDef="RoomDamaged">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Condition of the Room
+                        Damaged - Type of infrastructure damage
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.RoomDamaged}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- RawMaterial Column -->
+                <ng-container matColumnDef="RawMaterial">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Raw material required
+                        to perform practicals are available?
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.RawMaterial}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- ImgToolList Column -->
+                <ng-container matColumnDef="ImgToolList">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Upload receiving a copy
+                        of Tool List
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.ImgToolList}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- ImgLab Column -->
+                <ng-container matColumnDef="ImgLab">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Upload an image of Lab
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.ImgLab}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Remark Column -->
+                <ng-container matColumnDef="Remark">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Remark (if any)
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.Remark}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- IsWindowLocked Column -->
+                <ng-container matColumnDef="IsWindowLocked">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.lt-sm fxShow.gt-md>Can the windows be
+                        locked from inside
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let LabConditionReport">
+                        <p class="text-truncate">{{LabConditionReport.IsWindowLocked}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+
+                <mat-row *matRowDef="let LabConditionReport; columns: displayedColumns;"
+                    class="student-enrollment-report" matRipple>
+                </mat-row>
+            </mat-table>
+
+            <mat-paginator #ListPaginator [length]="tableDataSource.filteredData.length" [pageIndex]="0" [pageSize]="10"
+                [pageSizeOptions]="[5, 10, 25, 100]">
+            </mat-paginator>
+
+        </div>
+        <!-- / CONTENT CARD -->
+    </div>
+    <!-- / CENTER -->
+</div>

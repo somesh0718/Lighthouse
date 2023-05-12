@@ -1,0 +1,67 @@
+@import "src/@fuse/scss/fuse";
+
+
+#vc-transfer {
+
+    >.center {
+
+        >.header {
+            .subtitle {
+                color: black !important;
+            }
+
+            .action-buttons {
+                .refresh-data {
+                    margin-right: 15px;
+                    background: transparent !important;
+                    color: #039be5 !important;
+                    vertical-align: middle;
+                }
+
+                .refresh-data:hover {
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    .fs-padding {
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+    }
+
+    .school-table {
+        border-bottom: 1px solid rgba(0, 0, 0, .12);
+        width: 100%;
+
+        .text-center {
+            justify-content: center;
+            text-align: center !important;
+            vertical-align: middle !important;
+        }
+
+        .mat-column-ToVTPId {
+            width: 300px;
+            min-width: 250px;
+        }
+
+        .mat-column-ToVCId {
+            width: 250px;
+            min-width: 200px;
+        }
+
+        .mat-column-DateOfAllocation {
+            width: 350px;
+            min-width: 300px;
+        }
+
+        .mat-column-DateOfJoining {
+            width: 350px;
+            min-width: 300px;
+        }
+
+        .mat-select-disabled {
+            color: black;
+        }
+    }
+}

@@ -1,0 +1,337 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "defaultProject": "app",
+  "newProjectRoot": "projects",
+  "projects": {
+    "app": {
+      "root": "",
+      "sourceRoot": "src",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "www",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.app.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "assets"
+              },
+              {
+                "glob": "**/*.svg",
+                "input": "node_modules/ionicons/dist/ionicons/svg",
+                "output": "./svg"
+              }
+            ],
+            "styles": [
+              {
+                "input": "src/theme/variables.scss"
+              },
+              {
+                "input": "src/global.scss"
+              }
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            },
+            "demo": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.demo.ts"
+                }
+              ]
+            },
+            "uat": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.uat.ts"
+                }
+              ]
+            },
+            "lahi": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.lahi.ts"
+                }
+              ]
+            },
+            "gj": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.gj.ts"
+                }
+              ]
+            },
+            "mh": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.mh.ts"
+                }
+              ]
+            },
+            "jh": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.jh.ts"
+                }
+              ]
+            },
+            "od": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.od.ts"
+                }
+              ]
+            },
+            "ci": {
+              "progress": false
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "app:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "app:build:production"
+            },
+            "demo": {
+              "browserTarget": "app:build:demo"
+            },
+            "uat": {
+              "browserTarget": "app:build:uat"
+            },
+            "lahi": {
+              "browserTarget": "app:build:lahi"
+            },
+            "gj": {
+              "browserTarget": "app:build:gj"
+            },
+            "mh": {
+              "browserTarget": "app:build:mh"
+            },
+            "jh": {
+              "browserTarget": "app:build:jh"
+            },
+            "od": {
+              "browserTarget": "app:build:od"
+            },
+            "ci": {
+              "progress": false
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "app:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "src/test.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js",
+            "styles": [],
+            "scripts": [],
+            "assets": [
+              {
+                "glob": "favicon.ico",
+                "input": "src/",
+                "output": "/"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "/assets"
+              }
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "progress": false,
+              "watch": false
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "tsconfig.app.json",
+              "tsconfig.spec.json",
+              "e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "e2e/protractor.conf.js",
+            "devServerTarget": "app:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "app:serve:production"
+            },
+            "demo": {
+              "devServerTarget": "app:serve:demo"
+            },
+            "uat": {
+              "devServerTarget": "app:serve:uat"
+            },
+            "lahi": {
+              "devServerTarget": "app:serve:lahi"
+            },
+            "gj": {
+              "devServerTarget": "app:serve:gj"
+            },
+            "mh": {
+              "devServerTarget": "app:serve:mh"
+            },
+            "jh": {
+              "devServerTarget": "app:serve:jh"
+            },
+            "od": {
+              "devServerTarget": "app:serve:od"
+            },
+            "ci": {
+              "devServerTarget": "app:serve:ci"
+            }
+          }
+        },
+        "ionic-cordova-build": {
+          "builder": "@ionic/angular-toolkit:cordova-build",
+          "options": {
+            "browserTarget": "app:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "app:build:production"
+            },
+            "demo": {
+              "browserTarget": "app:build:demo"
+            },
+            "uat": {
+              "browserTarget": "app:build:uat"
+            },
+            "lahi": {
+              "browserTarget": "app:build:lahi"
+            },
+            "gj": {
+              "browserTarget": "app:build:gj"
+            },
+            "mh": {
+              "browserTarget": "app:build:mh"
+            },
+            "jh": {
+              "browserTarget": "app:build:jh"
+            },
+            "od": {
+              "browserTarget": "app:build:od"
+            }
+          }
+        },
+        "ionic-cordova-serve": {
+          "builder": "@ionic/angular-toolkit:cordova-serve",
+          "options": {
+            "cordovaBuildTarget": "app:ionic-cordova-build",
+            "devServerTarget": "app:serve"
+          },
+          "configurations": {
+            "production": {
+              "cordovaBuildTarget": "app:ionic-cordova-build:production",
+              "devServerTarget": "app:serve:production"
+            },
+            "demo": {
+              "cordovaBuildTarget": "app:ionic-cordova-build:demo",
+              "devServerTarget": "app:serve:demo"
+            },
+            "uat": {
+              "cordovaBuildTarget": "app:ionic-cordova-build:uat",
+              "devServerTarget": "app:serve:uat"
+            },
+            "lahi": {
+              "cordovaBuildTarget": "app:ionic-cordova-build:lahi",
+              "devServerTarget": "app:serve:lahi"
+            },
+            "gj": {
+              "cordovaBuildTarget": "app:ionic-cordova-build:gj",
+              "devServerTarget": "app:serve:gj"
+            },
+            "mh": {
+              "cordovaBuildTarget": "app:ionic-cordova-build:mh",
+              "devServerTarget": "app:serve:mh"
+            },
+            "jh": {
+              "cordovaBuildTarget": "app:ionic-cordova-build:jh",
+              "devServerTarget": "app:serve:jh"
+            },
+            "od": {
+              "cordovaBuildTarget": "app:ionic-cordova-build:od",
+              "devServerTarget": "app:serve:od"
+            }
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@ionic/angular-toolkit",
+    "analytics": false
+  },
+  "schematics": {
+    "@ionic/angular-toolkit:component": {
+      "styleext": "scss"
+    },
+    "@ionic/angular-toolkit:page": {
+      "styleext": "scss"
+    }
+  }
+}

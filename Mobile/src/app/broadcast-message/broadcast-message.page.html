@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Broadcast Messages</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding class="content-class broadcast">
+  <ion-card class="card-form">
+    <ion-card-content>
+      <ion-list>
+        <ion-item-sliding class="shaded-slider" *ngFor="let messageItem of messages">
+          <ion-item>{{ messageItem.MessageText }}</ion-item>
+        </ion-item-sliding>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

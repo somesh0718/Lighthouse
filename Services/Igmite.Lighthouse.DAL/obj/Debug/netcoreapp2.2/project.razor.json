@@ -1,0 +1,20 @@
+{
+  "SerializedFilePath": "c:\\Users\\likitha\\Desktop\\.netProject\\Services\\Igmite.Lighthouse.DAL\\obj\\Debug\\netcoreapp2.2\\project.razor.json",
+  "FilePath": "c:\\Users\\likitha\\Desktop\\.netProject\\Services\\Igmite.Lighthouse.DAL\\Igmite.Lighthouse.DAL.csproj",
+  "Configuration": {
+    "ConfigurationName": "UnsupportedRazor",
+    "LanguageVersion": "1.0",
+    "Extensions": [
+      {
+        "ExtensionName": "UnsupportedRazorExtension"
+      }
+    ]
+  },
+  "ProjectWorkspaceState": {
+    "TagHelpers": [],
+    "CSharpLanguageVersion": 703
+  },
+  "RootNamespace": null,
+  "Documents": [],
+  "SerializationFormat": "0.3"
+}

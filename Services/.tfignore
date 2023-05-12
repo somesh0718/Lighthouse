@@ -1,0 +1,46 @@
+#You can configure which kinds of files are ignored by placing a text file called .tfignore in the folder 
+#where you want rules to apply. The effects of the .tfignore file are recursive. 
+#However, you can create .tfignore files in sub-folders to override the effects of a .tfignore file in a parent folder.
+
+The following rules apply to a .tfignore file:
+# begins a comment line
+# The * and ? wildcards are supported.
+# A filespec is recursive unless prefixed by the \ character.
+# ! negates a filespec (files that match the pattern are not ignored)
+
+# Ignore the NuGet packages folder in the root of the repository.
+# If needed, prefix 'packages' with additional folder names if it's not in the same folder as .tfignore.
+packages
+
+# include package target files which may be required for msbuild, again prefixing the folder name as needed.
+!packages/*.targets
+
+
+# Ignore .cpp files in the ProjA sub-folder and all its subfolders
+#ProjA\*.cpp
+
+# Ignore .txt files in this folder 
+\*.txt
+
+# Ignore .xml files in this folder and all its sub-folders
+#*.xml
+*.App.config
+*.appsettings.json
+
+# Ignore all files in the Temp sub-folder
+Igmite.Lighthouse.Services\Documents
+Igmite.Lighthouse.Services\Reports
+Igmite.Lighthouse.Services\Keys
+Igmite.Lighthouse.Services\Logs
+Igmite.Lighthouse.Services\wwwroot
+
+# Do not ignore .dll files in this folder nor in any of its sub-folders
+#!*.dll
+
+Exclude files from TFS via project file
+https://stackoverflow.com/questions/10698407/exclude-files-from-tfs-via-project-file
+
+How to ignore files/directories in TFS for avoiding them to go to central source repository?
+https://stackoverflow.com/questions/922798/how-to-ignore-files-directories-in-tfs-for-avoiding-them-to-go-to-central-source
+https://www.youtube.com/watch?v=BfKcTX8NxAQ
+https://www.youtube.com/watch?v=gY0_h9iZAyE

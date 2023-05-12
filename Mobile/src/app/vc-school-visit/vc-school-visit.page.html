@@ -1,0 +1,125 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>VC School Visit</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="content-class">
+  <ion-card class="card-form">
+    <ion-card-header style="font-size: 17px;text-align: center;"><b>VC School Visit Form</b>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button (click)="openCalModal()" expand="block">
+        View Submissions
+      </ion-button>
+      <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+        <ion-list>
+          <ion-item>
+            <ion-label position="floating">Reporting Date</ion-label>
+            <ion-datetime placeholder="Select Date" [max]="maxDate" [min]="minDate" name="ReportDate" required ngModel>
+            </ion-datetime>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Month</ion-label>
+            <ion-input type="text" name="Month" required ngModel></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">VT Report Submitted</ion-label>
+            <ion-input type="text" name="VTReportSubmitted" required ngModel></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">VT Working Days</ion-label>
+            <ion-input type="number" name="VTWorkingDays" required ngModel></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">VR Leave Days</ion-label>
+            <ion-input type="number" name="VRLeaveDays" required ngModel></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">VT Teaching Days</ion-label>
+            <ion-input type="number" name="VTTeachingDays" required ngModel></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Class Visited</ion-label>
+            <ion-input type="text" name="ClassVisited" required ngModel></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Class Teaching Days</ion-label>
+            <ion-input type="number" name="ClassTeachingDays" required ngModel></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Boys Enrolled Check</ion-label>
+            <ion-input type="number" name="BoysEnrolledCheck" required ngModel></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Girls Enrolled Check</ion-label>
+            <ion-input type="number" name="GirlsEnrolledCheck" required ngModel></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Avg Student Attendance</ion-label>
+            <ion-input type="number" name="AvgStudentAttendance" required ngModel></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">CM Availability</ion-label>
+            <ion-input type="text" name="CMAvailability" required ngModel></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">CM Date</ion-label>
+            <ion-datetime placeholder="Select Date" [max]="maxDate" name="CMDate" required ngModel>
+            </ion-datetime>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">TE Availability</ion-label>
+            <ion-input type="text" name="TEAvailability" required ngModel></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">TE Date</ion-label>
+            <ion-datetime placeholder="Select Date" [max]="maxDate" name="TEDate" required ngModel>
+            </ion-datetime>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">No Of GL Conducted</ion-label>
+            <ion-input type="number" name="NoOfGLConducted" required ngModel></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">No Of FV Conducted</ion-label>
+            <ion-input type="number" name="NoOfFVConducted" required ngModel></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">School HM Visited</ion-label>
+            <ion-input type="text" name="SchoolHMVisited" required ngModel></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">HM Rating VT attendance</ion-label>
+            <ion-input type="number" name="HMRatingVTattendance" required ngModel></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">HM Rating Syllabus completion</ion-label>
+            <ion-input type="number" name="HMRatingSyllabuscompletion" required ngModel></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">HM Rating VT reporting</ion-label>
+            <ion-input type="number" name="HMRatingVtreporting" required ngModel></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">HM Rating VT quality teaching</ion-label>
+            <ion-input type="number" name="HMRatingVtqualityteaching" required ngModel></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">HM Rating VT GL FV quality</ion-label>
+            <ion-input type="number" name="HMRatingVtglfvquality" required ngModel></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">HM Rating Initiatives taken</ion-label>
+            <ion-input type="number" name="HMRatingInitiativestaken" required ngModel></ion-input>
+          </ion-item>
+        </ion-list>
+        <ion-button shape="round" expand="block" type="submit" [disabled]="!f.valid">Submit</ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

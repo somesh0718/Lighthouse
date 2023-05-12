@@ -1,0 +1,44 @@
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Mappers\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.deps.json
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Mappers\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.runtimeconfig.json
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Mappers\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.runtimeconfig.dev.json
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Mappers\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Mappers\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.pdb
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Mappers\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Mappers\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Entities.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Mappers\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Mappers\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Mappers\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.pdb
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Mappers\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.pdb
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Mappers\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.pdb
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Mappers\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Entities.pdb
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Mappers\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.csproj.AssemblyReference.cache
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Mappers\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Mappers\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.AssemblyInfoInputs.cache
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Mappers\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.AssemblyInfo.cs
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Mappers\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.csproj.CoreCompileInputs.cache
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Mappers\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.csproj.CopyComplete
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Mappers\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Mappers\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.pdb
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Mappers\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.genruntimeconfig.cache
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Mappers\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.deps.json
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Mappers\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.runtimeconfig.json
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Mappers\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.runtimeconfig.dev.json
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Mappers\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Mappers\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Mappers\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Mappers\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Entities.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Mappers\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Mappers\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Mappers\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Mappers\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Mappers\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Mappers\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Entities.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Mappers\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.csproj.AssemblyReference.cache
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Mappers\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Mappers\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.AssemblyInfoInputs.cache
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Mappers\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.AssemblyInfo.cs
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Mappers\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.csproj.CoreCompileInputs.cache
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Mappers\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.csproj.CopyComplete
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Mappers\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Mappers\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Mappers\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.genruntimeconfig.cache

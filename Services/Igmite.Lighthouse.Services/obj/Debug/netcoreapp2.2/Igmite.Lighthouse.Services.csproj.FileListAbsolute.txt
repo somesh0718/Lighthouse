@@ -1,0 +1,100 @@
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\App.config
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\web.config
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\appsettings-dev.json
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\appsettings-prod.json
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\appsettings-stg.json
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\appsettings.Development.json
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\appsettings.json
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\NLog.config
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.dll.config
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.deps.json
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.runtimeconfig.json
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.runtimeconfig.dev.json
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.pdb
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.BAL.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.BAL.Providers.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.EF.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.EmailServices.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Entities.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Logging.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.BAL.Providers.pdb
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.BAL.pdb
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.EF.pdb
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.EF.dll.config
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.EmailServices.pdb
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Entities.pdb
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Logging.pdb
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Logging.dll.config
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.pdb
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.pdb
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.pdb
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.pdb
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.pdb
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.csproj.AssemblyReference.cache
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.AssemblyInfoInputs.cache
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.AssemblyInfo.cs
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.csproj.CoreCompileInputs.cache
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.RazorAssemblyInfo.cache
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.RazorAssemblyInfo.cs
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.RazorTargetAssemblyInfo.cache
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.csproj.CopyComplete
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.pdb
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Services\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.genruntimeconfig.cache
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\App.config
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\web.config
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\appsettings-dev.json
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\appsettings-prod.json
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\appsettings-stg.json
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\appsettings.Development.json
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\appsettings.json
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\NLog.config
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.dll.config
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.deps.json
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.runtimeconfig.json
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.runtimeconfig.dev.json
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.BAL.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.BAL.Providers.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.EF.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.EmailServices.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Entities.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Logging.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.BAL.Providers.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.BAL.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.EF.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.EF.dll.config
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.EmailServices.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Entities.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Logging.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Logging.dll.config
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Mappers.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Platform.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.csproj.AssemblyReference.cache
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.AssemblyInfoInputs.cache
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.AssemblyInfo.cs
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.csproj.CoreCompileInputs.cache
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.RazorAssemblyInfo.cache
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.RazorAssemblyInfo.cs
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.RazorTargetAssemblyInfo.cache
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.csproj.CopyComplete
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Services\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Services.genruntimeconfig.cache

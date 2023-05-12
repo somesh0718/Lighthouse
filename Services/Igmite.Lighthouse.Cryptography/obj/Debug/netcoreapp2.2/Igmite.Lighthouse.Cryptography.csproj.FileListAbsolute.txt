@@ -1,0 +1,20 @@
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Cryptography\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.deps.json
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Cryptography\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Cryptography\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.pdb
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Cryptography\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.csproj.AssemblyReference.cache
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Cryptography\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Cryptography\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.AssemblyInfoInputs.cache
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Cryptography\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.AssemblyInfo.cs
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Cryptography\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.csproj.CoreCompileInputs.cache
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Cryptography\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Cryptography\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Cryptography\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.deps.json
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Cryptography\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Cryptography\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Cryptography\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.csproj.AssemblyReference.cache
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Cryptography\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Cryptography\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.AssemblyInfoInputs.cache
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Cryptography\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.AssemblyInfo.cs
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Cryptography\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.csproj.CoreCompileInputs.cache
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Cryptography\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Cryptography\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Cryptography.pdb

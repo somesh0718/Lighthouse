@@ -1,0 +1,30 @@
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.DAL\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.deps.json
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.DAL\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.DAL\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.pdb
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.DAL\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Entities.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.DAL\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.DAL\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Entities.pdb
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.DAL\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.pdb
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.DAL\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.csproj.AssemblyReference.cache
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.DAL\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.DAL\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.AssemblyInfoInputs.cache
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.DAL\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.AssemblyInfo.cs
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.DAL\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.csproj.CoreCompileInputs.cache
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.DAL\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.csproj.CopyComplete
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.DAL\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.DAL\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.DAL\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.deps.json
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.DAL\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.DAL\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.DAL\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Entities.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.DAL\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.DAL\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Entities.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.DAL\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.DAL\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.csproj.AssemblyReference.cache
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.DAL\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.DAL\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.AssemblyInfoInputs.cache
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.DAL\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.AssemblyInfo.cs
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.DAL\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.csproj.CoreCompileInputs.cache
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.DAL\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.csproj.CopyComplete
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.DAL\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.DAL\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.DAL.pdb

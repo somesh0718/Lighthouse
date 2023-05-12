@@ -1,0 +1,414 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>VT Guest Lecture Conducted</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="content-class">
+  <ion-card class="card-form">
+
+    <ion-card-header style="font-size: 17px;text-align: center;"><b>VT Guest Lecture Conducted Form</b>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-button (click)="openCalModal()" expand="block">
+        View Submissions
+      </ion-button>
+
+      <form name="vtGuestLectureConductedForm" [formGroup]="vtGuestLectureConductedForm"
+        (ngSubmit)="saveOrUpdateVTGuestLectureConductedDetails()">
+
+        <ion-list>
+          <ion-item>
+            <ion-label position="floating">Reporting Date<span class="span-required">*</span></ion-label>
+            <ion-datetime placeholder="Select Reporting Date" [max]="maxDate" [min]="minDate"
+              formControlName="ReportingDate" required>
+            </ion-datetime>
+
+            <div class="error-message"
+              *ngIf="vtGuestLectureConductedForm.controls.ReportingDate.invalid && vtGuestLectureConductedForm.controls.ReportingDate.touched">
+              {{getErrorMessage(vtGuestLectureConductedForm, 'ReportingDate')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Class Taught<span class="span-required">*</span></ion-label>
+            <ion-select formControlName="ClassTaughtId" (ionChange)="onChangeClassForTaught($event.target.value)"
+              multiple="false" required placeholder="Select Class Taught.">
+              <ion-select-option *ngFor="let item of classTaughtList" [value]="item.ClassId">{{item.ClassName}}
+              </ion-select-option>
+            </ion-select>
+
+            <div class="error-message"
+              *ngIf="vtGuestLectureConductedForm.controls.ClassTaughtId.invalid && vtGuestLectureConductedForm.controls.ClassTaughtId.touched">
+              {{getErrorMessage(vtGuestLectureConductedForm, 'ClassTaughtId')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Section Taught<span class="span-required">*</span></ion-label>
+            <ion-select formControlName="SectionIds" multiple="false" (ionChange)="onChangeSection($event.target.value)"
+              required placeholder="Select Section Taught.">
+              <ion-select-option *ngFor="let item of sectionList" [value]="item.SectionId">{{item.SectionName}}
+              </ion-select-option>
+            </ion-select>
+
+            <div class="error-message"
+              *ngIf="vtGuestLectureConductedForm.controls.SectionIds.invalid && vtGuestLectureConductedForm.controls.SectionIds.touched">
+              {{getErrorMessage(vtGuestLectureConductedForm, 'SectionIds')}}
+            </div>
+          </ion-item>
+
+          <ion-item *ngIf="vtGuestLectureConductedForm.get('StudentAttendances') != null">
+            <div class="student-by-class-section">
+              <div class="student-header">
+                <span class="h2">Student Present</span>
+              </div>
+
+              <div formArrayName="StudentAttendances">
+                <!-- iterate formArray -->
+                <div
+                  *ngFor="let studentItem of vtGuestLectureConductedForm.get('StudentAttendances')['controls']; let studentIndex=index">
+                  <!-- Use the index for each formGroup inside the formArray -->
+                  <div [formGroupName]="studentIndex" class="student-list-item">
+                    <span class="student-item-seq">{{studentIndex+1}})</span>
+                    <input formControlName="StudentName" readonly style="border: none;" />
+                    <ion-toggle formControlName="IsPresent" [checked]="IsPresent"></ion-toggle>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Guest Lecture Type<span class="span-required">*</span></ion-label>
+            <ion-select formControlName="GLType" multiple="false"
+              (ionChange)="onChangeGuestLectureType($event.target.value)" required
+              placeholder="Select Guest Lecture Type.">
+              <ion-select-option *ngFor="let item of glTypeList" [value]="item.DataValueId">{{item.Name}}
+              </ion-select-option>
+            </ion-select>
+
+            <div class="error-message"
+              *ngIf="vtGuestLectureConductedForm.controls.GLType.invalid && vtGuestLectureConductedForm.controls.GLType.touched">
+              {{getErrorMessage(vtGuestLectureConductedForm, 'GLType')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Guest Lecture Topic<span class="span-required">*</span></ion-label>
+            <ion-input type="text" formControlName="GLTopic" placeholder="Enter Guest Lecture Topic." required>
+            </ion-input>
+
+            <div class="error-message"
+              *ngIf="vtGuestLectureConductedForm.controls.GLTopic.invalid && vtGuestLectureConductedForm.controls.GLTopic.touched">
+              {{getErrorMessage(vtGuestLectureConductedForm, 'GLTopic')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Modules Taught<span class="span-required">*</span></ion-label>
+            <ion-select formControlName="ModuleId" multiple="false" placeholder="Select Module Taught."
+              (ionChange)="onChangeCourseModule($event.target.value)" [required]="unitSessionsModels.length==0">
+              <ion-select-option *ngFor="let moduleItem of moduleTaughtList" [value]="moduleItem">
+                {{moduleItem.ModuleName}}
+              </ion-select-option>
+            </ion-select>
+
+            <div class="error-message"
+              *ngIf="vtGuestLectureConductedForm.controls.ModuleId.invalid && vtGuestLectureConductedForm.controls.ModuleId.touched">
+              {{getErrorMessage(vtGuestLectureConductedForm, 'ModuleId')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Units Taught<span class="span-required">*</span></ion-label>
+            <ion-select formControlName="UnitId" multiple="false" (ionChange)="onChangeUnitsTaught($event.target.value)"
+              [required]="unitSessionsModels.length==0" placeholder="Select Units Taught.">
+              <ion-select-option *ngFor="let unitItem of unitList" [value]="unitItem">{{unitItem.UnitName}}
+              </ion-select-option>
+            </ion-select>
+
+            <div class="error-message"
+              *ngIf="vtGuestLectureConductedForm.controls.UnitId.invalid && vtGuestLectureConductedForm.controls.UnitId.touched">
+              {{getErrorMessage(vtGuestLectureConductedForm, 'UnitId')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Sessions Taught<span class="span-required">*</span></ion-label>
+            <ion-select formControlName="SessionIds" multiple="true" placeholder="Select Sessions Taught."
+              [required]="unitSessionsModels.length==0">
+              <ion-select-option *ngFor="let sessionItem of sessionList" [value]="sessionItem">
+                {{sessionItem.SessionName}}
+              </ion-select-option>
+            </ion-select>
+
+            <div class="error-message"
+              *ngIf="vtGuestLectureConductedForm.controls.SessionIds.invalid && vtGuestLectureConductedForm.controls.SessionIds.touched">
+              {{getErrorMessage(vtGuestLectureConductedForm, 'SessionIds')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <div class="add-course-taught">
+              <ion-icon name="add-circle-outline" class="add-session" (click)="addUnitSession()"></ion-icon>
+              <span class="add-course-text">Kindly press "+" to add information</span>
+            </div>
+          </ion-item>
+
+          <ion-list>
+            <ion-item *ngFor="let sessionItem of unitSessionsModels let sessionIndex=index;">
+              <div style="float: left; width: 90%;">
+                <span style="width:5%"> {{sessionIndex + 1}}) </span>
+                <span style="width:20%; font-weight: bold;"> {{sessionItem.ModuleName}}- </span>
+                <span style="width:25%"> {{sessionItem.UnitName}}- </span>
+                <span style="width:50%"> {{sessionItem.SessionNames}} </span>
+              </div>
+              <div style="float: right; width: 10%;">
+                <ion-icon name="remove-circle-outline" class="remove-session" (click)="removeUnitSession(sessionItem)">
+                </ion-icon>
+              </div>
+            </ion-item>
+          </ion-list>
+
+          <ion-item>
+            <ion-label position="floating">Class duration in minutes<span class="span-required">*</span></ion-label>
+            <ion-input type="tel" formControlName="ClassTime" maxlength="3" required
+              placeholder="Class duration in minutes">
+            </ion-input>
+
+            <div class="error-message"
+              *ngIf="vtGuestLectureConductedForm.controls.ClassTime.invalid && vtGuestLectureConductedForm.controls.ClassTime.touched">
+              {{getErrorMessage(vtGuestLectureConductedForm, 'ClassTime')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">GL Methodology<span class="span-required">*</span></ion-label>
+            <ion-select formControlName="MethodologyIds" multiple="true" required placeholder="Select GL Methodology.">
+              <ion-select-option *ngFor="let item of glMethodlogyList" [value]="item.DataValueId">{{item.Name}}
+              </ion-select-option>
+            </ion-select>
+
+            <div class="error-message"
+              *ngIf="vtGuestLectureConductedForm.controls.MethodologyIds.invalid && vtGuestLectureConductedForm.controls.MethodologyIds.touched">
+              {{getErrorMessage(vtGuestLectureConductedForm, 'MethodologyIds')}}
+            </div>
+          </ion-item>
+
+          <ion-item *ngIf="vtGuestLectureConductedForm.controls.MethodologyIds.value == '173'">
+            <ion-label position="floating">Methodology Details<span class="span-required">*</span></ion-label>
+            <ion-input type="text" formControlName="GLMethodologyDetails" placeholder="Enter GL Methodology Details."
+              [required]="vtGuestLectureConductedForm.controls.MethodologyIds.value == '173'"></ion-input>
+
+            <div class="error-message"
+              *ngIf="vtGuestLectureConductedForm.controls.GLMethodologyDetails.invalid && vtGuestLectureConductedForm.controls.GLMethodologyDetails.touched">
+              {{getErrorMessage(vtGuestLectureConductedForm, 'GLMethodologyDetails')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">GL Photo<span class="span-required"
+                *ngIf="(vtGuestLectureConductedForm.controls.IsGLLecturerPhotoFile.value == null || vtGuestLectureConductedForm.controls.IsGLLecturerPhotoFile.value == false)">*</span>
+            </ion-label>
+            <ion-input type="file" accept="image/*" (change)="uploadedGuestLecturerPhotoInClassFile($event)"
+              [required]="(vtGuestLectureConductedForm.controls.IsGLLecturerPhotoFile.value == null || vtGuestLectureConductedForm.controls.IsGLLecturerPhotoFile.value == false)">
+            </ion-input>
+
+            <div class="error-message"
+              *ngIf="vtGuestLectureConductedForm.controls.GLLecturerPhotoFile.invalid && vtGuestLectureConductedForm.controls.GLLecturerPhotoFile.touched">
+              {{getErrorMessage(vtGuestLectureConductedForm, 'GLLecturerPhotoFile')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-checkbox formControlName="IsGLLecturerPhotoFile" checked="false" value="false"
+              (ionChange)="setMandatoryFieldControl(vtGuestLectureConductedForm, 'GLLecturerPhotoFile', $event)">
+            </ion-checkbox>
+            <ion-label>{{ Constants.Messages.DefaultImageText }}</ion-label>
+          </ion-item>
+
+          <ion-item
+            *ngIf="vtGuestLectureConductedForm.controls['GLLecturerPhotoFile'].value!=null && vtGuestLectureConductedForm.controls['GLLecturerPhotoFile'].value!=''">
+            <ion-label position="stacked">Image Preview:</ion-label>
+            <ion-img [src]="vtGuestLectureConductedForm.controls['GLLecturerPhotoFile'].value"></ion-img>
+            <ion-input type="text" hidden formControlName="GLLecturerPhotoFile" required></ion-input>
+          </ion-item>
+
+          <div *ngIf="vtGuestLectureConductedForm.controls.GLType.value == '181'">
+            <ion-item>
+              <ion-label position="floating">GL Conducted By<span class="span-required">*</span></ion-label>
+              <ion-select formControlName="GLConductedBy" placeholder="Select Guest Lecture Conducted By."
+                multiple="false" required>
+                <ion-select-option *ngFor="let item of glConductedByList" [value]="item.DataValueId">{{item.Name}}
+                </ion-select-option>
+              </ion-select>
+
+              <div class="error-message"
+                *ngIf="vtGuestLectureConductedForm.controls.GLConductedBy.invalid && vtGuestLectureConductedForm.controls.GLConductedBy.touched">
+                {{getErrorMessage(vtGuestLectureConductedForm, 'GLConductedBy')}}
+              </div>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="floating">GL Person Details<span class="span-required">*</span></ion-label>
+              <ion-input type="text" formControlName="GLPersonDetails" placeholder="Enter GL Person Details." required>
+              </ion-input>
+
+              <div class="error-message"
+                *ngIf="vtGuestLectureConductedForm.controls.GLPersonDetails.invalid && vtGuestLectureConductedForm.controls.GLPersonDetails.touched">
+                {{getErrorMessage(vtGuestLectureConductedForm, 'GLPersonDetails')}}
+              </div>
+            </ion-item>
+          </div>
+
+          <div *ngIf="vtGuestLectureConductedForm.controls.GLType.value == '180'">
+            <ion-item>
+              <ion-label position="floating">Guest Lecturer<span class="span-required">*</span></ion-label>
+              <ion-input type="text" formControlName="GLName" placeholder="Enter GL Name." required></ion-input>
+
+              <div class="error-message"
+                *ngIf="vtGuestLectureConductedForm.controls.GLName.invalid && vtGuestLectureConductedForm.controls.GLName.touched">
+                {{getErrorMessage(vtGuestLectureConductedForm, 'GLName')}}
+              </div>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="floating">Guest Lecturer Mobile<span class="span-required">*</span></ion-label>
+              <ion-input type="tel" pattern="[0-9]*" maxlength=10 minlength=10 formControlName="GLMobile"
+                placeholder="Enter GL Mobile Number." required>
+              </ion-input>
+
+              <div class="error-message"
+                *ngIf="vtGuestLectureConductedForm.controls.GLMobile.invalid && vtGuestLectureConductedForm.controls.GLMobile.touched">
+                {{getErrorMessage(vtGuestLectureConductedForm, 'GLMobile')}}
+              </div>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="floating">Guest Lecturer Email</ion-label>
+              <ion-input type="text" pattern="^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$" formControlName="GLEmail"
+                placeholder="Enter Guest Lecture Email.">
+              </ion-input>
+
+              <div class="error-message"
+                *ngIf="vtGuestLectureConductedForm.controls.GLEmail.invalid && vtGuestLectureConductedForm.controls.GLEmail.touched">
+                {{getErrorMessage(vtGuestLectureConductedForm, 'GLEmail')}}
+              </div>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="floating">Guest Lecturer Qualification<span class="span-required">*</span>
+              </ion-label>
+              <ion-input type="text" formControlName="GLQualification" required placeholder="Enter GL Qualification.">
+              </ion-input>
+
+              <div class="error-message"
+                *ngIf="vtGuestLectureConductedForm.controls.GLQualification.invalid && vtGuestLectureConductedForm.controls.GLQualification.touched">
+                {{getErrorMessage(vtGuestLectureConductedForm, 'GLQualification')}}
+              </div>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="floating">Guest Lecturer Work Experience<span class="span-required">*</span>
+              </ion-label>
+              <ion-input type="tel" formControlName="GLWorkExperience" maxlength="2" required
+                placeholder="Enter Guest Lecturer Work Experience."></ion-input>
+
+              <div class="error-message"
+                *ngIf="vtGuestLectureConductedForm.controls.GLWorkExperience.invalid && vtGuestLectureConductedForm.controls.GLWorkExperience.touched">
+                {{getErrorMessage(vtGuestLectureConductedForm, 'GLWorkExperience')}}
+              </div>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="floating">Guest Lecturer Address</ion-label>
+              <ion-input type="text" formControlName="GLAddress" placeholder="Enter Guest Lecture Address."></ion-input>
+
+              <div class="error-message"
+                *ngIf="vtGuestLectureConductedForm.controls.GLAddress.invalid && vtGuestLectureConductedForm.controls.GLAddress.touched">
+                {{getErrorMessage(vtGuestLectureConductedForm, 'GLAddress')}}
+              </div>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="floating">Guest Lecturer Work Status<span class="span-required">*</span></ion-label>
+              <ion-select formControlName="GLWorkStatus" multiple="false" required placeholder="Select GL Work Status."
+                (ionChange)="onChangeGLWorkStatus($event.target.value)">
+                <ion-select-option *ngFor="let item of glWorkStatusList" [value]="item.DataValueId">{{item.Name}}
+                </ion-select-option>
+              </ion-select>
+
+              <div class="error-message"
+                *ngIf="vtGuestLectureConductedForm.controls.GLWorkStatus.invalid && vtGuestLectureConductedForm.controls.GLWorkStatus.touched">
+                {{getErrorMessage(vtGuestLectureConductedForm, 'GLWorkStatus')}}
+              </div>
+            </ion-item>
+
+            <div
+              *ngIf="vtGuestLectureConductedForm.controls.GLWorkStatus.value == '178' && vtGuestLectureConductedForm.controls.GLType.value == '180'">
+              <ion-item>
+                <ion-label position="floating">Guest Lecturer Company<span class="span-required">*</span></ion-label>
+                <ion-input type="text" formControlName="GLCompany" required placeholder="Enter Guest Lecturer Company.">
+                </ion-input>
+
+                <div class="error-message"
+                  *ngIf="vtGuestLectureConductedForm.controls.GLCompany.invalid && vtGuestLectureConductedForm.controls.GLCompany.touched">
+                  {{getErrorMessage(vtGuestLectureConductedForm, 'GLCompany')}}
+                </div>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Guest Lecturer Designation<span class="span-required">*</span>
+                </ion-label>
+                <ion-input type="text" formControlName="GLDesignation" required
+                  placeholder="Enter Guest Lecturer Designation.">
+                </ion-input>
+
+                <div class="error-message"
+                  *ngIf="vtGuestLectureConductedForm.controls.GLDesignation.invalid && vtGuestLectureConductedForm.controls.GLDesignation.touched">
+                  {{getErrorMessage(vtGuestLectureConductedForm, 'GLDesignation')}}
+                </div>
+              </ion-item>
+            </div>
+
+            <ion-item>
+              <ion-label position="stacked">Guest Lecturer Photo<span class="span-required"
+                  *ngIf="(vtGuestLectureConductedForm.controls.IsGLPhotoFile.value == null || vtGuestLectureConductedForm.controls.IsGLPhotoFile.value == false)">*</span>
+              </ion-label>
+              <ion-input type="file" accept="image/*" (change)="uploadedGuestLecturerPhotoFile($event)"
+                [required]="(vtGuestLectureConductedForm.controls.IsGLPhotoFile.value == null || vtGuestLectureConductedForm.controls.IsGLPhotoFile.value == false)">
+              </ion-input>
+
+              <div class="error-message"
+                *ngIf="vtGuestLectureConductedForm.controls.GLPhotoFile.invalid && vtGuestLectureConductedForm.controls.GLPhotoFile.touched">
+                {{getErrorMessage(vtGuestLectureConductedForm, 'GLPhotoFile')}}
+              </div>
+            </ion-item>
+
+            <ion-item>
+              <ion-checkbox formControlName="IsGLPhotoFile" checked="false" value="false"
+                (ionChange)="setMandatoryFieldControl(vtGuestLectureConductedForm, 'GLPhotoFile', $event)">
+              </ion-checkbox>
+              <ion-label>{{ Constants.Messages.DefaultImageText }}</ion-label>
+            </ion-item>
+
+            <ion-item
+              *ngIf="vtGuestLectureConductedForm.controls['GLPhotoFile'].value != null && vtGuestLectureConductedForm.controls['GLPhotoFile'].value != ''">
+              <ion-label position="stacked">Image Preview:</ion-label>
+              <ion-img [src]="vtGuestLectureConductedForm.controls['GLPhotoFile'].value"></ion-img>
+              <ion-input type="text" hidden formControlName="GLPhotoFile" required></ion-input>
+            </ion-item>
+          </div>
+        </ion-list>
+
+        <ion-button shape="round" expand="block" type="submit">Submit</ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

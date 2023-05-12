@@ -1,0 +1,43 @@
+<ion-content>
+  <div class="login-logo">
+    <ion-img style="width: 100%;height: 100%;" src="../../assets/logos/lighthouse-gujarat-logo.png"></ion-img>
+  </div>
+  <div class="login-logo-title">
+    <span>{{getLogoTitle()}}</span>
+  </div>
+
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">User Id</ion-label>
+            <ion-input type="text" pattern="^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$" name="UserId" required
+              ngModel></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Password</ion-label>
+            <ion-input type="password" name="Password" required ngModel></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col align="center">
+          <ion-button shape="round" expand="block" type="submit" [disabled]="!f.valid">Submit</ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <div class="lahi-version">
+          <div class="web-version">Version : {{ appInfo.version }}</div>
+          <div class="support-email">Email : {{ appInfo.email }}</div>
+          <div class="link"><ion-router-link href="/complaint-registration">Complaint Registration</ion-router-link></div>
+        </div>
+      </ion-row>
+    </ion-grid>
+  </form>
+
+</ion-content>

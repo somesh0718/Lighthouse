@@ -1,0 +1,7 @@
+{
+  "name": "Lighthouse_Mobile_App",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

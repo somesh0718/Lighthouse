@@ -1,0 +1,930 @@
+<div id="tool-equipment" class="page-layout carded fullwidth inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent" fxLayout="row" fxLayoutAlign="space-between center">
+
+            <!-- APP TITLE -->
+            <div fxLayout="row" fxLayoutAlign="start center">
+
+                <button mat-icon-button class="mr-0 mr-sm-16" [routerLink]="'/tool-equipments'"
+                    skipLocationChange="true" replaceUrl="false">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+
+                <div fxLayout="column" fxLayoutAlign="start start"
+                    [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    <div class="h2" *ngIf="PageRights.PageType ==='Edit'">
+                        {{ toolEquipmentModel.Name }}
+                    </div>
+                    <div class="h2" *ngIf="PageRights.PageType ==='New'">
+                        New Tool Equipment
+                    </div>
+                    <div class="subtitle secondary-text">
+                        <span>Tool Equipment Details</span>
+                    </div>
+                </div>
+            </div>
+            <!-- / APP TITLE -->
+
+            <button mat-raised-button class="add-tool-equipment-button" *ngIf="PageRights.ActionType ==='new'"
+                (click)="saveOrUpdateToolEquipmentDetails()">
+                <span>ADD</span>
+            </button>
+
+            <button mat-raised-button class="save-tool-equipment-button" *ngIf="PageRights.ActionType ==='edit'"
+                (click)="saveOrUpdateToolEquipmentDetails()">
+                <span>SAVE</span>
+            </button>
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <!-- CONTENT -->
+            <div class="content">
+
+                <form name="toolEquipmentForm" [formGroup]="toolEquipmentForm" class="tool-equipment w-100-p p-24 mr-24"
+                    fxFlex="1 0 auto" fxFlex fusePerfectScrollbar
+                    [fusePerfectScrollbarOptions]="{'suppressScrollX': false}">
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px">
+                        <mat-form-field appearance="outline" fxFlex="50" fxFlex.lt-md="75" fxFlex.lt-sm="100">
+                            <mat-label>Academic Year</mat-label>
+
+                            <mat-select formControlName="AcademicYearId" appearance="outline" required
+                                (selectionChange)="onChangeAY($event.value)" [disabled]="PageRights.IsReadOnly">
+                                <mat-option [value]="academicYearItem.Id"
+                                    *ngFor="let academicYearItem of academicYearList">
+                                    {{ academicYearItem.Name }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="toolEquipmentForm.controls.AcademicYearId.invalid">
+                                {{getErrorMessage(toolEquipmentForm, 'AcademicYearId')}}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px" *ngIf="UserModel.RoleCode != 'VT'">
+
+                        <mat-form-field appearance="outline" fxFlex="50" fxFlex.lt-md="75" fxFlex.lt-sm="100">
+                            <mat-label>Vocational Training Provider</mat-label>
+
+                            <mat-select formControlName="VTPId" [required]="UserModel.RoleCode != 'VT'"
+                                appearance="outline" (selectionChange)="onChangeVTP($event.value)"
+                                [disabled]="PageRights.IsReadOnly" #SelectVTP>
+                                <mat-select-filter class="select-filter" *ngIf="SelectVTP.focused"
+                                    [array]="vtpFilterList" (filteredReturn)="vtpList = $event"
+                                    [displayMember]="'Name'"></mat-select-filter>
+                                <mat-option [value]="vtpItem.Id" *ngFor="let vtpItem of vtpList">
+                                    {{ vtpItem.Name }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="toolEquipmentForm.controls.VTPId.invalid">
+                                {{getErrorMessage(toolEquipmentForm, 'VTPId')}}
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" fxFlex="50" fxFlex.lt-md="75" fxFlex.lt-sm="100">
+                            <mat-label>Vocational Coordinator</mat-label>
+
+                            <mat-select formControlName="VCId" [required]="UserModel.RoleCode != 'VT'"
+                                appearance="outline" (selectionChange)="onChangeVC($event.value)"
+                                [disabled]="PageRights.IsReadOnly" #SelectVC>
+                                <mat-select-filter class="select-filter" *ngIf="SelectVC.focused" [array]="VCList"
+                                    (filteredReturn)="vcList = $event" [displayMember]="'Name'">
+                                </mat-select-filter>
+                                <mat-option [value]="vcItem.Id" *ngFor="let vcItem of vcList">
+                                    {{ vcItem.Name }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="toolEquipmentForm.controls.VCId.invalid">
+                                {{getErrorMessage(toolEquipmentForm, 'VCId')}}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px" *ngIf="UserModel.RoleCode != 'VT'">
+
+                        <mat-form-field appearance="outline" fxFlex="50" fxFlex.lt-md="75" fxFlex.lt-sm="100">
+                            <mat-label>School</mat-label>
+
+                            <mat-select formControlName="SchoolId" [required]="UserModel.RoleCode != 'VT'"
+                                appearance="outline" matTooltip="School" matTooltipPosition='above'
+                                matTooltipClass="allow-cr" [disabled]="PageRights.IsReadOnly" #SelectSchool
+                                (selectionChange)="onChangeSchool($event.value)">
+                                <mat-select-filter class="select-filter" *ngIf="SelectSchool.focused"
+                                    [array]="schoolList" (filteredReturn)="this.filteredSchoolItems = $event"
+                                    [displayMember]="'Name'"></mat-select-filter>
+                                <mat-option [value]="schoolItem.Id" *ngFor="let schoolItem of filteredSchoolItems">
+                                    {{ schoolItem.Name }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="toolEquipmentForm.controls.SchoolId.invalid">
+                                {{getErrorMessage(toolEquipmentForm, 'SchoolId')}}
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" fxFlex="50" fxFlex.lt-md="75" fxFlex.lt-sm="100">
+                            <mat-label>Vocational Trainer</mat-label>
+
+                            <mat-select formControlName="VTId" [required]="UserModel.RoleCode != 'VT'"
+                                appearance="outline" [disabled]="PageRights.IsReadOnly"
+                                (selectionChange)="onChangeVT($event.value)" #SelectVT>
+                                <mat-select-filter class="select-filter" *ngIf="SelectVT.focused" [array]="VTList"
+                                    (filteredReturn)="vtList = $event" [displayMember]="'Name'">
+                                </mat-select-filter>
+                                <mat-option [value]="vtItem.Id" *ngFor="let vtItem of vtList">
+                                    {{ vtItem.Name }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="toolEquipmentForm.controls.VTId.invalid">
+                                {{getErrorMessage(toolEquipmentForm, 'VTId')}}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px">
+
+                        <mat-form-field appearance="outline" fxFlex="50" fxFlex.lt-md="75" fxFlex.lt-sm="100">
+                            <mat-label>Sector</mat-label>
+
+                            <mat-select formControlName="SectorId" appearance="outline" required
+                                [disabled]="PageRights.IsReadOnly" (selectionChange)="onChangeSector($event.value)">
+                                <mat-option [value]="sectorItem.Id" *ngFor="let sectorItem of sectorList">
+                                    {{ sectorItem.Name }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="toolEquipmentForm.controls.SectorId.invalid">
+                                {{getErrorMessage(toolEquipmentForm, 'SectorId')}}
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" fxFlex="50" fxFlex.lt-md="75" fxFlex.lt-sm="100">
+                            <mat-label>Job Role</mat-label>
+
+                            <mat-select formControlName="JobRoleId" appearance="outline" required
+                                [disabled]="PageRights.IsReadOnly">
+                                <mat-option [value]="jobRoleItem.Id" *ngFor="let jobRoleItem of jobRoleList">
+                                    {{ jobRoleItem.Name }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="toolEquipmentForm.controls.JobRoleId.invalid">
+                                {{getErrorMessage(toolEquipmentForm, 'JobRoleId')}}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row radio-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px">
+                        <mat-label>Tools & Equipment Receiving Status</mat-label>
+
+                        <mat-radio-group fxFlex="20" fxFlex.lt-md="75" fxFlex.lt-sm="100" fxLayoutGap="20px"
+                            class="radio-space-tc" aria-labelledby="Tools & Equipment Receiving Status"
+                            name="teReceiveStatus" formControlName="TEReceiveStatus" required appearance="outline"
+                            (change)="onChangeOnTEReceiveStatusType($event)" [disabled]="PageRights.IsReadOnly"
+                            [ngClass]="{'mat-form-field-invalid': isValidRequiredFields(toolEquipmentForm.controls.TEReceiveStatus)}">
+                            <mat-radio-button value="Yes">Yes</mat-radio-button>
+                            <mat-radio-button value="No">No</mat-radio-button>
+                        </mat-radio-group>
+
+                        <mat-form-field appearance="outline" fxFlex="20" fxFlex.lt-md="75" fxFlex.lt-sm="100"
+                            *ngIf="toolEquipmentForm.controls.TEReceiveStatus.value == 'Yes'">
+                            <mat-label>Receipt Date</mat-label>
+
+                            <input matInput name="receiptDate" formControlName="ReceiptDate"
+                                [required]="toolEquipmentForm.controls.TEReceiveStatus.value == 'Yes'"
+                                [matDatepicker]="receiptDate" [max]="CurrentDate" [min]="minDate"
+                                [disabled]="PageRights.IsReadOnly">
+                            <mat-datepicker-toggle matSuffix [for]="receiptDate"></mat-datepicker-toggle>
+                            <mat-datepicker #receiptDate></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px" *ngIf="toolEquipmentForm.controls.TEReceiveStatus.value == 'No'">
+
+                        <mat-form-field appearance="outline" fxFlex="70" fxFlex.lt-md="50" fxFlex.lt-sm="100">
+                            <mat-label>Reason for Not Receiving Status</mat-label>
+
+                            <input matInput name="RFNReceiveStatus" formControlName="RFNReceiveStatus"
+                                [disabled]="PageRights.IsReadOnly"
+                                [required]="toolEquipmentForm.controls.TEReceiveStatus.value == 'No'"
+                                matTooltip="Reason for Not Receiving Status" matTooltipPosition="above">
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row radio-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px" *ngIf="toolEquipmentForm.controls.TEReceiveStatus.value == 'Yes'">
+                        <mat-label> Overall Tools & Equipment Status </mat-label>
+
+                        <mat-radio-group fxFlex="60" fxFlex.lt-md="100" fxFlex.lt-sm="100" fxLayoutGap="20px"
+                            class="radio-space-tc" name="OATEStatus" formControlName="OATEStatus" appearance="outline"
+                            [disabled]="PageRights.IsReadOnly" (change)="onChangeOATEStatus($event)"
+                            [required]="toolEquipmentForm.controls.TEReceiveStatus.value == 'Yes'"
+                            [ngClass]="{'mat-form-field-invalid': isValidRequiredFields(toolEquipmentForm.controls.OATEStatus)}">
+                            <mat-radio-button value="Available">Available</mat-radio-button>
+                            <mat-radio-button value="Partially Available">Partially Available</mat-radio-button>
+                            <mat-radio-button value="Not Available">Not Available</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row radio-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px"
+                        *ngIf="toolEquipmentForm.controls.TEReceiveStatus.value == 'Yes' && (toolEquipmentForm.controls.OATEStatus.value == 'Available' || toolEquipmentForm.controls.OATEStatus.value == 'Partially Available')">
+                        <mat-label> Overall functionality status of tools & equipments </mat-label>
+
+                        <mat-radio-group fxFlex="60" fxFlex.lt-md="100" fxFlex.lt-sm="100" fxLayoutGap="20px"
+                            class="radio-space-tc" aria-labelledby="Overall functionality status of tools & equipments"
+                            required name="OFTEStatus" formControlName="OFTEStatus" appearance="outline"
+                            (change)="onChangeOnOFTEStatus($event)" [disabled]="PageRights.IsReadOnly"
+                            [required]="toolEquipmentForm.controls.OATEStatus.value == 'Available' || toolEquipmentForm.controls.OATEStatus.value == 'Partially Available'"
+                            [ngClass]="{'mat-form-field-invalid': isValidRequiredFields(toolEquipmentForm.controls.OFTEStatus)}">
+                            <mat-radio-button
+                                *ngIf="toolEquipmentForm.controls.OATEStatus.value != 'Partially Available'"
+                                value="Fully Functional">Fully Functional</mat-radio-button>
+                            <mat-radio-button value="Partially Functional"> Partially Functional</mat-radio-button>
+                            <mat-radio-button value="Not Functional">Not Functional</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row radio-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px"
+                        *ngIf="toolEquipmentForm.controls.TEReceiveStatus.value == 'Yes' && toolEquipmentForm.controls.OFTEStatus.value != 'Fully Functional'">
+                        <mat-label> Major reason for patrial availability/functionality of tools </mat-label>
+
+                        <mat-radio-group fxFlex="60" fxFlex.lt-md="75" fxFlex.lt-sm="100" fxLayoutGap="20px"
+                            class="radio-space-tc"
+                            aria-labelledby="Major reason for patrial availability/functionality of tools" name="Reason"
+                            formControlName="Reason" appearance="outline" (change)="onChangeOnReason($event)"
+                            [disabled]="PageRights.IsReadOnly"
+                            [required]="toolEquipmentForm.controls.OFTEStatus.value != 'Fully Functional'"
+                            [ngClass]="{'mat-form-field-invalid': isValidRequiredFields(toolEquipmentForm.controls.Reason)}">
+                            <mat-radio-button value="Received damaged"> Received damaged</mat-radio-button>
+                            <mat-radio-button value="Damaged while performing practicals"> Damaged while performing
+                                practicals</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row radio-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px"
+                        *ngIf="toolEquipmentForm.controls.TEReceiveStatus.value == 'Yes' && toolEquipmentForm.controls.OATEStatus.value == 'Not Available'">
+                        <mat-label>If Selected Not Available</mat-label>
+
+                        <mat-radio-group fxFlex="30" fxFlex.lt-md="75" fxFlex.lt-sm="100" fxLayoutGap="20px"
+                            class="radio-space-tc" aria-labelledby="If Selected Not Available" name="IsSelected"
+                            formControlName="IsSelected" appearance="outline" (change)="onChangeOnIsSelected($event)"
+                            [disabled]="PageRights.IsReadOnly"
+                            [required]="toolEquipmentForm.controls.OATEStatus.value == 'Not Available'"
+                            [ngClass]="{'mat-form-field-invalid': isValidRequiredFields(toolEquipmentForm.controls.IsSelected)}">
+                            <mat-radio-button value="Theft"> Theft</mat-radio-button>
+                            <mat-radio-button value="Other"> Other</mat-radio-button>
+                        </mat-radio-group>
+
+                        <mat-form-field appearance="outline" fxFlex="40" fxFlex.lt-md="50" fxFlex.lt-sm="100"
+                            *ngIf="toolEquipmentForm.controls.IsSelected.value == 'Other'">
+                            <mat-label>Please Specify (other)</mat-label>
+                            <input matInput name="IsSpecify" formControlName="IsSpecify"
+                                [disabled]="PageRights.IsReadOnly"
+                                [required]="toolEquipmentForm.controls.IsSelected.value == 'Other'"
+                                matTooltip="Please Specify (other)" matTooltipPosition="above">
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row radio-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px"
+                        *ngIf="toolEquipmentForm.controls.TEReceiveStatus.value == 'Yes' && toolEquipmentForm.controls.Reason.value == 'Received damaged' && (toolEquipmentForm.controls.IsSelected.value == 'Theft' || toolEquipmentForm.controls.IsSelected.value == 'Other')">
+                        <mat-label> Have school communicated to Samagra Shiksha about lost or damage? </mat-label>
+
+                        <mat-radio-group fxFlex="20" fxFlex.lt-md="75" fxFlex.lt-sm="100" fxLayoutGap="20px"
+                            class="radio-space-tc" aria-labelledby="Communicated with Samagra" name="IsCommunicated"
+                            formControlName="IsCommunicated" appearance="outline" [disabled]="PageRights.IsReadOnly"
+                            [required]="toolEquipmentForm.controls.TEReceiveStatus.value == 'Yes' && toolEquipmentForm.controls.Reason.value == 'Received damaged' && (toolEquipmentForm.controls.IsSelected.value == 'Theft' || toolEquipmentForm.controls.IsSelected.value == 'Other')"
+                            [ngClass]="{'mat-form-field-invalid': isValidRequiredFields(toolEquipmentForm.controls.IsCommunicated)}">
+                            <mat-radio-button value="Yes">Yes</mat-radio-button>
+                            <mat-radio-button value="No">No</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row radio-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px">
+                        <mat-label> Do school have dedicated room available for set up of workshop? </mat-label>
+
+                        <mat-radio-group fxFlex="25" fxFlex.lt-md="50" fxFlex.lt-sm="100" fxLayoutGap="20px"
+                            class="radio-space-tc" name="IsSetUpWorkShop" formControlName="IsSetUpWorkShop"
+                            appearance="outline" [disabled]="PageRights.IsReadOnly"
+                            aria-labelledby="Do school have dedicated room available for set up of workshop"
+                            (change)="onChangeSetUpWorkShop($event)"
+                            [ngClass]="{'mat-form-field-invalid': isValidRequiredFields(toolEquipmentForm.controls.IsSetUpWorkShop)}">
+                            <mat-radio-button value="Yes">Yes</mat-radio-button>
+                            <mat-radio-button value="No">No</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row radio-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px" *ngIf="toolEquipmentForm.controls.IsSetUpWorkShop.value == 'Yes'">
+                        <mat-label> Room type </mat-label>
+
+                        <mat-radio-group fxFlex="50" fxFlex.lt-md="75" fxFlex.lt-sm="100" fxLayoutGap="20px"
+                            class="radio-space-tc" aria-labelledby="Room type" name="Roomtype"
+                            formControlName="RoomType" appearance="outline" [disabled]="PageRights.IsReadOnly"
+                            [required]="toolEquipmentForm.controls.IsSetUpWorkShop.value == 'Yes'"
+                            [ngClass]="{'mat-form-field-invalid': isValidRequiredFields(toolEquipmentForm.controls.RoomType)}">
+                            <mat-radio-button value="Constructed by Samagra">Constructed by Samagra</mat-radio-button>
+                            <mat-radio-button value="Made available by school">Made available by school
+                            </mat-radio-button>
+                        </mat-radio-group>
+
+                        <mat-form-field appearance="outline" fxFlex="20" fxFlex.lt-md="50" fxFlex.lt-sm="100">
+                            <mat-label>Room size (in sq. ft)</mat-label>
+                            <input type="number" matInput name="RoomSize" min="0" max="1000"
+                                [disabled]="PageRights.IsReadOnly"
+                                [required]="toolEquipmentForm.controls.IsSetUpWorkShop.value == 'Yes'"
+                                formControlName="RoomSize" placeholder="Room size below 500 in sq. ft"
+                                matTooltip="Enter Room size below 500 in sq. ft and only numbers"
+                                matTooltipPosition="above" (input)="checkValue($event)">
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row radio-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px"
+                        *ngIf="toolEquipmentForm.controls.TEReceiveStatus.value == 'Yes' && toolEquipmentForm.controls.IsSetUpWorkShop.value == 'No' && toolEquipmentForm.controls.OATEStatus.value != 'Not Available'">
+                        <mat-label> How do you manage to accommodate tools? </mat-label>
+
+                        <mat-radio-group fxFlex="60" fxFlex.lt-md="75" fxFlex.lt-sm="100" fxLayoutGap="20px"
+                            class="radio-space-tc" aria-labelledby="How do you manage to accommodate tools"
+                            name="AccommodateTools" formControlName="AccommodateTools" appearance="outline"
+                            (change)="onChangeAccommodateTools($event)" [disabled]="PageRights.IsReadOnly"
+                            [required]="toolEquipmentForm.controls.TEReceiveStatus.value == 'Yes' && toolEquipmentForm.controls.IsSetUpWorkShop.value == 'No' && toolEquipmentForm.controls.OATEStatus.value != 'Not Available'"
+                            [ngClass]="{'mat-form-field-invalid': isValidRequiredFields(toolEquipmentForm.controls.AccommodateTools)}">
+                            <mat-radio-button value="Combined with other subject lab">
+                                Combined with other subject lab
+                            </mat-radio-button>
+                            <mat-radio-button value="Combined with other VE workshop">
+                                Combined with other VE workshop</mat-radio-button>
+                            <mat-radio-button value="Combined with staff room /Other room">
+                                Combined with staff room / Other room
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row radio-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px" *ngIf="toolEquipmentForm.controls.IsSetUpWorkShop.value == 'Yes'">
+                        <mat-label>Does the room have door which can be locked?</mat-label>
+
+                        <mat-radio-group fxFlex="30" fxFlex.lt-md="60" fxFlex.lt-sm="100" fxLayoutGap="20px"
+                            class="radio-space-tc" aria-labelledby="Does the room have door which can be locked"
+                            name="IsDoorLock" formControlName="IsDoorLock" appearance="outline"
+                            [disabled]="PageRights.IsReadOnly"
+                            [required]="toolEquipmentForm.controls.IsSetUpWorkShop.value == 'Yes'"
+                            [ngClass]="{'mat-form-field-invalid': isValidRequiredFields(toolEquipmentForm.controls.IsDoorLock)}">
+                            <mat-radio-button value="Yes">Yes</mat-radio-button>
+                            <mat-radio-button value="No">No</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row radio-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px" *ngIf="toolEquipmentForm.controls.IsSetUpWorkShop.value == 'Yes'">
+                        <mat-label>Condition of the Flooring</mat-label>
+
+                        <mat-radio-group fxFlex="30" fxFlex.lt-md="75" fxFlex.lt-sm="100" fxLayoutGap="20px"
+                            class="radio-space-tc" aria-labelledby="Condition of the Flooring" name="Flooring"
+                            formControlName="Flooring" appearance="outline" [disabled]="PageRights.IsReadOnly"
+                            [required]="toolEquipmentForm.controls.IsSetUpWorkShop.value == 'Yes'"
+                            [ngClass]="{'mat-form-field-invalid': isValidRequiredFields(toolEquipmentForm.controls.Flooring)}">
+                            <mat-radio-button value="Useable">Useable</mat-radio-button>
+                            <mat-radio-button value="Not usable">Not usable</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row radio-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px" *ngIf="toolEquipmentForm.controls.IsSetUpWorkShop.value == 'Yes'">
+                        <mat-label>Do the Rooms have Windows?</mat-label>
+
+                        <mat-radio-group fxFlex="20" fxFlex.lt-md="50" fxFlex.lt-sm="100" fxLayoutGap="20px"
+                            class="radio-space-tc" aria-labelledby="Do the Rooms have Windows" name="RoomWindows"
+                            formControlName="RoomWindows" appearance="outline" (change)="onChangeOnRoomWindows($event)"
+                            [disabled]="PageRights.IsReadOnly"
+                            [required]="toolEquipmentForm.controls.IsSetUpWorkShop.value == 'Yes'"
+                            [ngClass]="{'mat-form-field-invalid': isValidRequiredFields(toolEquipmentForm.controls.RoomWindows)}">
+                            <mat-radio-button value="Yes">Yes</mat-radio-button>
+                            <mat-radio-button value="No">No</mat-radio-button>
+                        </mat-radio-group>
+
+                        <mat-form-field appearance="outline" fxFlex="30" fxFlex.lt-md="50" fxFlex.lt-sm="100"
+                            *ngIf="toolEquipmentForm.controls.RoomWindows.value == 'Yes'">
+                            <mat-label>Total Count of window in each room</mat-label>
+                            <input type="number" matInput name="TotalWindowCount" formControlName="TotalWindowCount"
+                                [required]="toolEquipmentForm.controls.RoomWindows.value == 'Yes'" placeholder="2"
+                                matTooltip="Total Count of window in each room" min="0" matTooltipPosition="above"
+                                (input)="checkValue($event)">
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row radio-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px"
+                        *ngIf="toolEquipmentForm.controls.IsSetUpWorkShop.value == 'Yes' && toolEquipmentForm.controls.RoomWindows.value == 'Yes'">
+                        <mat-label>Do the Windows have Grills?</mat-label>
+
+                        <mat-radio-group fxFlex="30" fxFlex.lt-md="75" fxFlex.lt-sm="100" fxLayoutGap="20px"
+                            class="radio-space-tc" aria-labelledby="Do the Windows have Grills" name="IsWindowGrills"
+                            formControlName="IsWindowGrills" appearance="outline" [disabled]="PageRights.IsReadOnly"
+                            [required]="toolEquipmentForm.controls.RoomWindows.value == 'Yes'"
+                            [ngClass]="{'mat-form-field-invalid': isValidRequiredFields(toolEquipmentForm.controls.IsWindowGrills)}">
+                            <mat-radio-button value="Yes">Yes</mat-radio-button>
+                            <mat-radio-button value="No">No</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row radio-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px"
+                        *ngIf="toolEquipmentForm.controls.IsSetUpWorkShop.value == 'Yes' && toolEquipmentForm.controls.RoomWindows.value == 'Yes'">
+                        <mat-label>Can the windows be locked from inside?</mat-label>
+
+                        <mat-radio-group fxFlex="30" fxFlex.lt-md="75" fxFlex.lt-sm="100" fxLayoutGap="20px"
+                            class="radio-space-tc" aria-labelledby="Can the windows be locked from inside"
+                            name="IsWindowLocked" formControlName="IsWindowLocked" appearance="outline"
+                            [disabled]="PageRights.IsReadOnly"
+                            [required]="toolEquipmentForm.controls.RoomWindows.value == 'Yes'"
+                            [ngClass]="{'mat-form-field-invalid': isValidRequiredFields(toolEquipmentForm.controls.IsWindowLocked)}">
+                            <mat-radio-button value="Yes">Yes</mat-radio-button>
+                            <mat-radio-button value="No">No</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row radio-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px"
+                        *ngIf="toolEquipmentForm.controls.IsSetUpWorkShop.value == 'Yes' || toolEquipmentForm.controls.AccommodateTools.value != null">
+                        <mat-label>Does the Room have active Electricity Connection?</mat-label>
+
+                        <mat-radio-group fxFlex="30" fxFlex.lt-md="75" fxFlex.lt-sm="100" fxLayoutGap="20px"
+                            class="radio-space-tc" aria-labelledby="Does the Room have active Electricity Connection"
+                            name="IsRoomActive" formControlName="IsRoomActive" appearance="outline"
+                            (change)="onChangeOnIsRoomActive($event)" [disabled]="PageRights.IsReadOnly"
+                            [required]="toolEquipmentForm.controls.IsSetUpWorkShop.value == 'Yes' || toolEquipmentForm.controls.AccommodateTools.value != null"
+                            [ngClass]="{'mat-form-field-invalid': isValidRequiredFields(toolEquipmentForm.controls.IsRoomActive)}">
+                            <mat-radio-button value="Yes">Yes</mat-radio-button>
+                            <mat-radio-button value="No">No</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row radio-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px" *ngIf="toolEquipmentForm.controls.IsRoomActive.value == 'Yes'">
+                        <mat-label>Do the Room have Electric fitting installed?</mat-label>
+
+                        <mat-radio-group fxFlex="30" fxFlex.lt-md="75" fxFlex.lt-sm="100" fxLayoutGap="20px"
+                            class="radio-space-tc" aria-labelledby="Do the Room have Electric fitting installed?"
+                            name="REFInstalled" formControlName="REFInstalled" appearance="outline"
+                            (change)="onChangeOnREFInstalled($event)" [disabled]="PageRights.IsReadOnly"
+                            [required]="toolEquipmentForm.controls.IsRoomActive.value == 'Yes'"
+                            [ngClass]="{'mat-form-field-invalid': isValidRequiredFields(toolEquipmentForm.controls.REFInstalled)}">
+                            <mat-radio-button value="Yes">Yes</mat-radio-button>
+                            <mat-radio-button value="No">No</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row radio-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px" *ngIf="toolEquipmentForm.controls.IsRoomActive.value == 'Yes'">
+                        <mat-label>Does the Room Have Working Switchboard?</mat-label>
+
+                        <mat-radio-group fxFlex="30" fxFlex.lt-md="75" fxFlex.lt-sm="100" fxLayoutGap="20px"
+                            class="radio-space-tc" aria-labelledby="Does the Room Have Working Switchboard"
+                            name="WorkingSwitchBoard" formControlName="WorkingSwitchBoard" appearance="outline"
+                            (change)="onChangeOnWorkingSwitchBoard($event)" [disabled]="PageRights.IsReadOnly"
+                            [required]="toolEquipmentForm.controls.IsRoomActive.value == 'Yes'"
+                            [ngClass]="{'mat-form-field-invalid': isValidRequiredFields(toolEquipmentForm.controls.WorkingSwitchBoard)}">
+                            <mat-radio-button value="Yes">Yes</mat-radio-button>
+                            <mat-radio-button value="No">No</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px">
+
+                        <mat-form-field appearance="outline" fxFlex="30" fxFlex.lt-md="75" fxFlex.lt-sm="100"
+                            *ngIf="toolEquipmentForm.controls.WorkingSwitchBoard.value == 'Yes'">
+                            <mat-label>Count of Plug Socket(s) in the Switchboard</mat-label>
+
+                            <input type="number" matInput name="PSSCount" formControlName="PSSCount" placeholder="2"
+                                min="0" matTooltip="Enter Only numbers" matTooltipPosition="above"
+                                [required]="toolEquipmentForm.controls.WorkingSwitchBoard.value == 'Yes'"
+                                (input)="checkValue($event)">
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" fxFlex="30" fxFlex.lt-md="75" fxFlex.lt-sm="100"
+                            *ngIf="toolEquipmentForm.controls.IsRoomActive.value == 'Yes' || toolEquipmentForm.controls.REFInstalled.value == 'Yes'">
+                            <mat-label>Count of Working lights</mat-label>
+
+                            <input type="number" matInput name="WLCount" formControlName="WLCount" placeholder="3"
+                                min="0" matTooltip="Enter Only numbers" matTooltipPosition="above"
+                                [required]="toolEquipmentForm.controls.IsRoomActive.value == 'Yes' || toolEquipmentForm.controls.REFInstalled.value == 'Yes'"
+                                (input)="checkValue($event)">
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" fxFlex="30" fxFlex.lt-md="75" fxFlex.lt-sm="100"
+                            *ngIf="toolEquipmentForm.controls.IsRoomActive.value == 'Yes' || toolEquipmentForm.controls.REFInstalled.value == 'Yes'">
+                            <mat-label>Count of Working Fans</mat-label>
+
+                            <input type="number" matInput name="WFCount" formControlName="WFCount" placeholder="2"
+                                min="0" matTooltip="Enter Only numbers" matTooltipPosition="above"
+                                [required]="toolEquipmentForm.controls.IsRoomActive.value == 'Yes' || toolEquipmentForm.controls.REFInstalled.value == 'Yes'"
+                                (input)="checkValue($event)">
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px" *ngIf="toolEquipmentForm.controls.IsSetUpWorkShop.value == 'Yes'">
+
+                        <mat-form-field appearance="outline" fxFlex="50" fxFlex.lt-md="75" fxFlex.lt-sm="100">
+                            <mat-label>Condition of the Room Damaged - Type of infrastructure damage</mat-label>
+
+                            <mat-select formControlName="RoomDamaged" multiple appearance="outline"
+                                [required]="toolEquipmentForm.controls.IsSetUpWorkShop.value == 'Yes'"
+                                [disabled]="PageRights.IsReadOnly">
+                                <mat-option *ngFor="let roomDamgedItem of roomDamgedList;" [value]="roomDamgedItem.Id">
+                                    {{ roomDamgedItem.Name }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="toolEquipmentForm.controls.RoomDamaged.invalid">
+                                {{getErrorMessage(toolEquipmentForm, 'RoomDamaged')}}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Tool and equipmwnt List -->
+                    <fieldset formGroupName="toolEquimentListForm" class="fieldset-container mt-24">
+                        <legend>Tool & Equipment List</legend>
+
+                        <div fxLayout="row" fxLayout.lt-md="column" class="input-row" fxLayoutGap="10px"
+                            fxLayoutGap.lt-md="0px">
+
+                            <mat-form-field fxFlex="35" fxFlex.lt-md="75" fxFlex.lt-sm="100" appearance="outline">
+                                <mat-label>Tool List</mat-label>
+
+                                <mat-select formControlName="ToolListId" name="toolListId" appearance="outline"
+                                    matTooltip="Tool List" matTooltipPosition='above' matTooltipClass="allow-cr"
+                                    [disabled]="PageRights.IsReadOnly" #SelectToolList>
+                                    <mat-select-filter class="select-filter" *ngIf="SelectToolList.focused"
+                                        [array]="toolList" (filteredReturn)="this.filteredToolListItems = $event"
+                                        [displayMember]="'Name'"></mat-select-filter>
+                                    <mat-option [value]="toolListItem.TEAndRMId"
+                                        *ngFor="let toolListItem of filteredToolListItems">
+                                        {{ toolListItem.ToolEquipmentName }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="30" fxFlex.lt-md="75" fxFlex.lt-sm="100" appearance="outline">
+                                <mat-label>Tool List Status</mat-label>
+
+                                <mat-select name="ToolListStatus" formControlName="ToolListStatus" appearance="outline"
+                                    [disabled]="PageRights.IsReadOnly" (change)="onChangeOnToolListStatus($event)">
+                                    <mat-option value="Not Received">Not Received</mat-option>
+                                    <mat-option value="Available & functional">Available &
+                                        functional</mat-option>
+                                    <mat-option value="Available but Not Functional">Available but Not
+                                        Functional</mat-option>
+                                    <mat-option value="Received but Not Available">Received but Not
+                                        Available</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="20" fxFlex.lt-md="75" fxFlex.lt-sm="100" appearance="outline"
+                                *ngIf="toolEquimentListForm.controls.ToolListStatus.value != 'Available & functional' ">
+                                <mat-label>Action Needed</mat-label>
+
+                                <mat-select name="TLActionNeeded1" formControlName="TLActionNeeded1"
+                                    appearance="outline" [disabled]="PageRights.IsReadOnly" [required]="toolEquimentListForm.controls.ToolListStatus.value == 'Available but Not Functional'
+                                    || toolEquimentListForm.controls.ToolListStatus.value == 'Received but Not Available' ||
+                                    toolEquimentListForm.controls.ToolListStatus.value == 'Not Received' "
+                                    (change)="onChangeOnToolListStatus($event)">
+                                    <mat-option value="Required">Required</mat-option>
+                                    <mat-option
+                                        *ngIf="toolEquimentListForm.controls.ToolListStatus.value == 'Available but Not Functional'"
+                                        value="Replacement">Replacement</mat-option>
+                                    <mat-option
+                                        *ngIf="toolEquimentListForm.controls.ToolListStatus.value == 'Available but Not Functional'"
+                                        value="Major repair">Major repair</mat-option>
+                                    <mat-option value="Not required">Not required</mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="toolEquimentListForm.controls.TLActionNeeded1.invalid">
+                                    {{getErrorMessage(toolEquimentListForm, 'TLActionNeeded1')}}
+                                </mat-error>
+                            </mat-form-field>
+
+                            <div fxFlex="15" fxFlex.lt-md="75" fxFlex.lt-sm="100" appearance="outline"
+                                class="mat-row-button">
+                                <button mat-raised-button (click)="onAddToolEquiementList()"
+                                    class="add-account-button fuse-white ">
+                                    <span>{{ toolEquimentListAction =='add' ? 'Add' : 'Save' }}</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div *ngIf="tableDataSource.data.length > 0">
+                            <mat-divider class="ig-mat-divider"></mat-divider>
+                            <div fxLayout="row" fxLayout.lt-md="column" class="input-row" fxLayoutGap="10px"
+                                fxLayoutGap.lt-md="0px">
+                                <div class="content-card" fusePerfectScrollbar
+                                    [fusePerfectScrollbarOptions]="{'suppressScrollX': false}">
+                                    <mat-table class="account-table responsive-table" #table
+                                        [dataSource]="tableDataSource" fusePerfectScrollbar
+                                        [fusePerfectScrollbarOptions]="{'suppressScrollX': false}">
+
+                                        <!-- ToolListName Column -->
+                                        <ng-container matColumnDef="ToolListName">
+                                            <th mat-header-cell *matHeaderCellDef>
+                                                ToolListName
+                                            </th>
+                                            <td mat-cell *matCellDef="let element"> {{element.ToolListName}} </td>
+                                        </ng-container>
+
+                                        <!-- ToolListStatus Column -->
+                                        <ng-container matColumnDef="ToolListStatus">
+                                            <th mat-header-cell *matHeaderCellDef>
+                                                ToolListStatus
+                                            </th>
+                                            <td mat-cell *matCellDef="let element"> {{element.ToolListStatus}} </td>
+                                        </ng-container>
+
+                                        <!-- TLActionNeeded1 Column -->
+                                        <ng-container matColumnDef="TLActionNeeded1">
+                                            <th mat-header-cell *matHeaderCellDef>
+                                                ActionNeeded
+                                            </th>
+                                            <td mat-cell *matCellDef="let element"> {{element.TLActionNeeded1}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="Actions" stickyEnd>
+                                            <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                                            <mat-cell *matCellDef="let element, let wlIndex = index">
+                                                <button mat-icon-button (click)="onDeleteTEList(wlIndex)">
+                                                    <mat-icon color="warn">delete_outline</mat-icon>
+                                                </button>
+                                            </mat-cell>
+                                        </ng-container>
+
+                                        <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true">
+                                        </mat-header-row>
+                                        <mat-row *matRowDef="let account; columns: displayedColumns;" class="account"
+                                            matRipple></mat-row>
+                                    </mat-table>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row radio-row" fxLayoutGap="5px"
+                        fxLayoutGap.lt-md="0px">
+                        <mat-label>
+                            Raw material required to perform practicals are available?
+                        </mat-label>
+
+                        <mat-radio-group fxFlex="50" fxFlex.lt-md="75" fxFlex.lt-sm="100" fxLayoutGap="20px"
+                            class="radio-space-tc" appearance="outline"
+                            aria-labelledby="Raw material required to perform practicals are available?"
+                            name="RawMaterialRequired" formControlName="RawMaterialRequired" required
+                            [disabled]="PageRights.IsReadOnly"
+                            [ngClass]="{'mat-form-field-invalid': isValidRequiredFields(toolEquipmentForm.controls.RawMaterialRequired)}">
+                            <mat-radio-button value="Available">Available</mat-radio-button>
+                            <mat-radio-button value="Partially available">Partially available</mat-radio-button>
+                            <mat-radio-button value="Not Available">Not Available</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+                    <!-- Raw material -->
+                    <fieldset formGroupName="rMListForm" class="fieldset-container mt-24">
+                        <legend>Raw material</legend>
+
+                        <div fxLayout="row" fxLayout.lt-md="column" class="input-row" fxLayoutGap="10px"
+                            fxLayoutGap.lt-md="0px">
+
+                            <mat-form-field fxFlex="30" fxFlex.lt-md="75" fxFlex.lt-sm="100" appearance="outline">
+                                <mat-label>Raw Material name</mat-label>
+
+                                <mat-select formControlName="RawMaterialId" name="rawMaterialId" appearance="outline"
+                                    matTooltip="Raw Material Name" matTooltipPosition='above' matTooltipClass="allow-cr"
+                                    (selectionChange)="onChangeRawMaterial($event.value)"
+                                    [disabled]="PageRights.IsReadOnly" #SelectRawMaterial>
+                                    <mat-select-filter class="select-filter" *ngIf="SelectRawMaterial.focused"
+                                        [array]="rawMaterialList"
+                                        (filteredReturn)="this.filteredRawMaterialItems = $event"
+                                        [displayMember]="'Name'"></mat-select-filter>
+                                    <mat-option [value]="rawMaterialItem.TEAndRMId"
+                                        *ngFor="let rawMaterialItem of filteredRawMaterialItems">
+                                        {{ rawMaterialItem.ToolEquipmentName }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <div fxFlex="70" fxFlex.lt-md="75" fxFlex.lt-sm="100" appearance="outline"
+                                class="radio-container">
+                                <mat-label> Raw material Status </mat-label>
+
+                                <mat-radio-group fxFlex="80" fxFlex.lt-md="80" fxFlex.lt-sm="100" fxLayoutGap="20px"
+                                    aria-labelledby="Raw material required to perform practicals are available?"
+                                    name="RawMaterialStatus" formControlName="RawMaterialStatus" appearance="outline"
+                                    class="radio-space-tc" [disabled]="PageRights.IsReadOnly">
+                                    <mat-radio-button value="Available and usable">Available and usable
+                                    </mat-radio-button>
+                                    <mat-radio-button value="Available but out of order">Available but out of order
+                                    </mat-radio-button>
+                                    <mat-radio-button value="Not received ever">Not received ever</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+
+                        <div fxLayout="row" fxLayout.lt-md="column" class="input-row" fxLayoutGap="10px"
+                            fxLayoutGap.lt-md="0px">
+                            <mat-form-field fxFlex="30" fxFlex.lt-md="75" fxFlex.lt-sm="100" appearance="outline">
+                                <mat-label>Date on which {{ selectedRawMaterialName }} last received</mat-label>
+                                <input matInput name="rmLastReceivedDate" formControlName="RMLastReceivedDate"
+                                    [matDatepicker]="rmLastReceivedDate" [max]="CurrentDate" [min]="minDate"
+                                    [disabled]="PageRights.IsReadOnly">
+                                <mat-datepicker-toggle matSuffix [for]="rmLastReceivedDate"></mat-datepicker-toggle>
+                                <mat-datepicker #rmLastReceivedDate></mat-datepicker>
+
+                                <mat-error *ngIf="rMListForm.controls.RMLastReceivedDate.invalid">
+                                    {{getErrorMessage(rMListForm, 'RMLastReceivedDate')}}
+                                </mat-error>
+                            </mat-form-field>
+
+                            <div fxFlex="35" fxFlex.lt-md="75" fxFlex.lt-sm="100" appearance="outline"
+                                class="radio-container">
+                                <mat-label fxFlex="20" fxFlex.lt-md="20" fxFlex.lt-sm="100" class="radio-label-tc">
+                                    Action needed
+                                </mat-label>
+
+                                <mat-radio-group fxFlex="80" fxFlex.lt-md="80" fxFlex.lt-sm="100" fxLayoutGap="20px"
+                                    aria-labelledby="Raw material required to perform practicals are available?"
+                                    name="RawMaterialAction" formControlName="RawMaterialAction" appearance="outline"
+                                    class="radio-space-tc" [disabled]="PageRights.IsReadOnly"
+                                    (change)="onChangeOnRawMaterialAction($event)">
+                                    <mat-radio-button value="Required">Required</mat-radio-button>
+                                    <mat-radio-button value="Not required">Not required</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+
+                            <div fxFlex="15" fxFlex.lt-md="75" fxFlex.lt-sm="100" appearance="outline"
+                                *ngIf="rMListForm.controls.RawMaterialAction.value=='Required'">
+                                <mat-form-field fxFlex="100" fxFlex.lt-md="75" fxFlex.lt-sm="100" appearance="outline">
+                                    <mat-label>Quantity Count</mat-label>
+                                    <input type="number" matInput name="QuantityCount" formControlName="QuantityCount"
+                                        placeholder="2" matTooltip="Quantity Count" matTooltipPosition="above" min="0"
+                                        (input)="checkValue($event)">
+
+                                    <mat-error *ngIf="rMListForm.controls.QuantityCount.invalid">
+                                        {{getErrorMessage(rMListForm, 'QuantityCount')}}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div fxFlex="20" fxFlex.lt-md="75" fxFlex.lt-sm="100" appearance="outline">
+                                <button mat-raised-button (click)="onAddRMList()"
+                                    class="add-account-button fuse-white mt-24 mt-md-0">
+                                    <span>{{ rawMaterialListAction =='add' ? 'Add' : 'Save' }}</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div *ngIf="tableDataSourceRM.data.length > 0" fusePerfectScrollbar
+                            [fusePerfectScrollbarOptions]="{'suppressScrollX': false}">
+                            <mat-divider class="ig-mat-divider"></mat-divider>
+                            <div fxLayout="row" fxLayout.lt-md="column" class="input-row" fxLayoutGap="10px"
+                                fxLayoutGap.lt-md="0px">
+                                <div class="content-card">
+                                    <mat-table class="account-table responsive-table" #table
+                                        [dataSource]="tableDataSourceRM" fusePerfectScrollbar
+                                        [fusePerfectScrollbarOptions]="{'suppressScrollX': false}">
+
+                                        <!-- RawMaterialName Column -->
+                                        <ng-container matColumnDef="RawMaterialName">
+                                            <th mat-header-cell *matHeaderCellDef>
+                                                RawMaterialName
+                                            </th>
+                                            <td mat-cell *matCellDef="let element"> {{element.RawMaterialName}} </td>
+                                        </ng-container>
+
+                                        <!-- RMLastReceivedDate Column -->
+                                        <ng-container matColumnDef="RMLastReceivedDate">
+                                            <th mat-header-cell *matHeaderCellDef>
+                                                RMLastReceivedDate
+                                            </th>
+                                            <td mat-cell *matCellDef="let element"> {{element.RMLastReceivedDate |
+                                                date:'dd-MM-yyyy'}}
+                                            </td>
+                                        </ng-container>
+
+                                        <!-- RawMaterialAction Column -->
+                                        <ng-container matColumnDef="RawMaterialAction">
+                                            <th mat-header-cell *matHeaderCellDef>
+                                                RawMaterialAction
+                                            </th>
+                                            <td mat-cell *matCellDef="let element"> {{element.RawMaterialAction}} </td>
+                                        </ng-container>
+
+                                        <!-- QuantityCount Column -->
+                                        <ng-container matColumnDef="QuantityCount">
+                                            <th mat-header-cell *matHeaderCellDef>
+                                                QuantityCount
+                                            </th>
+                                            <td mat-cell *matCellDef="let element"> {{element.QuantityCount}} </td>
+                                        </ng-container>
+
+                                        <!-- RawMaterialStatus Column -->
+                                        <ng-container matColumnDef="RawMaterialStatus">
+                                            <th mat-header-cell *matHeaderCellDef>
+                                                RawMaterialStatus
+                                            </th>
+                                            <td mat-cell *matCellDef="let element"> {{element.RawMaterialStatus}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="Actions" stickyEnd>
+                                            <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                                            <mat-cell *matCellDef="let element, let wlIndex = index">
+                                                <!-- <button mat-icon-button (click)="onEditRMList(wlIndex)">
+                                                <mat-icon color="primary">edit</mat-icon>
+                                            </button> -->
+                                                <button mat-icon-button (click)="onDeleteRMList(wlIndex)">
+                                                    <mat-icon color="warn">delete_outline</mat-icon>
+                                                </button>
+                                            </mat-cell>
+                                        </ng-container>
+
+                                        <mat-header-row *matHeaderRowDef="displayedColumnsRM; sticky:true">
+                                        </mat-header-row>
+                                        <mat-row *matRowDef="let account; columns: displayedColumnsRM;" class="account"
+                                            matRipple></mat-row>
+                                    </mat-table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- Upload Documents -->
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row" fxLayoutGap="10px" class="mt-24"
+                        fxLayoutGap.lt-md="0px">
+
+                        <mat-form-field appearance="outline" fxFlex="50" fxFlex.lt-md="75" fxFlex.lt-sm="100">
+                            <mat-label>Upload receiving a copy of Tool List</mat-label>
+                            <ngx-mat-file-input name="TLPhotoFile" formControlName="TLPhotoFile"
+                                [accept]="AllowedImageExtensions" [disabled]="PageRights.IsReadOnly"
+                                (change)="uploadTLFilePath($event)">
+                            </ngx-mat-file-input>
+                            <mat-icon matSuffix>folder</mat-icon>
+                            <mat-error *ngIf="toolEquipmentForm.controls.TLPhotoFile.invalid">
+                                {{getErrorMessage(toolEquipmentForm, 'TLPhotoFile')}}
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" fxFlex="50" fxFlex.lt-md="75" fxFlex.lt-sm="100">
+                            <mat-label>Upload an image of Lab</mat-label>
+                            <ngx-mat-file-input name="LabPhotoFile" formControlName="LabPhotoFile"
+                                [accept]="AllowedImageExtensions" [disabled]="PageRights.IsReadOnly"
+                                (change)="uploadLabFilePath($event)">
+                            </ngx-mat-file-input>
+                            <mat-icon matSuffix>folder</mat-icon>
+                            <mat-error *ngIf="toolEquipmentForm.controls.LabPhotoFile.invalid">
+                                {{getErrorMessage(toolEquipmentForm, 'LabPhotoFile')}}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.lt-md="column" class="input-row" fxLayoutGap="10px"
+                        fxLayoutGap.lt-md="0px">
+                        <mat-form-field appearance="outline" fxFlex="50" fxFlex.lt-md="75" fxFlex.lt-sm="100%">
+                            <mat-label>Remarks</mat-label>
+                            <input matInput name="Remarks" formControlName="Remarks">
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" fxFlex="50" fxFlex.lt-md="75" fxFlex.lt-sm="100">
+                            <mat-label>Details</mat-label>
+                            <input matInput name="details" formControlName="Details">
+                            <mat-error *ngIf="toolEquipmentForm.controls.Details.invalid">
+                                {{getErrorMessage(toolEquipmentForm, 'Details')}}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </form>
+            </div>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

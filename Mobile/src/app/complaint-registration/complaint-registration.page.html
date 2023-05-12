@@ -1,0 +1,113 @@
+<ion-header>
+  <ion-toolbar>
+    <!-- <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons> -->
+    <ion-title>Complaint Registration</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="content-class">
+  <ion-card class="card-form">
+    <ion-card-header style="font-size: 17px;text-align: center;"><b>Complaint Registration Form</b>
+    </ion-card-header>
+    <ion-card-content>
+
+      <form name="complaintRegistrationForm" [formGroup]="complaintRegistrationForm"
+        (ngSubmit)="saveOrUpdateComplaintRegistrationDetails()">
+
+        <ion-list>
+      
+          <ion-item>
+            <ion-label position="floating">User Type<span class="span-required">*</span></ion-label>
+            <ion-select name="userType" formControlName="UserType" required="true" placeholder="Select User Type.">
+
+              <ion-select-option value="VC">Vocational Coordinator</ion-select-option>
+              <ion-select-option value="VT">Vocational Trainer</ion-select-option>
+              <ion-select-option value="HM">Head Master</ion-select-option>
+              <ion-select-option value="DRP">District Resourse Person</ion-select-option>
+            </ion-select>
+
+            <div class="error-message"
+              *ngIf="complaintRegistrationForm.controls.UserType.invalid && complaintRegistrationForm.controls.UserType.touched">
+              {{getErrorMessage(complaintRegistrationForm, 'UserType')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">User Name</ion-label>
+            <ion-input type="text" name="userName" formControlName="UserName" placeholder="Enter User Name">
+            </ion-input>
+
+            <div class="error-message"
+              *ngIf="complaintRegistrationForm.controls.UserName.invalid && complaintRegistrationForm.controls.UserName.touched">
+              {{getErrorMessage(complaintRegistrationForm, 'UserName')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Email Id</ion-label>
+            <ion-input type="text" name="emailId" formControlName="EmailId" placeholder="Enter Email Id">
+            </ion-input>
+
+            <div class="error-message"
+              *ngIf="complaintRegistrationForm.controls.EmailId.invalid && complaintRegistrationForm.controls.EmailId.touched">
+              {{getErrorMessage(complaintRegistrationForm, 'EmailId')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Subject</ion-label>
+            <ion-input type="text" name="subject" formControlName="Subject" placeholder="Enter Subject">
+            </ion-input>
+
+            <div class="error-message"
+              *ngIf="complaintRegistrationForm.controls.Subject.invalid && complaintRegistrationForm.controls.Subject.touched">
+              {{getErrorMessage(complaintRegistrationForm, 'Subject')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Issue Details</ion-label>
+            <ion-input type="text" name="issueDetails" formControlName="IssueDetails" placeholder="Enter IssueDetails">
+            </ion-input>
+
+            <div class="error-message"
+              *ngIf="complaintRegistrationForm.controls.IssueDetails.invalid && complaintRegistrationForm.controls.IssueDetails.touched">
+              {{getErrorMessage(complaintRegistrationForm, 'IssueDetails')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Screenshot File</ion-label>
+            <ion-input type="file" accept="image/*" placeholder="Select Screenshot."
+              (change)="uploadedScreenshotFile($event)">
+            </ion-input>
+
+            <div class="error-message"
+              *ngIf="complaintRegistrationForm.controls.ScreenshotFile.invalid && complaintRegistrationForm.controls.ScreenshotFile.touched">
+              {{getErrorMessage(complaintRegistrationForm, 'ScreenshotFile')}}
+            </div>
+          </ion-item>
+
+          <!-- <ion-item>
+            <ion-checkbox formControlName="IsScreenshotFile" checked="false" value="false"
+                (ionChange)="setMandatoryFieldControl(complaintRegistrationForm.controls, 'IsScreenshotFile', $event)">
+            </ion-checkbox>
+            <ion-label>{{ Constants.Messages.DefaultImageText }}</ion-label>
+        </ion-item> -->
+
+          <ion-item
+            *ngIf="complaintRegistrationForm.controls['ScreenshotFile'].value!=null && complaintRegistrationForm.controls['ScreenshotFile'].value!=''">
+            <ion-label position="stacked">Image Preview:</ion-label>
+            <ion-img [src]="complaintRegistrationForm.controls['ScreenshotFile'].value"></ion-img>
+            <ion-input type="text" hidden formControlName="ScreenshotFile"></ion-input>
+          </ion-item>
+        </ion-list>
+
+        <ion-button shape="round" expand="block" type="submit">Submit</ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

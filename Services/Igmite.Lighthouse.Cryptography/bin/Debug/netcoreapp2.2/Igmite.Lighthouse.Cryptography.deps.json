@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v2.2",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v2.2": {
+      "Igmite.Lighthouse.Cryptography/1.0.0": {
+        "runtime": {
+          "Igmite.Lighthouse.Cryptography.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Igmite.Lighthouse.Cryptography/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

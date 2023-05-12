@@ -1,0 +1,17 @@
+:host ::ng-deep {
+  .monthview-container {
+    height: auto !important;
+  }
+
+  .monthview-eventdetail-timecolumn {
+    width: 0px !important;
+  }
+
+  .event-detail-container {
+    // display: none;
+  }
+}
+
+h2 {
+  margin-top: 10px !important;
+}

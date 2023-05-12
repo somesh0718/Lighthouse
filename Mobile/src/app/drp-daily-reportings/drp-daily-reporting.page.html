@@ -1,0 +1,196 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>DRP Daily Reporting</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="content-class">
+  <ion-card class="card-form">
+    <ion-card-header style="font-size: 17px;text-align: center;"><b>DRP Daily Reporting Form</b>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-button (click)="openCalModal()" expand="block">
+        View Submissions
+      </ion-button>
+
+      <form name="drpDailyReportingForm" [formGroup]="drpDailyReportingForm"
+        (ngSubmit)="saveOrUpdateDRPDailyReportingDetails()">
+
+        <ion-list>
+          <ion-item>
+            <ion-label position="floating">Reporting Date<span class="span-required">*</span></ion-label>
+            <ion-datetime placeholder="Select Reporting Date" [max]="maxDate" [min]="minDate" formControlName="ReportDate"
+              required>
+            </ion-datetime>
+
+            <div class="error-message"
+              *ngIf="drpDailyReportingForm.controls.ReportDate.invalid && drpDailyReportingForm.controls.ReportDate.touched">
+              {{getErrorMessage(drpDailyReportingForm, 'ReportDate')}}
+            </div>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Report Type<span class="span-required">*</span></ion-label>
+            <ion-select formControlName="ReportType" interface="popover" placeholder="Select Report Type."
+              (ionChange)="onChangeReportType($event.target.value)" required>
+              <ion-select-option *ngFor="let item of reportTypeList" [value]="item.DataValueId">{{item.Name}}
+              </ion-select-option>
+            </ion-select>
+
+            <div class="error-message"
+              *ngIf="drpDailyReportingForm.controls.ReportType.invalid && drpDailyReportingForm.controls.ReportType.touched">
+              {{getErrorMessage(drpDailyReportingForm, 'ReportType')}}
+            </div>
+          </ion-item>
+
+          <div *ngIf="drpDailyReportingForm.controls.ReportType.value == '307'">
+            <ion-item>
+              <ion-label position="floating">Working Day Type<span class="span-required">*</span></ion-label>
+              <ion-select formControlName="WorkingDayTypeIds" (ionChange)="onChangeWorkingType($event.target.value)"
+                interface=" popover" multiple="true" placeholder="Select Work Day Type." required>
+                <ion-select-option *ngFor="let workTypeItem of workTypeList" [value]="workTypeItem.DataValueId">
+                  {{workTypeItem.Name}}
+                </ion-select-option>
+
+              </ion-select>
+              <div class="error-message"
+                *ngIf="drpDailyReportingForm.controls.WorkingDayTypeIds.invalid && drpDailyReportingForm.controls.WorkingDayTypeIds.touched">
+                {{getErrorMessage(drpDailyReportingForm, 'WorkingDayTypeIds')}}
+              </div>
+            </ion-item>
+          </div>
+
+          <div *ngIf="isAllowSchool">
+            <ion-item>
+              <ion-label position="floating">School<span class="span-required">*</span></ion-label>
+              <ion-select formControlName="SchoolId" interface=" popover" multiple="false" placeholder="Select School."
+                [required]="isAllowSchool">
+                <ion-select-option [value]="schoolItem.Id" *ngFor="let schoolItem of schoolList">
+                  {{ schoolItem.Name }}
+                </ion-select-option>
+              </ion-select>
+
+              <div class="error-message"
+                *ngIf="drpDailyReportingForm.controls.SchoolId.invalid && drpDailyReportingForm.controls.SchoolId.touched">
+                {{getErrorMessage(drpDailyReportingForm, 'SchoolId')}}
+              </div>
+            </ion-item>
+          </div>
+
+          <div *ngIf="isAllowWorkDetails">
+            <ion-item>
+              <ion-label position="floating">Work Details</ion-label>
+              <ion-input type="text" formControlName="WorkTypeDetails" placeholder="Enter Work Details."></ion-input>
+
+              <div class="error-message"
+                *ngIf="drpDailyReportingForm.controls.WorkTypeDetails.invalid && drpDailyReportingForm.controls.WorkTypeDetails.touched">
+                {{getErrorMessage(drpDailyReportingForm, 'WorkTypeDetails')}}
+              </div>
+            </ion-item>
+          </div>
+
+          <fieldset formGroupName="holidayGroup" *ngIf="isAllowHoliday">
+            <legend>Holiday</legend>
+            <div *ngIf="drpDailyReportingForm.controls.ReportType.value == '306'">
+              <ion-item>
+                <ion-label position="floating">Holiday Type<span class="span-required">*</span></ion-label>
+                <ion-select formControlName="HolidayTypeId" interface="popover" multiple="false"
+                  [required]="isAllowHoliday" placeholder="Select Holiday Type.">
+                  <ion-select-option [value]="holidayTypeItem.DataValueId"
+                    *ngFor="let holidayTypeItem of holidayTypeList">
+                    {{ holidayTypeItem.Name }}
+                  </ion-select-option>
+                </ion-select>
+
+                <div class="error-message"
+                  *ngIf="drpDailyReportingForm.controls.holidayGroup.controls.HolidayTypeId.invalid && drpDailyReportingForm.controls.holidayGroup.controls.HolidayTypeId.touched">
+                  {{getErrorMessage(drpDailyReportingForm.controls.holidayGroup, 'HolidayTypeId')}}
+                </div>
+              </ion-item>
+
+              <ion-item
+                *ngIf="drpDailyReportingForm.controls.holidayGroup['controls'].HolidayTypeId.value == '309' || drpDailyReportingForm.controls.holidayGroup['controls'].HolidayTypeId.value == '310'">
+                <ion-label position="floating">Holiday Details<span class="span-required">*</span></ion-label>
+                <ion-input type="text" formControlName="HolidayDetails" placeholder="Enter Holiday Details."
+                  [required]="drpDailyReportingForm.controls.holidayGroup['controls'].HolidayTypeId.value == '309' || drpDailyReportingForm.controls.holidayGroup['controls'].HolidayTypeId.value == '310'">
+                </ion-input>
+
+                <div class="error-message"
+                  *ngIf="drpDailyReportingForm.controls.holidayGroup.controls.HolidayDetails.invalid && drpDailyReportingForm.controls.holidayGroup.controls.HolidayDetails.touched">
+                  {{getErrorMessage(drpDailyReportingForm.controls.holidayGroup, 'HolidayDetails')}}
+                </div>
+              </ion-item>
+            </div>
+          </fieldset>
+
+
+          <fieldset formGroupName="leaveGroup" *ngIf="isAllowLeave">
+            <legend>Leave</legend>
+            <div *ngIf="drpDailyReportingForm.controls.ReportType.value == '305'">
+              <ion-item>
+                <ion-label position="floating">Leave Type<span class="span-required">*</span></ion-label>
+                <ion-select formControlName="LeaveTypeId" interface="popover" multiple="false" [required]="isAllowLeave"
+                  placeholder="Select Leave Type.">
+                  <ion-select-option [value]="leaveTypeItem.DataValueId" *ngFor="let leaveTypeItem of leaveTypeList">
+                    {{ leaveTypeItem.Name }}
+                  </ion-select-option>
+                </ion-select>
+
+                <div class="error-message"
+                  *ngIf="drpDailyReportingForm.controls.leaveGroup.controls.LeaveTypeId.invalid && drpDailyReportingForm.controls.leaveGroup.controls.LeaveTypeId.touched">
+                  {{getErrorMessage(drpDailyReportingForm.controls.leaveGroup, 'LeaveTypeId')}}
+                </div>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Leave Reason<span class="span-required">*</span></ion-label>
+                <ion-input type="text" formControlName="LeaveReason" placeholder="Enter Leave Reason." required>
+                </ion-input>
+
+                <div class="error-message"
+                  *ngIf="drpDailyReportingForm.controls.leaveGroup.controls.LeaveReason.invalid && drpDailyReportingForm.controls.leaveGroup.controls.LeaveReason.touched">
+                  {{getErrorMessage(drpDailyReportingForm.controls.leaveGroup, 'LeaveReason')}}
+                </div>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Leave Approval Status<span class="span-required">*</span></ion-label>
+                <ion-select formControlName="LeaveApprovalStatus" placeholder="Select Leave Approval Status."
+                  interface="popover" (ionChange)="onChangeLeaveApprovalStatus($event.target.value)" required>
+                  <ion-select-option value="yes">Yes</ion-select-option>
+                  <ion-select-option value="no">No</ion-select-option>
+                </ion-select>
+
+                <div class="error-message"
+                  *ngIf="drpDailyReportingForm.controls.leaveGroup.controls.LeaveApprovalStatus.invalid && drpDailyReportingForm.controls.leaveGroup.controls.LeaveApprovalStatus.touched">
+                  {{getErrorMessage(drpDailyReportingForm.controls.leaveGroup, 'LeaveApprovalStatus')}}
+                </div>
+              </ion-item>
+
+              <ion-item *ngIf="drpDailyReportingForm.controls.leaveGroup['controls'].LeaveApprovalStatus.value == 'yes'">
+                <ion-label position="floating">Leave Approver<span class="span-required">*</span></ion-label>
+                <ion-select formControlName="LeaveApprover" interface="popover" placeholder="Select Leave Approver."
+                  required>
+                  <ion-select-option [value]="leaveApproverItem.DataValueId"
+                    *ngFor="let leaveApproverItem of leaveApproverList">
+                    {{ leaveApproverItem.Name }}
+                  </ion-select-option>
+                </ion-select>
+
+                <div class="error-message"
+                  *ngIf="drpDailyReportingForm.controls.leaveGroup.controls.LeaveApprover.invalid && drpDailyReportingForm.controls.leaveGroup.controls.LeaveApprover.touched">
+                  {{getErrorMessage(drpDailyReportingForm.controls.leaveGroup, 'LeaveApprover')}}
+                </div>
+              </ion-item>
+            </div>
+          </fieldset>
+        </ion-list>
+        <ion-button shape="round" expand="block" type="submit">Submit</ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

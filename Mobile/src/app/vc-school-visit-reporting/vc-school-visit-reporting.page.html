@@ -1,0 +1,359 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>VC School Visit Reporting</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="content-class">
+  <ion-card class="card-form">
+    <ion-card-header style="font-size: 17px;text-align: center;"><b>VC School Visit Reporting Form</b>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button (click)="openCalModal()" expand="block">
+        View Submissions
+      </ion-button>
+      <form name="vcSchoolVisitReportingForm" [formGroup]="vcSchoolVisitReportingForm"
+        (ngSubmit)="saveOrUpdateVCSchoolVisitReportingDetails()">
+        <ion-list>
+          <ion-item>
+            <ion-label position="floating">Name of VC</ion-label>
+            <ion-input type="text" name="VCName" formControlName="VCName" [disabled]="true" required></ion-input>
+            <div class="error-message"
+              *ngIf="vcSchoolVisitReportingForm.controls.VCName.invalid && vcSchoolVisitReportingForm.controls.VCName.touched">
+              {{getErrorMessage(vcSchoolVisitReportingForm, 'VCName')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Company Name</ion-label>
+            <ion-input type="text" name="CompanyName" formControlName="CompanyName" required></ion-input>
+            <div class="error-message"
+              *ngIf="vcSchoolVisitReportingForm.controls.CompanyName.invalid && vcSchoolVisitReportingForm.controls.CompanyName.touched">
+              {{getErrorMessage(vcSchoolVisitReportingForm, 'CompanyName')}}
+            </div>
+          </ion-item>
+
+          <!-- <ion-item>
+            <ion-label position="floating">Month Of Visit</ion-label>
+            <ion-select formControlName="Month" interface="popover" placeholder="Select Month." required>
+              <ion-select-option *ngFor="let monthItem of monthList" [value]="monthItem.DataValueId">{{monthItem.Name}}
+              </ion-select-option>
+            </ion-select>
+            <div class="error-message"
+              *ngIf="vcSchoolVisitReportingForm.controls.Month.invalid && vcSchoolVisitReportingForm.controls.Month.touched">
+              {{getErrorMessage(vcSchoolVisitReportingForm, 'Month')}}
+            </div>
+          </ion-item> -->
+
+          <ion-item>
+            <ion-label position="floating">Date Of Visit</ion-label>
+            <ion-datetime placeholder="Select Date" [max]="maxDate" [min]="minDate" name="VisitDate"
+              formControlName="VisitDate" required>
+            </ion-datetime>
+            <div class="error-message"
+              *ngIf="vcSchoolVisitReportingForm.controls.VisitDate.invalid && vcSchoolVisitReportingForm.controls.VisitDate.touched">
+              {{getErrorMessage(vcSchoolVisitReportingForm, 'VisitDate')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Select School</ion-label>
+            <ion-select formControlName="SchoolId" interface="popover" placeholder="Select School."
+              (ionChange)="onChangeSchool($event.target.value)" required>
+              <ion-select-option *ngFor="let schoolItem of schoolList" [value]="schoolItem.Id">
+                {{schoolItem.Name}}
+              </ion-select-option>
+            </ion-select>
+            <div class="error-message"
+              *ngIf="vcSchoolVisitReportingForm.controls.SchoolId.invalid && vcSchoolVisitReportingForm.controls.SchoolId.touched">
+              {{getErrorMessage(vcSchoolVisitReportingForm, 'SchoolId')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">District</ion-label>
+            <ion-select formControlName="DistrictCode" interface="popover" placeholder="Select District." required>
+              <ion-select-option *ngFor="let districtItem of districtList" [value]="districtItem.Id">
+                {{districtItem.Name}}
+              </ion-select-option>
+            </ion-select>
+            <div class="error-message"
+              *ngIf="vcSchoolVisitReportingForm.controls.DistrictCode.invalid && vcSchoolVisitReportingForm.controls.DistrictCode.touched">
+              {{getErrorMessage(vcSchoolVisitReportingForm, 'DistrictCode')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">E-mail of School</ion-label>
+            <ion-input type="text" name="SchoolEmailId" formControlName="SchoolEmailId" required></ion-input>
+            <div class="error-message"
+              *ngIf="vcSchoolVisitReportingForm.controls.SchoolEmailId.invalid && vcSchoolVisitReportingForm.controls.SchoolEmailId.touched">
+              {{getErrorMessage(vcSchoolVisitReportingForm, 'SchoolEmailId')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Name Of Principal</ion-label>
+            <ion-input type="text" name="PrincipalName" formControlName="PrincipalName" required></ion-input>
+            <div class="error-message"
+              *ngIf="vcSchoolVisitReportingForm.controls.PrincipalName.invalid && vcSchoolVisitReportingForm.controls.PrincipalName.touched">
+              {{getErrorMessage(vcSchoolVisitReportingForm, 'PrincipalName')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Phone No</ion-label>
+            <ion-input type="tel" name="PrincipalPhoneNo" maxlength="10" minlength="10" formControlName="PrincipalPhoneNo" required>
+            </ion-input>
+            <div class="error-message"
+              *ngIf="vcSchoolVisitReportingForm.controls.PrincipalPhoneNo.invalid && vcSchoolVisitReportingForm.controls.PrincipalPhoneNo.touched">
+              {{getErrorMessage(vcSchoolVisitReportingForm, 'PrincipalPhoneNo')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Sector<span class="span-required">*</span></ion-label>
+            <ion-select name="sectorId" formControlName="SectorId" required="true" multiple="false"
+              (ionChange)="onChangeSector($event.target.value)" placeholder="Select Sector">
+              <ion-select-option *ngFor="let sectorItem of sectorList" [value]="sectorItem.Description">
+                {{ sectorItem.Name }}
+              </ion-select-option>
+            </ion-select>
+
+            <div class="error-message"
+              *ngIf="vcSchoolVisitReportingForm.controls.SectorId.invalid && vcSchoolVisitReportingForm.controls.SectorId.touched">
+              {{getErrorMessage(vcSchoolVisitReportingForm, 'SectorId')}}
+            </div>
+          </ion-item>
+ 
+          <ion-item>
+            <ion-label position="floating">Job Role<span class="span-required">*</span></ion-label>
+            <ion-select name="jobRoleId" formControlName="JobRoleId" required="true" multiple="false"
+              placeholder="Select Job Role">
+              <ion-select-option *ngFor="let jobRoleItem of jobRoleList" [value]="jobRoleItem.Id">
+                {{ jobRoleItem.Name }}
+              </ion-select-option>
+            </ion-select>
+
+            <div class="error-message"
+              *ngIf="vcSchoolVisitReportingForm.controls.JobRoleId.invalid && vcSchoolVisitReportingForm.controls.JobRoleId.touched">
+              {{getErrorMessage(vcSchoolVisitReportingForm, 'JobRoleId')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Vocational Trainer</ion-label>
+            <ion-select formControlName="VTId" interface="popover" placeholder="Select Vocational Trainer." required>
+              <ion-select-option *ngFor="let vtItem of vtList" [value]="vtItem.Id">{{vtItem.Name}}
+              </ion-select-option>
+            </ion-select>
+            <div class="error-message"
+              *ngIf="vcSchoolVisitReportingForm.controls.VTId.invalid && vcSchoolVisitReportingForm.controls.VTId.touched">
+              {{getErrorMessage(vcSchoolVisitReportingForm, 'VTId')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Phone No</ion-label>
+            <ion-input type="tel" name="VTPhoneNo" maxlength="10" minlength="10" formControlName="VTPhoneNo" required></ion-input>
+            <div class="error-message"
+              *ngIf="vcSchoolVisitReportingForm.controls.VTPhoneNo.invalid && vcSchoolVisitReportingForm.controls.VTPhoneNo.touched">
+              {{getErrorMessage(vcSchoolVisitReportingForm, 'VTPhoneNo')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Labs</ion-label>
+            <ion-select name="labs" formControlName="Labs">
+              <ion-select-option value="Yes">Yes</ion-select-option>
+              <ion-select-option value="No">No</ion-select-option>
+            </ion-select>
+            <div class="error-message"
+              *ngIf="vcSchoolVisitReportingForm.controls.Labs.invalid && vcSchoolVisitReportingForm.controls.Labs.touched">
+              {{getErrorMessage(vcSchoolVisitReportingForm, 'Labs')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Books/Xerox</ion-label>
+            <ion-select name="Books" formControlName="Books">
+              <ion-select-option value="Yes">Yes</ion-select-option>
+              <ion-select-option value="No">No</ion-select-option>
+            </ion-select>
+            <div class="error-message"
+              *ngIf="vcSchoolVisitReportingForm.controls.Books.invalid && vcSchoolVisitReportingForm.controls.Books.touched">
+              {{getErrorMessage(vcSchoolVisitReportingForm, 'Books')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">No Of Guest Lectures</ion-label>
+            <ion-input type="tel" name="NoOfGLConducted" formControlName="NoOfGLConducted" required></ion-input>
+            <div class="error-message"
+              *ngIf="vcSchoolVisitReportingForm.controls.NoOfGLConducted.invalid && vcSchoolVisitReportingForm.controls.NoOfGLConducted.touched">
+              {{getErrorMessage(vcSchoolVisitReportingForm, 'NoOfGLConducted')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">No Of Industrial Visits</ion-label>
+            <ion-input type="tel" name="NoOfIndustrialVisits" formControlName="NoOfIndustrialVisits" required>
+            </ion-input>
+            <div class="error-message"
+              *ngIf="vcSchoolVisitReportingForm.controls.NoOfIndustrialVisits.invalid && vcSchoolVisitReportingForm.controls.NoOfIndustrialVisits.touched">
+              {{getErrorMessage(vcSchoolVisitReportingForm, 'NoOfIndustrialVisits')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Class 9 Boys Count</ion-label>
+            <ion-input type="tel" name="Class9Boys" formControlName="Class9Boys" maxlength="5" required></ion-input>
+            <div class="error-message"
+              *ngIf="vcSchoolVisitReportingForm.controls.Class9Boys.invalid && vcSchoolVisitReportingForm.controls.Class9Boys.touched">
+              {{getErrorMessage(vcSchoolVisitReportingForm, 'Class9Boys')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Class 9 Girls Count</ion-label>
+            <ion-input type="tel" name="Class9Girls" formControlName="Class9Girls" maxlength="5" required></ion-input>
+            <div class="error-message"
+              *ngIf="vcSchoolVisitReportingForm.controls.Class9Girls.invalid && vcSchoolVisitReportingForm.controls.Class9Girls.touched">
+              {{getErrorMessage(vcSchoolVisitReportingForm, 'Class9Girls')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Class 10 Boys Count</ion-label>
+            <ion-input type="tel" name="Class10Boys" formControlName="Class10Boys" maxlength="5" required></ion-input>
+            <div class="error-message"
+              *ngIf="vcSchoolVisitReportingForm.controls.Class10Boys.invalid && vcSchoolVisitReportingForm.controls.Class10Boys.touched">
+              {{getErrorMessage(vcSchoolVisitReportingForm, 'Class10Boys')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Class 10 Girls Count</ion-label>
+            <ion-input type="tel" name="Class10Girls" formControlName="Class10Girls" maxlength="5" required></ion-input>
+            <div class="error-message"
+              *ngIf="vcSchoolVisitReportingForm.controls.Class10Girls.invalid && vcSchoolVisitReportingForm.controls.Class10Girls.touched">
+              {{getErrorMessage(vcSchoolVisitReportingForm, 'Class10Girls')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Class 11 Boys Count</ion-label>
+            <ion-input type="tel" name="Class11Boys" formControlName="Class11Boys" maxlength="5" required></ion-input>
+            <div class="error-message"
+              *ngIf="vcSchoolVisitReportingForm.controls.Class11Boys.invalid && vcSchoolVisitReportingForm.controls.Class11Boys.touched">
+              {{getErrorMessage(vcSchoolVisitReportingForm, 'Class11Boys')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Class 11 Girls Count</ion-label>
+            <ion-input type="tel" name="Class11Girls" formControlName="Class11Girls" maxlength="5" required></ion-input>
+            <div class="error-message"
+              *ngIf="vcSchoolVisitReportingForm.controls.Class11Girls.invalid && vcSchoolVisitReportingForm.controls.Class11Girls.touched">
+              {{getErrorMessage(vcSchoolVisitReportingForm, 'Class11Girls')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Class 12 Boys Count</ion-label>
+            <ion-input type="tel" name="Class12Boys" formControlName="Class12Boys" maxlength="5" required></ion-input>
+            <div class="error-message"
+              *ngIf="vcSchoolVisitReportingForm.controls.Class12Boys.invalid && vcSchoolVisitReportingForm.controls.Class12Boys.touched">
+              {{getErrorMessage(vcSchoolVisitReportingForm, 'Class12Boys')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Class 12 Girls Count</ion-label>
+            <ion-input type="tel" name="Class12Girls" formControlName="Class12Girls" maxlength="5" required></ion-input>
+            <div class="error-message"
+              *ngIf="vcSchoolVisitReportingForm.controls.Class12Girls.invalid && vcSchoolVisitReportingForm.controls.Class12Girls.touched">
+              {{getErrorMessage(vcSchoolVisitReportingForm, 'Class12Girls')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Total Boys Count</ion-label>
+            <ion-input type="tel" name="TotalBoys" formControlName="TotalBoys" maxlength="5" required></ion-input>
+            <div class="error-message"
+              *ngIf="vcSchoolVisitReportingForm.controls.TotalBoys.invalid && vcSchoolVisitReportingForm.controls.TotalBoys.touched">
+              {{getErrorMessage(vcSchoolVisitReportingForm, 'TotalBoys')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Total Girls Count</ion-label>
+            <ion-input type="tel" name="TotalGirls" formControlName="TotalGirls" maxlength="5" required></ion-input>
+            <div class="error-message"
+              *ngIf="vcSchoolVisitReportingForm.controls.TotalGirls.invalid && vcSchoolVisitReportingForm.controls.TotalGirls.touched">
+              {{getErrorMessage(vcSchoolVisitReportingForm, 'TotalGirls')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">School Visit Photograph with Pricipal with GeoTag</ion-label>
+            <ion-input type="file" accept="image/*" placeholder="Select Screenshot."
+              (change)="uploadedSVPhotoWithPrincipalFile($event)">
+            </ion-input>
+
+            <div class="error-message"
+              *ngIf="vcSchoolVisitReportingForm.controls.SVPhotoWithPrincipalFile.invalid && vcSchoolVisitReportingForm.controls.SVPhotoWithPrincipalFile.touched">
+              {{getErrorMessage(vcSchoolVisitReportingForm, 'SVPhotoWithPrincipalFile')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-checkbox formControlName="IsSVPhotoWithPrincipalFile" checked="false" value="false"
+              (ionChange)="setMandatoryFieldControl(vcSchoolVisitReportingForm, 'SVPhotoWithPrincipalFile', $event)">
+            </ion-checkbox>
+            <ion-label>{{ Constants.Messages.DefaultImageText }}</ion-label>
+          </ion-item>
+
+          <ion-item
+            *ngIf="vcSchoolVisitReportingForm.controls['SVPhotoWithPrincipalFile'].value!=null && vcSchoolVisitReportingForm.controls['SVPhotoWithPrincipalFile'].value!=''">
+            <ion-label position="stacked">Image Preview:</ion-label>
+            <ion-img [src]="vcSchoolVisitReportingForm.controls['SVPhotoWithPrincipalFile'].value"></ion-img>
+            <ion-input type="text" hidden formControlName="SVPhotoWithPrincipalFile"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">School Visit Photograph with Students with GeoTag</ion-label>
+            <ion-input type="file" accept="image/*" placeholder="Select Screenshot."
+              (change)="uploadedSVPhotoWithStudentFile($event)">
+            </ion-input>
+
+            <div class="error-message"
+              *ngIf="vcSchoolVisitReportingForm.controls.SVPhotoWithStudentFile.invalid && vcSchoolVisitReportingForm.controls.SVPhotoWithStudentFile.touched">
+              {{getErrorMessage(vcSchoolVisitReportingForm, 'SVPhotoWithStudentFile')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-checkbox formControlName="IsSVPhotoWithStudentFile" checked="false" value="false"
+              (ionChange)="setMandatoryFieldControl(vcSchoolVisitReportingForm, 'SVPhotoWithStudentFile', $event)">
+            </ion-checkbox>
+            <ion-label>{{ Constants.Messages.DefaultImageText }}</ion-label>
+          </ion-item>
+
+          <ion-item
+            *ngIf="vcSchoolVisitReportingForm.controls['SVPhotoWithStudentFile'].value!=null && vcSchoolVisitReportingForm.controls['SVPhotoWithStudentFile'].value!=''">
+            <ion-label position="stacked">Image Preview:</ion-label>
+            <ion-img [src]="vcSchoolVisitReportingForm.controls['SVPhotoWithStudentFile'].value"></ion-img>
+            <ion-input type="text" hidden formControlName="SVPhotoWithStudentFile"></ion-input>
+          </ion-item>
+
+        </ion-list>
+        <ion-button shape="round" expand="block" type="submit">Submit</ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

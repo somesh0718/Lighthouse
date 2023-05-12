@@ -1,0 +1,332 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Field Industry Visit Conducted</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="content-class">
+  <ion-card class="card-form">
+    <ion-card-header style="font-size: 17px;text-align: center;"><b>Field Industry Visit Conducted Form</b>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-button (click)="openCalModal()" expand="block">
+        View Submissions
+      </ion-button>
+
+      <form name="vtFieldIndustryVisitConductedForm" [formGroup]="vtFieldIndustryVisitConductedForm"
+        (ngSubmit)="saveOrUpdateVTFieldIndustryVisitConductedDetails()">
+
+        <ion-list>
+          <ion-item>
+            <ion-label position="floating">Reporting Date<span class="span-required">*</span></ion-label>
+            <ion-datetime placeholder="Select Reporting Date" [max]="maxDate" [min]="minDate"
+              formControlName="ReportingDate" required>
+            </ion-datetime>
+
+            <div class="error-message"
+              *ngIf="vtFieldIndustryVisitConductedForm.controls.ReportingDate.invalid && vtFieldIndustryVisitConductedForm.controls.ReportingDate.touched">
+              {{getErrorMessage(vtFieldIndustryVisitConductedForm, 'ReportingDate')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Class Taught<span class="span-required">*</span></ion-label>
+            <ion-select formControlName="ClassTaughtId" (ionChange)="onChangeClassForTaught($event.target.value)"
+              multiple="false" placeholder="Select Class Taught" required>
+              <ion-select-option *ngFor="let item of classTaughtList" [value]="item.ClassId">{{item.ClassName}}
+              </ion-select-option>
+            </ion-select>
+
+            <div class="error-message"
+              *ngIf="vtFieldIndustryVisitConductedForm.controls.ClassTaughtId.invalid && vtFieldIndustryVisitConductedForm.controls.ClassTaughtId.touched">
+              {{getErrorMessage(vtFieldIndustryVisitConductedForm, 'ClassTaughtId')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Section Taught<span class="span-required">*</span></ion-label>
+            <ion-select formControlName="SectionIds" multiple="false" (ionChange)="onChangeSection($event.target.value)"
+              required placeholder="Select Section Taught">
+              <ion-select-option *ngFor="let item of sectionList" [value]="item.SectionId">{{item.SectionName}}
+              </ion-select-option>
+            </ion-select>
+
+            <div class="error-message"
+              *ngIf="vtFieldIndustryVisitConductedForm.controls.SectionIds.invalid && vtFieldIndustryVisitConductedForm.controls.SectionIds.touched">
+              {{getErrorMessage(vtFieldIndustryVisitConductedForm, 'SectionIds')}}
+            </div>
+          </ion-item>
+
+          <ion-item *ngIf="vtFieldIndustryVisitConductedForm.get('StudentAttendances') != null">
+            <div class="student-by-class-section">
+              <div class="student-header">
+                <span class="h2">Student Present</span>
+              </div>
+
+              <div formArrayName="StudentAttendances">
+                <!-- iterate formArray -->
+                <div
+                  *ngFor="let studentItem of vtFieldIndustryVisitConductedForm.get('StudentAttendances')['controls']; let studentIndex=index">
+                  <!-- Use the index for each formGroup inside the formArray -->
+                  <div [formGroupName]="studentIndex" class="student-list-item">
+                    <span class="student-item-seq">{{studentIndex+1}})</span>
+                    <input formControlName="StudentName" readonly style="border: none;" />
+                    <ion-toggle formControlName="IsPresent" [checked]="IsPresent"></ion-toggle>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Purpose Of The Visit<span class="span-required">*</span></ion-label>
+            <ion-input type="text" formControlName="FieldVisitTheme" required placeholder="Enter Purpose Of The Visit">
+            </ion-input>
+
+            <div class="error-message"
+              *ngIf="vtFieldIndustryVisitConductedForm.controls.FieldVisitTheme.invalid && vtFieldIndustryVisitConductedForm.controls.FieldVisitTheme.touched">
+              {{getErrorMessage(vtFieldIndustryVisitConductedForm, 'FieldVisitTheme')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Field Visit Activities<span class="span-required">*</span></ion-label>
+            <ion-input type="text" formControlName="FieldVisitActivities" required
+              placeholder="Enter Field Visit Activities">
+            </ion-input>
+
+            <div class="error-message"
+              *ngIf="vtFieldIndustryVisitConductedForm.controls.FieldVisitActivities.invalid && vtFieldIndustryVisitConductedForm.controls.FieldVisitActivities.touched">
+              {{getErrorMessage(vtFieldIndustryVisitConductedForm, 'FieldVisitActivities')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Modules Covered in FV<span class="span-required">*</span></ion-label>
+            <ion-select formControlName="ModuleId" multiple="false" placeholder="Select Modules Covered in FV"
+              (ionChange)="onChangeCourseModule($event.target.value)" [required]="unitSessionsModels.length==0">
+              <ion-select-option *ngFor="let moduleItem of moduleTaughtList" [value]="moduleItem">
+                {{moduleItem.ModuleName}}
+              </ion-select-option>
+            </ion-select>
+
+            <div class="error-message"
+              *ngIf="vtFieldIndustryVisitConductedForm.controls.ModuleId.invalid && vtFieldIndustryVisitConductedForm.controls.ModuleId.touched">
+              {{getErrorMessage(vtFieldIndustryVisitConductedForm, 'ModuleId')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Units Covered in FV<span class="span-required">*</span></ion-label>
+            <ion-select formControlName="UnitId" multiple="false" (ionChange)="onChangeUnitsTaught($event.target.value)"
+              [required]="unitSessionsModels.length==0" placeholder="Select Units Covered in FV.">
+              <ion-select-option *ngFor="let unitItem of unitList" [value]="unitItem">
+                {{unitItem.UnitName}}
+              </ion-select-option>
+            </ion-select>
+
+            <div class="error-message"
+              *ngIf="vtFieldIndustryVisitConductedForm.controls.UnitId.invalid && vtFieldIndustryVisitConductedForm.controls.UnitId.touched">
+              {{getErrorMessage(vtFieldIndustryVisitConductedForm, 'UnitId')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Sessions Covered in FV<span class="span-required">*</span></ion-label>
+            <ion-select formControlName="SessionIds" multiple="true" placeholder="Select Sessions Covered in FV."
+              [required]="unitSessionsModels.length==0">
+              <ion-select-option *ngFor="let sessionItem of sessionList" [value]="sessionItem">
+                {{sessionItem.SessionName}}
+              </ion-select-option>
+            </ion-select>
+
+            <div class="error-message"
+              *ngIf="vtFieldIndustryVisitConductedForm.controls.SessionIds.invalid && vtFieldIndustryVisitConductedForm.controls.SessionIds.touched">
+              {{getErrorMessage(vtFieldIndustryVisitConductedForm, 'SessionIds')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <div class="add-course-taught">
+              <ion-icon name="add-circle-outline" class="add-session" (click)="addUnitSession()"></ion-icon>
+              <span class="add-course-text">Kindly press "+" to add information</span>
+            </div>
+          </ion-item>
+
+          <ion-list>
+            <ion-item *ngFor="let sessionItem of unitSessionsModels let sessionIndex=index;">
+              <div style="float: left; width: 90%;">
+                <span style="width:5%"> {{sessionIndex + 1}}) </span>
+                <span style="width:20%; font-weight: bold;"> {{sessionItem.ModuleName}}- </span>
+                <span style="width:25%"> {{sessionItem.UnitName}}- </span>
+                <span style="width:50%"> {{sessionItem.SessionNames}} </span>
+              </div>
+              <div style="float: right; width: 10%;">
+                <ion-icon name="remove-circle-outline" class="remove-session" (click)="removeUnitSession(sessionItem)"></ion-icon>
+              </div>
+            </ion-item>
+          </ion-list>
+
+          <ion-item>
+            <ion-label position="floating">Field Visit Organisation<span class="span-required">*</span></ion-label>
+            <ion-input type="text" formControlName="FVOrganisation" required
+              placeholder="Enter Field Visit Organisation."></ion-input>
+
+            <div class="error-message"
+              *ngIf="vtFieldIndustryVisitConductedForm.controls.FVOrganisation.invalid && vtFieldIndustryVisitConductedForm.controls.FVOrganisation.touched">
+              {{getErrorMessage(vtFieldIndustryVisitConductedForm, 'FVOrganisation')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Organisation Address<span class="span-required">*</span></ion-label>
+            <ion-input type="text" formControlName="FVOrganisationAddress" required
+              placeholder="Enter Organisation Address."></ion-input>
+
+            <div class="error-message"
+              *ngIf="vtFieldIndustryVisitConductedForm.controls.FVOrganisationAddress.invalid && vtFieldIndustryVisitConductedForm.controls.FVOrganisationAddress.touched">
+              {{getErrorMessage(vtFieldIndustryVisitConductedForm, 'FVOrganisationAddress')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Field Visit Distance in KM<span class="span-required">*</span></ion-label>
+            <ion-input type="tel" formControlName="FVDistance" required placeholder="Enter Field Visit Distance in KM.">
+            </ion-input>
+
+            <div class="error-message"
+              *ngIf="vtFieldIndustryVisitConductedForm.controls.FVDistance.invalid && vtFieldIndustryVisitConductedForm.controls.FVDistance.touched">
+              {{getErrorMessage(vtFieldIndustryVisitConductedForm, 'FVDistance')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Field Visit Picture<span class="span-required"
+              *ngIf="(vtFieldIndustryVisitConductedForm.controls.IsFVPictureFile.value == null || vtFieldIndustryVisitConductedForm.controls.IsFVPictureFile.value == false)">*</span></ion-label>
+            <ion-input type="file" accept="image/*" (change)="uploadedFieldVisitPhotoFile($event)"
+            [required]="(vtFieldIndustryVisitConductedForm.controls.IsFVPictureFile.value == null || vtFieldIndustryVisitConductedForm.controls.IsFVPictureFile.value == false)">
+            </ion-input>
+
+            <div class="error-message"
+              *ngIf="vtFieldIndustryVisitConductedForm.controls.FVPictureFile.invalid && vtFieldIndustryVisitConductedForm.controls.FVPictureFile.touched">
+              {{getErrorMessage(vtFieldIndustryVisitConductedForm, 'FVPictureFile')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-checkbox formControlName="IsFVPictureFile" checked="false" value="false"
+              (ionChange)="setMandatoryFieldControl(vtFieldIndustryVisitConductedForm, 'FVPictureFile', $event)">
+            </ion-checkbox>
+            <ion-label>{{ Constants.Messages.DefaultImageText }}</ion-label>
+          </ion-item>
+
+          <ion-item *ngIf="vtFieldIndustryVisitConductedForm.controls['FVPictureFile'].value!=null">
+            <ion-label position="stacked">Image Preview:</ion-label>
+            <ion-img [src]="vtFieldIndustryVisitConductedForm.controls['FVPictureFile'].value"></ion-img>
+            <ion-input type="text" hidden formControlName="FVPictureFile" required></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Field Visit Contact Person<span class="span-required">*</span>
+            </ion-label>
+            <ion-input type="text" formControlName="FVContactPersonName" required
+              placeholder="Enter Field Visit Contact Person Name."></ion-input>
+
+            <div class="error-message"
+              *ngIf="vtFieldIndustryVisitConductedForm.controls.FVContactPersonName.invalid && vtFieldIndustryVisitConductedForm.controls.FVContactPersonName.touched">
+              {{getErrorMessage(vtFieldIndustryVisitConductedForm, 'FVContactPersonName')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Contact Person Mobile<span class="span-required">*</span></ion-label>
+            <ion-input type="tel" pattern="[0-9]*" maxlength=10 minlength=10 formControlName="FVContactPersonMobile"
+              required placeholder="Enter Contact Person Mobile."></ion-input>
+
+            <div class="error-message"
+              *ngIf="vtFieldIndustryVisitConductedForm.controls.FVContactPersonMobile.invalid && vtFieldIndustryVisitConductedForm.controls.FVContactPersonMobile.touched">
+              {{getErrorMessage(vtFieldIndustryVisitConductedForm, 'FVContactPersonMobile')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Contact Person Email</ion-label>
+            <ion-input type="text" pattern="^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"
+              formControlName="FVContactPersonEmail" placeholder="Enter Contact Person Email."></ion-input>
+
+            <div class="error-message"
+              *ngIf="vtFieldIndustryVisitConductedForm.controls.FVContactPersonEmail.invalid && vtFieldIndustryVisitConductedForm.controls.FVContactPersonEmail.touched">
+              {{getErrorMessage(vtFieldIndustryVisitConductedForm, 'FVContactPersonEmail')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Contact Person Designation<span class="span-required">*</span></ion-label>
+            <ion-input type="text" formControlName="FVContactPersonDesignation" required
+              placeholder="Enter Contact Person Designation."></ion-input>
+
+            <div class="error-message"
+              *ngIf="vtFieldIndustryVisitConductedForm.controls.FVContactPersonDesignation.invalid && vtFieldIndustryVisitConductedForm.controls.FVContactPersonDesignation.touched">
+              {{getErrorMessage(vtFieldIndustryVisitConductedForm, 'FVContactPersonDesignation')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Is Organization interested to conduct more FV?</ion-label>
+            <ion-select name="fvOrganisationInterestStatus" formControlName="FVOrganisationInterestStatus"
+              placeholder="Select FV Organisation Interest Status.">
+              <ion-select-option value="Yes">Yes</ion-select-option>
+              <ion-select-option value="No">No</ion-select-option>
+            </ion-select>
+
+            <div class="error-message"
+              *ngIf="vtFieldIndustryVisitConductedForm.controls.FVOrganisationInterestStatus.invalid && vtFieldIndustryVisitConductedForm.controls.FVOrganisationInterestStatus.touched">
+              {{getErrorMessage(vtFieldIndustryVisitConductedForm, 'FVOrganisationInterestStatus')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Is FV Organisation interested in conducting OJT/Internship?<span class="span-required">*</span></ion-label>
+            <ion-select name="fvOrignisationOJTStatus" formControlName="FVOrignisationOJTStatus"
+              placeholder="Select FV Orignisation OJT Status." required>
+              <ion-select-option value="Yes">Yes</ion-select-option>
+              <ion-select-option value="No">No</ion-select-option>
+            </ion-select>
+
+            <div class="error-message"
+              *ngIf="vtFieldIndustryVisitConductedForm.controls.FVOrignisationOJTStatus.invalid && vtFieldIndustryVisitConductedForm.controls.FVOrignisationOJTStatus.touched">
+              {{getErrorMessage(vtFieldIndustryVisitConductedForm, 'FVOrignisationOJTStatus')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Feedback from Organisation</ion-label>
+            <ion-input type="text" formControlName="FeedbackFromOrgnisation"
+              placeholder="Enter Feedback from Organisation."></ion-input>
+
+            <div class="error-message"
+              *ngIf="vtFieldIndustryVisitConductedForm.controls.FeedbackFromOrgnisation.invalid && vtFieldIndustryVisitConductedForm.controls.FeedbackFromOrgnisation.touched">
+              {{getErrorMessage(vtFieldIndustryVisitConductedForm, 'FeedbackFromOrgnisation')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Remarks</ion-label>
+            <ion-input type="text" formControlName="Remarks" placeholder="Enter Remarks."></ion-input>
+
+            <div class="error-message"
+              *ngIf="vtFieldIndustryVisitConductedForm.controls.Remarks.invalid && vtFieldIndustryVisitConductedForm.controls.Remarks.touched">
+              {{getErrorMessage(vtFieldIndustryVisitConductedForm, 'Remarks')}}
+            </div>
+          </ion-item>
+        </ion-list>
+
+        <ion-button shape="round" expand="block" type="submit">Submit</ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -1,0 +1,138 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>VT Issue Reporting</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="content-class">
+  <ion-card class="card-form">
+    <ion-card-header style="font-size: 17px;text-align: center;"><b>VT Issue Reporting Form</b>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button (click)="openCalModal()" expand="block">
+        View Submissions
+      </ion-button>
+
+      <form name="issueReportingForm" [formGroup]="issueReportingForm"
+        (ngSubmit)="saveOrUpdateVTIssueReportingDetails()">
+
+        <ion-list>
+          <ion-item>
+            <ion-label position="floating">Reporting Date<span class="span-required">*</span></ion-label>
+            <ion-datetime name="issueReportDate" formControlName="IssueReportDate" placeholder="Select Reporting Date"
+              [max]="maxDate" [min]="minDate" required>
+            </ion-datetime>
+
+            <div class="error-message"
+              *ngIf="issueReportingForm.controls.IssueReportDate.invalid && issueReportingForm.controls.IssueReportDate.touched">
+              {{getErrorMessage(issueReportingForm, 'IssueReportDate')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Main Issue<span class="span-required">*</span></ion-label>
+            <ion-select name="mainIssue" formControlName="MainIssue" required="true" multiple="false"
+              (ionChange)="onChangeMainIssue($event.target.value)" placeholder="Select Main Issue Type.">
+              <ion-select-option *ngFor="let issueItem of mainIssueList" [value]="issueItem.Id">
+                {{ issueItem.Name }}
+              </ion-select-option>
+            </ion-select>
+
+            <div class="error-message"
+              *ngIf="issueReportingForm.controls.MainIssue.invalid && issueReportingForm.controls.MainIssue.touched">
+              {{getErrorMessage(issueReportingForm, 'MainIssue')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Sub Issue<span class="span-required">*</span></ion-label>
+            <ion-select name="subIssue" formControlName="SubIssue" placeholder="Select Sub Issue." multiple="false"
+              required="true">
+              <ion-select-option *ngFor="let issueItem of subIssueList" [value]="issueItem.Id">
+                {{ issueItem.Name }}
+              </ion-select-option>
+            </ion-select>
+
+            <div class="error-message"
+              *ngIf="issueReportingForm.controls.SubIssue.invalid && issueReportingForm.controls.SubIssue.touched">
+              {{getErrorMessage(issueReportingForm, 'SubIssue')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Classes Affected<span class="span-required">*</span></ion-label>
+            <ion-select name="studentClass" formControlName="StudentClass" placeholder="Select Class." required="true"
+              multiple="true">
+              <ion-select-option *ngFor="let classItem of classList" [value]="classItem.Name">
+                {{ classItem.Name }}
+              </ion-select-option>
+            </ion-select>
+
+            <div class="error-message"
+              *ngIf="issueReportingForm.controls.StudentClass.invalid && issueReportingForm.controls.StudentClass.touched">
+              {{getErrorMessage(issueReportingForm, 'StudentClass')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Months Affected<span class="span-required">*</span></ion-label>
+            <ion-select name="month" formControlName="Month" placeholder="Select Month." required="true"
+              multiple="true">
+              <ion-select-option *ngFor="let monthItem of monthList" [value]="monthItem.Name">
+                {{ monthItem.Name }}
+              </ion-select-option>
+            </ion-select>
+
+            <div class="error-message"
+              *ngIf="issueReportingForm.controls.Month.invalid && issueReportingForm.controls.Month.touched">
+              {{getErrorMessage(issueReportingForm, 'Month')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Students Affected<span class="span-required">*</span></ion-label>
+            <ion-select name="studentType" formControlName="StudentType" placeholder="Select Student Affected."
+              required="true" multiple="false">
+              <ion-select-option [value]="studentItem.DataValueId" *ngFor="let studentItem of studentTypeList">
+                {{ studentItem.Name }}
+              </ion-select-option>
+            </ion-select>
+
+            <div class="error-message"
+              *ngIf="issueReportingForm.controls.StudentType.invalid && issueReportingForm.controls.StudentType.touched">
+              {{getErrorMessage(issueReportingForm, 'StudentType')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">No of Student Affected<span class="span-required">*</span></ion-label>
+            <ion-input type="tel" name="noOfStudents" formControlName="NoOfStudents"
+              placeholder="Enter No. of Student Affected" required maxlength="3"></ion-input>
+
+            <div class="error-message"
+              *ngIf="issueReportingForm.controls.NoOfStudents.invalid && issueReportingForm.controls.NoOfStudents.touched">
+              {{getErrorMessage(issueReportingForm, 'NoOfStudents')}}
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Issue Details</ion-label>
+            <ion-input type="text" name="issueDetails" formControlName="IssueDetails" placeholder="Enter Issue Details">
+            </ion-input>
+
+            <div class="error-message"
+              *ngIf="issueReportingForm.controls.IssueDetails.invalid && issueReportingForm.controls.IssueDetails.touched">
+              {{getErrorMessage(issueReportingForm, 'IssueDetails')}}
+            </div>
+          </ion-item>
+        </ion-list>
+
+        <ion-button shape="round" expand="block" type="submit">Submit</ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

@@ -1,0 +1,1330 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>VT Daily Reporting</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="content-class">
+    <ion-card class="card-form">
+        <ion-card-header style="font-size: 17px;text-align: center;"><b>VT Daily Reporting Form</b>
+        </ion-card-header>
+
+        <ion-card-content>
+            <ion-button (click)="openCalModal()" expand="block">
+                View Submissions
+            </ion-button>
+
+            <form name="vtDailyReportingForm" [formGroup]="vtDailyReportingForm"
+                (ngSubmit)="saveOrUpdateVTDailyReportingDetails()">
+
+                <ion-list>
+                    <ion-item>
+                        <ion-label position="floating">Reporting Date<span class="span-required">*</span></ion-label>
+                        <ion-datetime placeholder="Select Reporting Date" [max]="maxDate" [min]="minReportingDate"
+                            formControlName="ReportingDate" required>
+                        </ion-datetime>
+
+                        <div class="error-message"
+                            *ngIf="vtDailyReportingForm.controls.ReportingDate.invalid && vtDailyReportingForm.controls.ReportingDate.touched">
+                            {{getErrorMessage(vtDailyReportingForm, 'ReportingDate')}}
+                        </div>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label position="floating">Report Type<span class="span-required">*</span></ion-label>
+                        <ion-select formControlName="ReportType" interface="popover" multiple="false"
+                            (ionChange)="onChangeReportType($event.target.value)" placeholder="Select Report Type"
+                            required>
+                            <ion-select-option [value]="reportTypeItem.DataValueId"
+                                *ngFor="let reportTypeItem of reportTypeList">
+                                {{ reportTypeItem.Name }}
+                            </ion-select-option>
+                        </ion-select>
+
+                        <div class="error-message"
+                            *ngIf="vtDailyReportingForm.controls.ReportType.invalid && vtDailyReportingForm.controls.ReportType.touched">
+                            {{getErrorMessage(vtDailyReportingForm, 'ReportType')}}
+                        </div>
+                    </ion-item>
+
+                    <div *ngIf="vtDailyReportingForm.controls.ReportType.value == 37">
+                        <ion-item>
+                            <ion-label position="floating">Working Day Type<span class="span-required">*</span>
+                            </ion-label>
+                            <ion-select formControlName="WorkingDayTypeIds" placeholder="Select Working Day Type."
+                                (ionChange)="onChangeWorkingType($event.target.value)" interface="popover"
+                                multiple="true" required>
+                                <ion-select-option [value]="workingDayTypeIdsItem.DataValueId"
+                                    *ngFor="let workingDayTypeIdsItem of workingDayTypeIdsList">
+                                    {{ workingDayTypeIdsItem.Name }}
+                                </ion-select-option>
+                            </ion-select>
+
+                            <div class="error-message"
+                                *ngIf="vtDailyReportingForm.controls.WorkingDayTypeIds.invalid && vtDailyReportingForm.controls.WorkingDayTypeIds.touched">
+                                {{getErrorMessage(vtDailyReportingForm, 'WorkingDayTypeIds')}}
+                            </div>
+                        </ion-item>
+                    </div>
+
+                    <!-- Teaching vocational-education start -->
+                    <fieldset formGroupName="teachingVocationalEducationGroup"
+                        *ngIf="isAllowTeachingVocationalEducation">
+                        <legend>Teaching Vocational Education</legend>
+
+                        <div class="vt-daily-type vocational-class">
+                            <ion-item>
+                                <ion-label position="floating">Class Taught<span class="span-required">*</span>
+                                </ion-label>
+                                <ion-select name="classTaughtId" formControlName="ClassTaughtId"
+                                    plceholder="Select Class Taught." [required]="isAllowTeachingVocationalEducation"
+                                    (ionChange)="onChangeClassForTaught($event.target.value)">
+                                    <ion-select-option [value]="classItem.ClassId"
+                                        *ngFor="let classItem of classTaughtList">{{ classItem.ClassName }}
+                                    </ion-select-option>
+                                </ion-select>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.ClassTaughtId.invalid && vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.ClassTaughtId.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.teachingVocationalEducationGroup,
+                                    'ClassTaughtId')}}
+                                </div>
+                            </ion-item>
+
+                            <div style="display:none">
+                                <ion-label style="margin-right: 25px;">Did you teach today?
+                                </ion-label>
+                                <ion-checkbox formControlName="DidYouTeachToday">
+                                </ion-checkbox>
+                            </div>
+
+                            <div
+                                *ngIf="vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.DidYouTeachToday.value==true">
+                                <ion-item>
+                                    <ion-label position="floating">Section Taught<span class="span-required">*</span>
+                                    </ion-label>
+                                    <ion-select name="classSectionIds" formControlName="ClassSectionIds"
+                                        plceholder="Select Section Taught."
+                                        (ionChange)="onChangeSectionForTaught($event.target.value)"
+                                        [required]="isAllowTeachingVocationalEducation && vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.DidYouTeachToday.value"
+                                        multiple="false">
+                                        <ion-select-option [value]="sectionItem.SectionId"
+                                            *ngFor="let sectionItem of sectionList">{{ sectionItem.SectionName }}
+                                        </ion-select-option>
+                                    </ion-select>
+
+                                    <div class="error-message"
+                                        *ngIf="vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.ClassSectionIds.invalid && vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.ClassSectionIds.touched">
+                                        {{getErrorMessage(vtDailyReportingForm.controls.teachingVocationalEducationGroup,
+                                        'ClassSectionIds')}}
+                                    </div>
+                                </ion-item>
+                            </div>
+
+                            <div
+                                *ngIf="vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.DidYouTeachToday.value==true">
+                                <ion-item>
+                                    <ion-label position="floating">Activity Type<span class="span-required">*</span>
+                                    </ion-label>
+                                    <ion-select name="activityTypeIds" formControlName="ActivityTypeIds" multiple="true"
+                                        plceholder="Select Activity Type."
+                                        [required]="vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.DidYouTeachToday.value">
+                                        <ion-select-option [value]="activityItem.DataValueId"
+                                            *ngFor="let activityItem of activityTypeList">
+                                            {{ activityItem.Name }}
+                                        </ion-select-option>
+                                    </ion-select>
+
+                                    <div class="error-message"
+                                        *ngIf="vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.ActivityTypeIds.invalid && vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.ActivityTypeIds.touched">
+                                        {{getErrorMessage(vtDailyReportingForm.controls.teachingVocationalEducationGroup,
+                                        'ActivityTypeIds')}}
+                                    </div>
+                                </ion-item>
+
+                                <ion-item>
+                                    <ion-label position="floating">Class Type<span class="span-required">*</span>
+                                    </ion-label>
+                                    <ion-select name="classTypeId" formControlName="ClassTypeId"
+                                        plceholder="Select Class Type."
+                                        [required]="isAllowTeachingVocationalEducation && vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.DidYouTeachToday.value"
+                                        multiple="false">
+                                        <ion-select-option [value]="classTypeItem.DataValueId"
+                                            *ngFor="let classTypeItem of classTypeList">{{ classTypeItem.Name }}
+                                        </ion-select-option>
+                                    </ion-select>
+
+                                    <div class="error-message"
+                                        *ngIf="vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.ClassTypeId.invalid && vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.ClassTypeId.touched">
+                                        {{getErrorMessage(vtDailyReportingForm.controls.teachingVocationalEducationGroup,
+                                        'ClassTypeId')}}
+                                    </div>
+                                </ion-item>
+
+                                <ion-item>
+                                    <ion-label position="floating">Class duration in minutes<span
+                                            class="span-required">*</span>
+                                    </ion-label>
+                                    <ion-input type="tel" name="classTime" formControlName="ClassTime"
+                                        plceholder="Class duration in minutes"
+                                        [required]="isAllowTeachingVocationalEducation && vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.DidYouTeachToday.value"
+                                        maxlength="3">
+                                    </ion-input>
+
+                                    <div class="error-message"
+                                        *ngIf="vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.ClassTime.invalid && vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.ClassTime.touched">
+                                        {{getErrorMessage(vtDailyReportingForm.controls.teachingVocationalEducationGroup,
+                                        'ClassTime')}}
+                                    </div>
+                                </ion-item>
+                            </div>
+
+                            <div
+                                *ngIf="vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.DidYouTeachToday.value==true">
+                                <ion-item>
+                                    <ion-label position="floating">Modules Taught<span class="span-required">*</span>
+                                    </ion-label>
+                                    <ion-select name="moduleId" formControlName="ModuleId"
+                                        plceholder="Select Modules Taught." [required]="unitSessionsModels.length == 0"
+                                        (ionChange)="onChangeCourseModule($event.target.value)">
+                                        <ion-select-option [value]="moduleItem"
+                                            *ngFor="let moduleItem of moduleTaughtList">
+                                            {{ moduleItem.ModuleName }}
+                                        </ion-select-option>
+                                    </ion-select>
+
+                                    <div class="error-message"
+                                        *ngIf="vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.ModuleId.invalid && vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.ModuleId.touched">
+                                        {{getErrorMessage(vtDailyReportingForm.controls.teachingVocationalEducationGroup,
+                                        'ModuleId')}}
+                                    </div>
+                                </ion-item>
+
+                                <ion-item>
+                                    <ion-label position="floating">Units Taught<span class="span-required">*</span>
+                                    </ion-label>
+                                    <ion-select name="unitId" formControlName="UnitId" plceholder="Select Units Taught."
+                                        [required]="unitSessionsModels.length == 0"
+                                        (ionChange)="onChangeUnitsTaught($event.target.value)">
+                                        <ion-select-option [value]="unitItem" *ngFor="let unitItem of unitList">
+                                            {{ unitItem.UnitName }}
+                                        </ion-select-option>
+                                    </ion-select>
+
+                                    <div class="error-message"
+                                        *ngIf="vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.UnitId.invalid && vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.UnitId.touched">
+                                        {{getErrorMessage(vtDailyReportingForm.controls.teachingVocationalEducationGroup,
+                                        'UnitId')}}
+                                    </div>
+                                </ion-item>
+                            </div>
+
+                            <div
+                                *ngIf="vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.DidYouTeachToday.value==true">
+                                <ion-item>
+                                    <ion-label position="floating">Sessions Taught<span class="span-required">*</span>
+                                    </ion-label>
+                                    <ion-select name="sessionsTaught" formControlName="SessionsTaught"
+                                        plceholder="Select Sessions Taught." multiple="true"
+                                        [required]="unitSessionsModels.length == 0">
+                                        <ion-select-option [value]="sessionItem"
+                                            *ngFor="let sessionItem of sessionList">
+                                            {{ sessionItem.SessionName }}
+                                        </ion-select-option>
+                                    </ion-select>
+
+                                    <div class="error-message"
+                                        *ngIf="vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.SessionsTaught.invalid && vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.SessionsTaught.touched">
+                                        {{getErrorMessage(vtDailyReportingForm.controls.teachingVocationalEducationGroup,
+                                        'SessionsTaught')}}
+                                    </div>
+                                </ion-item>
+
+                                <ion-item>
+                                    <div class="add-course-taught">
+                                        <ion-icon name="add-circle-outline" class="add-session"
+                                            (click)="addUnitSession()"></ion-icon>
+                                        <span class="add-course-text">Kindly press "+" to add information</span>
+                                    </div>
+                                </ion-item>
+                            </div>
+
+                            <div
+                                *ngIf="vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.DidYouTeachToday.value==true">
+                                <ion-list>
+                                    <ion-item *ngFor="let sessionItem of unitSessionsModels let sessionIndex=index;">
+                                        <div style="float: left; width: 90%;">
+                                            <span style="width:5%"> {{sessionIndex + 1}}) </span>
+                                            <span style="width:20%; font-weight: bold;"> {{sessionItem.ModuleName}}-
+                                            </span>
+                                            <span style="width:25%"> {{sessionItem.UnitName}}- </span>
+                                            <span style="width:50%"> {{sessionItem.SessionNames}} </span>
+                                        </div>
+
+                                        <div style="float: right; width: 10%;">
+                                            <ion-icon name="remove-circle-outline" class="remove-session"
+                                                (click)="removeUnitSession(sessionItem)"></ion-icon>
+                                        </div>
+                                    </ion-item>
+                                </ion-list>
+                            </div>
+
+                            <div
+                                *ngIf="vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.DidYouTeachToday.value==true">
+
+                                <ion-item>
+                                    <ion-label position="stacked">Class Picture<span class="span-required"
+                                            *ngIf="(vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.IsClassPictureFile.value == null || vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.IsClassPictureFile.value == false)">*</span>
+                                    </ion-label>
+                                    <ion-input type="file" accept="image/*" (change)="uploadedClassPhotoFile($event)"
+                                        [required]="(vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.IsClassPictureFile.value == null || vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.IsClassPictureFile.value == false)">
+                                    </ion-input>
+
+                                    <div class="error-message"
+                                        *ngIf="vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.ClassPictureFile.invalid && vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.ClassPictureFile.touched">
+                                        {{getErrorMessage(vtDailyReportingForm.controls.teachingVocationalEducationGroup,
+                                        'ClassPictureFile')}}
+                                    </div>
+                                </ion-item>
+
+                                <ion-item>
+                                    <ion-checkbox formControlName="IsClassPictureFile" checked="false" value="false"
+                                        (ionChange)="setMandatoryFieldControl(vtDailyReportingForm.controls.teachingVocationalEducationGroup, 'ClassPictureFile', $event)">
+                                    </ion-checkbox>
+                                    <ion-label>{{ Constants.Messages.DefaultImageText }}</ion-label>
+                                </ion-item>
+
+                                <ion-item
+                                    *ngIf="vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls['ClassPictureFile'].value != null">
+                                    <ion-label position="stacked">Image Preview:</ion-label>
+
+                                    <ion-img
+                                        [src]="vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls['ClassPictureFile'].value">
+                                    </ion-img>
+                                    <ion-input type="text" hidden formControlName="ClassPictureFile"
+                                        [required]="(vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.IsClassPictureFile.value == null || vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.IsClassPictureFile.value == false)">
+                                    </ion-input>
+                                </ion-item>
+
+                                <ion-item>
+                                    <ion-label position="stacked">Lesson Plan Picture<span class="span-required"
+                                            *ngIf="(vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.IsLessonPlanPictureFile.value == null || vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.IsLessonPlanPictureFile.value == false)">*</span>
+                                    </ion-label>
+                                    <ion-input type="file" accept="image/*"
+                                        (change)="uploadedLessonPlanPhotoFile($event)"
+                                        [required]="(vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.IsLessonPlanPictureFile.value == null || vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.IsLessonPlanPictureFile.value == false)">
+                                    </ion-input>
+
+                                    <div class="error-message"
+                                        *ngIf="vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.LessonPlanPictureFile.invalid && vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.LessonPlanPictureFile.touched">
+                                        {{getErrorMessage(vtDailyReportingForm.controls.teachingVocationalEducationGroup,
+                                        'LessonPlanPictureFile')}}
+                                    </div>
+                                </ion-item>
+
+                                <ion-item>
+                                    <ion-checkbox formControlName="IsLessonPlanPictureFile" checked="false"
+                                        value="false"
+                                        (ionChange)="setMandatoryFieldControl(vtDailyReportingForm.controls.teachingVocationalEducationGroup, 'LessonPlanPictureFile', $event)">
+                                    </ion-checkbox>
+                                    <ion-label>{{ Constants.Messages.DefaultImageText }}</ion-label>
+                                </ion-item>
+
+                                <ion-item
+                                    *ngIf="lessonPlanPictureFile != null && lessonPlanPictureFile.Base64Data != ''">
+                                    <ion-label position="stacked">Image Preview:</ion-label>
+
+                                    <ion-img
+                                        [src]="vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls['LessonPlanPictureFile'].value">
+                                    </ion-img>
+                                    <ion-input type="text" hidden formControlName="LessonPlanPictureFile"
+                                        [required]="(vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.IsLessonPlanPictureFile.value == null || vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.IsLessonPlanPictureFile.value == false)">
+                                    </ion-input>
+                                </ion-item>
+                            </div>
+
+                            <div
+                                *ngIf="vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.DidYouTeachToday.value==false">
+                                <ion-item>
+                                    <ion-label position="floating">Reason Of Not Conducting The Class<span
+                                            class="span-required">*</span></ion-label>
+                                    <ion-select name="reasonOfNotConductingTheClassIds"
+                                        plceholder="Select Reason Of Not Conducting The Class."
+                                        formControlName="ReasonOfNotConductingTheClassIds" multiple="true"
+                                        [required]="isAllowTeachingVocationalEducation && vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.DidYouTeachToday.value == false">
+                                        <ion-select-option [value]="otherWorkItem.DataValueId"
+                                            *ngFor="let otherWorkItem of otherWorkList">
+                                            {{ otherWorkItem.Name }}
+                                        </ion-select-option>
+                                    </ion-select>
+
+                                    <div class="error-message"
+                                        *ngIf="vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.ReasonOfNotConductingTheClassIds.invalid && vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.ReasonOfNotConductingTheClassIds.touched">
+                                        {{getErrorMessage(vtDailyReportingForm.controls.teachingVocationalEducationGroup,
+                                        'ReasonOfNotConductingTheClassIds')}}
+                                    </div>
+                                </ion-item>
+                            </div>
+
+                            <div
+                                *ngIf="vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.DidYouTeachToday.value==false">
+                                <ion-item>
+                                    <ion-label position="floating">Reason Details<span class="span-required">*</span>
+                                    </ion-label>
+                                    <ion-input name="reasonDetails" formControlName="ReasonDetails" type="text"
+                                        Placeholder="Enter Reason Details"
+                                        [required]="isAllowTeachingVocationalEducation && vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.DidYouTeachToday.value == false">
+                                    </ion-input>
+
+                                    <div class="error-message"
+                                        *ngIf="vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.ReasonDetails.invalid && vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.ReasonDetails.touched">
+                                        {{getErrorMessage(vtDailyReportingForm.controls.teachingVocationalEducationGroup,
+                                        'ReasonDetails')}}
+                                    </div>
+                                </ion-item>
+                            </div>
+
+
+                            <div
+                                *ngIf="vtDailyReportingForm.controls.teachingVocationalEducationGroup.controls.DidYouTeachToday.value==true">
+
+                                <div class="student-by-class-section">
+                                    <div class="student-header">
+                                        <span class="h2">Student Present</span>
+                                    </div>
+
+                                    <div formArrayName="StudentAttendances" class="student-list-group">
+                                        <!-- iterate formArray -->
+                                        <div
+                                            *ngFor="let studentItem of vtDailyReportingForm.controls.teachingVocationalEducationGroup.get('StudentAttendances').controls; let studentIndex=index">
+                                            <!-- Use the index for each formGroup inside the formArray -->
+                                            <div [formGroupName]="studentIndex" class="student-list-item">
+                                                <span class="student-item-seq">{{studentIndex+1}})</span>
+                                                <input formControlName="StudentName" readonly style="border: none;" />
+                                                <ion-toggle formControlName="IsPresent" [checked]="IsPresent">
+                                                </ion-toggle>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </fieldset>
+                    <!-- Teaching vocational-education end -->
+
+
+                    <!-- training-of-teachers trainers start-->
+                    <fieldset formGroupName="trainingOfTeacherGroup" *ngIf="isAllowTrainingOfTeacher">
+                        <legend>Training of Teacher</legend>
+
+                        <div>
+                            <ion-item>
+                                <ion-label position="floating">Training Type<span class="span-required">*</span>
+                                </ion-label>
+                                <ion-select name="trainingTypeId" formControlName="TrainingTypeId"
+                                    [required]="isAllowTrainingOfTeacher" placeholder="Select Training Type.">
+                                    <ion-select-option [value]="trainingTypeItem.DataValueId"
+                                        *ngFor="let trainingTypeItem of trainingTypeList">
+                                        {{ trainingTypeItem.Name }}
+                                    </ion-select-option>
+                                </ion-select>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.trainingOfTeacherGroup.controls.TrainingTypeId.invalid && vtDailyReportingForm.controls.trainingOfTeacherGroup.controls.TrainingTypeId.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.trainingOfTeacherGroup,
+                                    'TrainingTypeId')}}
+                                </div>
+                            </ion-item>
+
+                            <ion-item
+                                *ngIf="vtDailyReportingForm.controls.trainingOfTeacherGroup.controls.TrainingTypeId.value == '126'">
+                                <ion-label position="floating">Training By<span class="span-required">*</span>
+                                </ion-label>
+                                <ion-input name="trainingBy" formControlName="TrainingBy"
+                                    placeholder="Enter Training By."
+                                    [required]="vtDailyReportingForm.controls.trainingOfTeacherGroup.controls.TrainingTypeId.value == '126'">
+                                </ion-input>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.trainingOfTeacherGroup.controls.TrainingBy.invalid && vtDailyReportingForm.controls.trainingOfTeacherGroup.controls.TrainingBy.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.trainingOfTeacherGroup,
+                                    'TrainingBy')}}
+                                </div>
+                            </ion-item>
+
+                            <ion-item
+                                *ngIf="vtDailyReportingForm.controls.trainingOfTeacherGroup.controls.TrainingTypeId.value == '124' || vtDailyReportingForm.controls.trainingOfTeacherGroup.controls.TrainingTypeId.value == '125'">
+
+                                <ion-label position="floating">Training Topics<span class="span-required">*</span>
+                                </ion-label>
+                                <ion-select name="trainingTopicIds" formControlName="TrainingTopicIds" multiple="true"
+                                    [required]="isAllowTrainingOfTeacher" placeholder="Select Training Topics.">
+                                    <ion-select-option [value]="trainingTopicsItem.DataValueId"
+                                        *ngFor="let trainingTopicsItem of trainingTopicsList">
+                                        {{ trainingTopicsItem.Name }}
+                                    </ion-select-option>
+                                </ion-select>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.trainingOfTeacherGroup.controls.TrainingTopicIds.invalid && vtDailyReportingForm.controls.trainingOfTeacherGroup.controls.TrainingTopicIds.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.trainingOfTeacherGroup,
+                                    'TrainingTopicIds')}}
+                                </div>
+                            </ion-item>
+
+                            <ion-item>
+                                <ion-label position="floating">Training Details</ion-label>
+                                <ion-input name="trainingDetails" formControlName="TrainingDetails"
+                                    placeholder="Enter Training Details.">
+                                </ion-input>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.trainingOfTeacherGroup.controls.TrainingDetails.invalid && vtDailyReportingForm.controls.trainingOfTeacherGroup.controls.TrainingDetails.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.trainingOfTeacherGroup,
+                                    'TrainingDetails')}}
+                                </div>
+                            </ion-item>
+                        </div>
+                    </fieldset>
+                    <!-- training-of-teachers end -->
+
+
+                    <!-- On Job Training Coordination start -->
+                    <fieldset formGroupName="onJobTrainingCoordinationGroup" *ngIf="isAllowOnJobTrainingCoordination">
+                        <legend>On-job Training Coordination</legend>
+
+                        <div>
+                            <div>
+                                <ion-item>
+                                    <ion-label position="floating">On-Job Training Activity<span
+                                            class="span-required">*</span> </ion-label>
+                                    <ion-select name="onJobTrainingActivityId" formControlName="OnJobTrainingActivityId"
+                                        [required]="isAllowOnJobTrainingCoordination"
+                                        placeholder="Select On-Job Training Activity.">
+                                        <ion-select-option [value]="ojtActivityItem.DataValueId"
+                                            *ngFor="let ojtActivityItem of ojtActivityList">
+                                            {{ ojtActivityItem.Name }}
+                                        </ion-select-option>
+                                    </ion-select>
+
+                                    <div class="error-message"
+                                        *ngIf="vtDailyReportingForm.controls.onJobTrainingCoordinationGroup.controls.OnJobTrainingActivityId.invalid && vtDailyReportingForm.controls.onJobTrainingCoordinationGroup.controls.OnJobTrainingActivityId.touched">
+                                        {{getErrorMessage(vtDailyReportingForm.controls.onJobTrainingCoordinationGroup,
+                                        'OnJobTrainingActivityId')}}
+                                    </div>
+                                </ion-item>
+
+                                <ion-item
+                                    *ngIf="vtDailyReportingForm.controls.onJobTrainingCoordinationGroup.controls.OnJobTrainingActivityId.value == '139' || vtDailyReportingForm.controls.onJobTrainingCoordinationGroup.controls.OnJobTrainingActivityId.value == '140'">
+                                    <ion-label position="floating">Industry<span class="span-required">*</span>
+                                    </ion-label>
+                                    <ion-input type="text" name="industryName" formControlName="IndustryName"
+                                        [required]="isAllowOnJobTrainingCoordination"
+                                        placeholder="Enter Industry Name.">
+                                    </ion-input>
+
+                                    <div class="error-message"
+                                        *ngIf="vtDailyReportingForm.controls.onJobTrainingCoordinationGroup.controls.IndustryName.invalid && vtDailyReportingForm.controls.onJobTrainingCoordinationGroup.controls.IndustryName.touched">
+                                        {{getErrorMessage(vtDailyReportingForm.controls.onJobTrainingCoordinationGroup,
+                                        'IndustryName')}}
+                                    </div>
+                                </ion-item>
+
+                            </div>
+
+                            <div
+                                *ngIf="vtDailyReportingForm.controls.onJobTrainingCoordinationGroup.controls.OnJobTrainingActivityId.value == '139'">
+                                <ion-item>
+                                    <ion-label position="floating">Industry Contact Person<span
+                                            class="span-required">*</span></ion-label>
+                                    <ion-input type="text" name="industryContactPerson"
+                                        formControlName="IndustryContactPerson"
+                                        placeholder="Enter Industry Contact Person."
+                                        [required]="isAllowOnJobTrainingCoordination">
+                                    </ion-input>
+
+                                    <div class="error-message"
+                                        *ngIf="vtDailyReportingForm.controls.onJobTrainingCoordinationGroup.controls.IndustryContactPerson.invalid && vtDailyReportingForm.controls.onJobTrainingCoordinationGroup.controls.IndustryContactPerson.touched">
+                                        {{getErrorMessage(vtDailyReportingForm.controls.onJobTrainingCoordinationGroup,
+                                        'IndustryContactPerson')}}
+                                    </div>
+                                </ion-item>
+
+                                <ion-item>
+                                    <ion-label position="floating">Contact Number<span class="span-required">*</span>
+                                    </ion-label>
+                                    <ion-input type="tel" name="industryContactNumber"
+                                        formControlName="IndustryContactNumber"
+                                        placeholder="Enter Industry Contact Number."
+                                        [required]="isAllowOnJobTrainingCoordination" minlength="10" maxlength="10">
+                                    </ion-input>
+
+                                    <div class="error-message"
+                                        *ngIf="vtDailyReportingForm.controls.onJobTrainingCoordinationGroup.controls.IndustryContactNumber.invalid && vtDailyReportingForm.controls.onJobTrainingCoordinationGroup.controls.IndustryContactNumber.touched">
+                                        {{getErrorMessage(vtDailyReportingForm.controls.onJobTrainingCoordinationGroup,
+                                        'IndustryContactNumber')}}
+                                    </div>
+                                </ion-item>
+
+                            </div>
+                            <div>
+                                <ion-item>
+                                    <ion-label position="floating">OJT Activity Details<span
+                                            class="span-required">*</span></ion-label>
+                                    <ion-input type="text" name="ojtActivityDetails"
+                                        formControlName="OJTActivityDetails" placeholder="Enter OJT Activity Details."
+                                        [required]="isAllowOnJobTrainingCoordination">
+                                    </ion-input>
+
+                                    <div class="error-message"
+                                        *ngIf="vtDailyReportingForm.controls.onJobTrainingCoordinationGroup.controls.OJTActivityDetails.invalid && vtDailyReportingForm.controls.onJobTrainingCoordinationGroup.controls.OJTActivityDetails.touched">
+                                        {{getErrorMessage(vtDailyReportingForm.controls.onJobTrainingCoordinationGroup,
+                                        'OJTActivityDetails')}}
+                                    </div>
+                                </ion-item>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <!-- On Job Training Coordination end -->
+
+
+                    <!-- assessor-in-other-school  -->
+                    <fieldset formGroupName="assessorInOtherSchoolGroup" *ngIf="isAllowAssessorInOtherSchool">
+                        <legend>Assessor In Other School</legend>
+
+                        <div>
+                            <ion-item>
+                                <ion-label position="floating">School Name<span class="span-required">*</span>
+                                </ion-label>
+                                <ion-input type="text" name="schoolName" formControlName="SchoolName"
+                                    [required]="isAllowAssessorInOtherSchool" placeholder="Enter School Name.">
+                                </ion-input>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.assessorInOtherSchoolGroup.controls.SchoolName.invalid && vtDailyReportingForm.controls.assessorInOtherSchoolGroup.controls.SchoolName.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.assessorInOtherSchoolGroup,
+                                    'SchoolName')}}
+                                </div>
+                            </ion-item>
+
+                            <ion-item>
+                                <ion-label position="floating">UDISE<span class="span-required">*</span></ion-label>
+                                <ion-input type="tel" name="udise" formControlName="Udise" placeholder="Enter UDISE."
+                                    [required]="isAllowAssessorInOtherSchool" minlength="11" maxlength="11"></ion-input>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.assessorInOtherSchoolGroup.controls.Udise.invalid && vtDailyReportingForm.controls.assessorInOtherSchoolGroup.controls.Udise.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.assessorInOtherSchoolGroup,
+                                    'Udise')}}
+                                </div>
+                            </ion-item>
+
+                            <ion-item>
+                                <ion-label position="floating">Class<span class="span-required">*</span></ion-label>
+                                <ion-select name="classId" formControlName="ClassId" placeholder="Select Class."
+                                    [required]="isAllowAssessorInOtherSchool">
+                                    <ion-select-option [value]="studentClassItem.ClassId"
+                                        *ngFor="let studentClassItem of studentClassList">
+                                        {{ studentClassItem.ClassName }}
+                                    </ion-select-option>
+                                </ion-select>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.assessorInOtherSchoolGroup.controls.ClassId.invalid && vtDailyReportingForm.controls.assessorInOtherSchoolGroup.controls.ClassId.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.assessorInOtherSchoolGroup,
+                                    'ClassId')}}
+                                </div>
+                            </ion-item>
+
+                            <ion-item>
+                                <ion-label position="floating">Boys Present<span class="span-required">*</span>
+                                </ion-label>
+                                <ion-input type="tel" name="boysPresent" formControlName="BoysPresent"
+                                    placeholder="Enter Boys Present." [required]="isAllowAssessorInOtherSchool"
+                                    maxlength="3"></ion-input>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.assessorInOtherSchoolGroup.controls.BoysPresent.invalid && vtDailyReportingForm.controls.assessorInOtherSchoolGroup.controls.BoysPresent.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.assessorInOtherSchoolGroup,
+                                    'BoysPresent')}}
+                                </div>
+                            </ion-item>
+
+                            <ion-item>
+                                <ion-label position="floating">Girls Present<span class="span-required">*</span>
+                                </ion-label>
+                                <ion-input type="tel" name="girlsPresent" formControlName="GirlsPresent"
+                                    placeholder="Enter Girls Present." [required]="isAllowAssessorInOtherSchool"
+                                    maxlength="3"></ion-input>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.assessorInOtherSchoolGroup.controls.GirlsPresent.invalid && vtDailyReportingForm.controls.assessorInOtherSchoolGroup.controls.GirlsPresent.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.assessorInOtherSchoolGroup,
+                                    'GirlsPresent')}}
+                                </div>
+                            </ion-item>
+
+                            <ion-item>
+                                <ion-label position="floating">Exam Details<span class="span-required">*</span>
+                                </ion-label>
+                                <ion-input type="text" name="examDetails" formControlName="ExamDetails"
+                                    placeholder="Enter Exam Details." [required]="isAllowAssessorInOtherSchool">
+                                </ion-input>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.assessorInOtherSchoolGroup.controls.ExamDetails.invalid && vtDailyReportingForm.controls.assessorInOtherSchoolGroup.controls.ExamDetails.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.assessorInOtherSchoolGroup,
+                                    'ExamDetails')}}
+                                </div>
+                            </ion-item>
+                        </div>
+                    </fieldset>
+                    <!-- assessor-in-other-school end -->
+
+
+                    <!-- school event Celebration-->
+                    <fieldset formGroupName="schoolEventCelebrationGroup" *ngIf="isAllowSchoolEventCelebration">
+                        <legend>School Event/ Celebration</legend>
+                        <div>
+                            <ion-item>
+                                <ion-label position="floating">School Event/ Celebration<span
+                                        class="span-required">*</span></ion-label>
+                                <ion-input type="text" name="schoolEventCelebration"
+                                    placeholder="Enter School Event/ Celebration."
+                                    formControlName="SchoolEventCelebration" [required]="isAllowSchoolEventCelebration">
+                                </ion-input>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.schoolEventCelebrationGroup.controls.SchoolEventCelebration.invalid && vtDailyReportingForm.controls.schoolEventCelebrationGroup.controls.SchoolEventCelebration.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.schoolEventCelebrationGroup,
+                                    'SchoolEventCelebration')}}
+                                </div>
+                            </ion-item>
+                        </div>
+                    </fieldset>
+                    <!-- /school event Celebration-->
+
+
+                    <!-- parent-teacher-meeting -->
+                    <fieldset formGroupName="parentTeacherMeetingGroup" *ngIf="isAllowParentTeacherMeeting">
+                        <legend>Parent Teacher Meeting</legend>
+
+                        <div>
+                            <ion-item>
+                                <ion-label position="floating">Vocational Parents Count<span
+                                        class="span-required">*</span></ion-label>
+                                <ion-input type="tel" name="vocationalParentsCount"
+                                    placeholder="Enter Vocational Parents Count."
+                                    formControlName="VocationalParentsCount" maxlength="3"
+                                    [required]="isAllowParentTeacherMeeting"></ion-input>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.parentTeacherMeetingGroup.controls.VocationalParentsCount.invalid && vtDailyReportingForm.controls.parentTeacherMeetingGroup.controls.VocationalParentsCount.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.parentTeacherMeetingGroup,
+                                    'VocationalParentsCount')}}
+                                </div>
+                            </ion-item>
+
+                            <ion-item>
+                                <ion-label position="floating">Other Parents Count<span class="span-required">*</span>
+                                </ion-label>
+                                <ion-input type="tel" name="otherParentsCount" formControlName="OtherParentsCount"
+                                    maxlength="3" [required]="isAllowParentTeacherMeeting"
+                                    placeholder="Enter Other Parents Count."></ion-input>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.parentTeacherMeetingGroup.controls.OtherParentsCount.invalid && vtDailyReportingForm.controls.parentTeacherMeetingGroup.controls.OtherParentsCount.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.parentTeacherMeetingGroup,
+                                    'OtherParentsCount')}}
+                                </div>
+                            </ion-item>
+
+                            <ion-item>
+                                <ion-label position="floating">PTA Details<span class="span-required">*</span>
+                                </ion-label>
+                                <ion-input type="text" name="ptaDetails" formControlName="PTADetails"
+                                    placeholder="Enter PTA Details." [required]="isAllowParentTeacherMeeting">
+                                </ion-input>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.parentTeacherMeetingGroup.controls.PTADetails.invalid && vtDailyReportingForm.controls.parentTeacherMeetingGroup.controls.PTADetails.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.parentTeacherMeetingGroup,
+                                    'PTADetails')}}
+                                </div>
+                            </ion-item>
+                        </div>
+                    </fieldset>
+                    <!-- pta-meeting end -->
+
+
+                    <!-- Community Home Visit -->
+                    <fieldset formGroupName="communityHomeVisitGroup" *ngIf="isAllowCommunityHomeVisit">
+                        <legend>Community Home Visit</legend>
+
+                        <div>
+                            <ion-item>
+                                <ion-label position="floating">Vocational Parents Count<span
+                                        class="span-required">*</span></ion-label>
+                                <ion-input type="tel" name="vocationalParentsCount"
+                                    placeholder="Enter Vocational Parents Count."
+                                    formControlName="VocationalParentsCount" maxlength="3"
+                                    [required]="isAllowCommunityHomeVisit"></ion-input>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.communityHomeVisitGroup.controls.VocationalParentsCount.invalid && vtDailyReportingForm.controls.communityHomeVisitGroup.controls.VocationalParentsCount.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.communityHomeVisitGroup,
+                                    'VocationalParentsCount')}}
+                                </div>
+                            </ion-item>
+
+                            <ion-item>
+                                <ion-label position="floating">Other Parents Count<span class="span-required">*</span>
+                                </ion-label>
+                                <ion-input type="tel" name="otherParentsCount" formControlName="OtherParentsCount"
+                                    placeholder="Enter Other Parents Count." maxlength="3"
+                                    [required]="isAllowCommunityHomeVisit"></ion-input>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.communityHomeVisitGroup.controls.OtherParentsCount.invalid && vtDailyReportingForm.controls.communityHomeVisitGroup.controls.OtherParentsCount.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.communityHomeVisitGroup,
+                                    'OtherParentsCount')}}
+                                </div>
+                            </ion-item>
+
+                            <ion-item>
+                                <ion-label position="floating">Community Visit Details<span
+                                        class="span-required">*</span></ion-label>
+                                <ion-input type="text" name="communityVisitDetails"
+                                    placeholder="Enter Community Visit Details." formControlName="CommunityVisitDetails"
+                                    [required]="isAllowCommunityHomeVisit">
+                                </ion-input>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.communityHomeVisitGroup.controls.CommunityVisitDetails.invalid && vtDailyReportingForm.controls.communityHomeVisitGroup.controls.CommunityVisitDetails.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.communityHomeVisitGroup,
+                                    'CommunityVisitDetails')}}
+                                </div>
+                            </ion-item>
+                        </div>
+                    </fieldset>
+                    <!-- Community Home Visit -->
+
+                    <!-- Industry Visit -->
+                    <fieldset formGroupName="industryVisitGroup" *ngIf="isAllowIndustryVisit">
+                        <legend>Industry Visit</legend>
+
+                        <div>
+                            <ion-item>
+                                <ion-label position="floating">Industry Visit Count<span class="span-required">*</span>
+                                </ion-label>
+                                <ion-input type="tel" name="industryVisitCount" formControlName="IndustryVisitCount"
+                                    min="1" max="5" [required]="isAllowIndustryVisit"
+                                    placeholder="Enter Industry Visit Count."
+                                    (change)="onChangeIndustryVisitCount($event.target.value)"></ion-input>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.industryVisitGroup.controls.IndustryVisitCount.invalid && vtDailyReportingForm.controls.industryVisitGroup.controls.IndustryVisitCount.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.industryVisitGroup,
+                                    'IndustryVisitCount')}}
+                                </div>
+                            </ion-item>
+
+                            <div formArrayName="IndustryVisits">
+                                <!-- iterate formArray -->
+                                <div
+                                    *ngFor="let industryVisitItem of vtDailyReportingForm.controls.industryVisitGroup.get('IndustryVisits').controls; let industryVisitIndex=index">
+
+                                    <h2><span class="line-center">Industry Visit : {{industryVisitIndex + 1}}</span>
+                                    </h2>
+                                    <!-- Use the index for each formGroup inside the formArray -->
+                                    <div [formGroupName]="industryVisitIndex">
+
+                                        <ion-item>
+                                            <ion-label position="floating">Industry<span class="span-required">*</span>
+                                            </ion-label>
+                                            <ion-input type="text" name="industryName" formControlName="IndustryName"
+                                                placeholder="Enter Industry Name." [required]="isAllowIndustryVisit">
+                                            </ion-input>
+
+                                            <div class="error-message"
+                                                *ngIf="industryVisitItem.controls.IndustryName.invalid && industryVisitItem.controls.IndustryName.touched">
+                                                {{getErrorMessage(industryVisitItem, 'IndustryName')}}
+                                            </div>
+                                        </ion-item>
+
+                                        <ion-item>
+                                            <ion-label position="floating">Industry Contact Person<span
+                                                    class="span-required">*</span></ion-label>
+                                            <ion-input type="text" name="industryContactPerson"
+                                                placeholder="Enter Industry Contact Person Name."
+                                                formControlName="IndustryContactPerson"
+                                                [required]="isAllowIndustryVisit"></ion-input>
+
+                                            <div class="error-message"
+                                                *ngIf="industryVisitItem.controls.IndustryContactPerson.invalid && industryVisitItem.controls.IndustryContactPerson.touched">
+                                                {{getErrorMessage(industryVisitItem, 'IndustryContactPerson')}}
+                                            </div>
+                                        </ion-item>
+
+                                        <ion-item>
+                                            <ion-label position="floating">Contact Number<span
+                                                    class="span-required">*</span></ion-label>
+                                            <ion-input type="tel" name="industryContactNumber"
+                                                placeholder="Enter Contact Number."
+                                                formControlName="IndustryContactNumber"
+                                                [required]="isAllowIndustryVisit" minlength="10" maxlength="10">
+                                            </ion-input>
+
+                                            <div class="error-message"
+                                                *ngIf="industryVisitItem.controls.IndustryContactNumber.invalid && industryVisitItem.controls.IndustryContactNumber.touched">
+                                                {{getErrorMessage(industryVisitItem, 'IndustryContactNumber')}}
+                                            </div>
+                                        </ion-item>
+
+                                        <ion-item>
+                                            <ion-label position="floating">Industry Visit Details</ion-label>
+                                            <ion-input type="text" name="industryVisitDetails"
+                                                formControlName="IndustryVisitDetails"
+                                                placeholder="Enter Industry Visit Details."></ion-input>
+
+                                            <div class="error-message"
+                                                *ngIf="industryVisitItem.controls.IndustryVisitDetails.invalid && industryVisitItem.controls.IndustryVisitDetails.touched">
+                                                {{getErrorMessage(industryVisitItem, 'IndustryVisitDetails')}}
+                                            </div>
+                                        </ion-item>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <!-- Industry Visit -->
+
+
+                    <!-- Visit to Educational Institute -->
+                    <fieldset formGroupName="visitToEducationalInstituteGroup"
+                        *ngIf="isAllowVisitToEducationalInstitute">
+                        <legend>Visit To Educational Institute</legend>
+
+                        <div class="vt-daily-type visit-to-educational-institute">
+                            <ion-item>
+                                <ion-label position="floating">Educational Institute Visit Count<span
+                                        class="span-required">*</span></ion-label>
+                                <ion-input type="tel" name="educationalInstituteVisitCount"
+                                    formControlName="EducationalInstituteVisitCount" min="1" max="5"
+                                    [required]="isAllowVisitToEducationalInstitute"
+                                    placeholder="Enter Educational Institute Visit Count."
+                                    (change)="onChangeEducationalInstituteVisitCount($event.target.value)"></ion-input>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.visitToEducationalInstituteGroup.controls.EducationalInstituteVisitCount.invalid && vtDailyReportingForm.controls.visitToEducationalInstituteGroup.controls.EducationalInstituteVisitCount.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.visitToEducationalInstituteGroup,
+                                    'EducationalInstituteVisitCount')}}
+                                </div>
+                            </ion-item>
+
+                            <div formArrayName="VisitToEducationalInstitutes">
+                                <!-- iterate formArray -->
+                                <div
+                                    *ngFor="let visitToEducationalInstituteItem of vtDailyReportingForm.controls.visitToEducationalInstituteGroup.get('VisitToEducationalInstitutes').controls; let visitToEducationalInstituteIndex=index">
+
+                                    <h2><span class="line-center">Visit to Educational Institute :
+                                            {{visitToEducationalInstituteIndex + 1}}</span></h2>
+                                    <!-- Use the index for each formGroup inside the formArray -->
+                                    <div [formGroupName]="visitToEducationalInstituteIndex" class="repetitive-block">
+
+                                        <ion-item>
+                                            <ion-label position="floating">Educational Institute<span
+                                                    class="span-required">*</span></ion-label>
+                                            <ion-input type="text" name="educationalInstitute"
+                                                placeholder="Enter Educational Institute Name."
+                                                formControlName="EducationalInstitute"
+                                                [required]="isAllowVisitToEducationalInstitute"></ion-input>
+
+                                            <div class="error-message"
+                                                *ngIf="visitToEducationalInstituteItem.controls.EducationalInstitute.invalid && visitToEducationalInstituteItem.controls.EducationalInstitute.touched">
+                                                {{getErrorMessage(visitToEducationalInstituteItem,
+                                                'EducationalInstitute')}}
+                                            </div>
+                                        </ion-item>
+
+                                        <ion-item>
+                                            <ion-label position="floating">Institute Contact Person<span
+                                                    class="span-required">*</span></ion-label>
+                                            <ion-input type="text" name="instituteContactPerson"
+                                                placeholder="Enter Institute Contact Person Name."
+                                                formControlName="InstituteContactPerson"
+                                                [required]="isAllowVisitToEducationalInstitute"></ion-input>
+
+                                            <div class="error-message"
+                                                *ngIf="visitToEducationalInstituteItem.controls.InstituteContactPerson.invalid && visitToEducationalInstituteItem.controls.InstituteContactPerson.touched">
+                                                {{getErrorMessage(visitToEducationalInstituteItem,
+                                                'InstituteContactPerson')}}
+                                            </div>
+                                        </ion-item>
+
+                                        <ion-item>
+                                            <ion-label position="floating">Contact Number<span
+                                                    class="span-required">*</span></ion-label>
+                                            <ion-input type="tel" name="instituteContactNumber"
+                                                placeholder="Enter Institute Contact Number."
+                                                formControlName="InstituteContactNumber"
+                                                [required]="isAllowVisitToEducationalInstitute" minlength="10"
+                                                maxlength="10"></ion-input>
+
+                                            <div class="error-message"
+                                                *ngIf="visitToEducationalInstituteItem.controls.InstituteContactNumber.invalid && visitToEducationalInstituteItem.controls.InstituteContactNumber.touched">
+                                                {{getErrorMessage(visitToEducationalInstituteItem,
+                                                'InstituteContactNumber')}}
+                                            </div>
+                                        </ion-item>
+
+                                        <ion-item>
+                                            <ion-label position="floating">Institute Visit Details
+                                            </ion-label>
+                                            <ion-input type="text" name="instituteVisitDetails"
+                                                placeholder="Enter Institute Visit Details."
+                                                formControlName="InstituteVisitDetails"></ion-input>
+
+                                            <div class="error-message"
+                                                *ngIf="visitToEducationalInstituteItem.controls.InstituteVisitDetails.invalid && visitToEducationalInstituteItem.controls.InstituteVisitDetails.touched">
+                                                {{getErrorMessage(visitToEducationalInstituteItem,
+                                                'InstituteVisitDetails')}}
+                                            </div>
+                                        </ion-item>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <!--/ Visit to Educational Institute -->
+
+                    <!-- assignment-from-vocational-department -->
+                    <fieldset formGroupName="assignmentFromVocationalDepartmentGroup"
+                        *ngIf="isAllowAssignmentFromVocationalDepartment">
+                        <legend>Assignment From Vocational Department</legend>
+
+                        <div>
+                            <ion-item>
+                                <ion-label position="floating">Assignment Number</ion-label>
+                                <ion-input type="tel" name="assigmentNumber" formControlName="AssigmentNumber"
+                                    placeholder="Enter Assigment Number.">
+                                </ion-input>
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.assignmentFromVocationalDepartmentGroup.controls.AssigmentNumber.invalid && vtDailyReportingForm.controls.assignmentFromVocationalDepartmentGroup.controls.AssigmentNumber.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.assignmentFromVocationalDepartmentGroup,
+                                    'AssigmentNumber')}}
+                                </div>
+                            </ion-item>
+
+                            <ion-item>
+                                <ion-label position="floating">Assignment Details<span class="span-required">*</span>
+                                </ion-label>
+                                <ion-input type="text" name="assignmentDetails" formControlName="AssignmentDetails"
+                                    placeholder="Enter Assignment Details."
+                                    [required]="isAllowAssignmentFromVocationalDepartment"></ion-input>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.assignmentFromVocationalDepartmentGroup.controls.AssignmentDetails.invalid && vtDailyReportingForm.controls.assignmentFromVocationalDepartmentGroup.controls.AssignmentDetails.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.assignmentFromVocationalDepartmentGroup,
+                                    'AssignmentDetails')}}
+                                </div>
+                            </ion-item>
+
+                            <ion-item>
+                                <ion-label position="stacked">Assignment Photo<span class="span-required"
+                                        *ngIf="(vtDailyReportingForm.controls.assignmentFromVocationalDepartmentGroup.controls.IsAssignmentPhotoFile.value == null || vtDailyReportingForm.controls.assignmentFromVocationalDepartmentGroup.controls.IsAssignmentPhotoFile.value == false)">*</span>
+                                </ion-label>
+                                <ion-input type="file" accept="image/*" (change)="uploadedAssignmentPhotoFile($event)"
+                                    [required]="(vtDailyReportingForm.controls.assignmentFromVocationalDepartmentGroup.controls.IsAssignmentPhotoFile.value == null || vtDailyReportingForm.controls.assignmentFromVocationalDepartmentGroup.controls.IsAssignmentPhotoFile.value == false)">
+                                </ion-input>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.assignmentFromVocationalDepartmentGroup.controls.AssignmentPhotoFile.invalid && vtDailyReportingForm.controls.assignmentFromVocationalDepartmentGroup.controls.AssignmentPhotoFile.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.assignmentFromVocationalDepartmentGroup,
+                                    'AssignmentPhotoFile')}}
+                                </div>
+                            </ion-item>
+
+                            <ion-item>
+                                <ion-checkbox formControlName="IsAssignmentPhotoFile" checked="false" value="false"
+                                    (ionChange)="setMandatoryFieldControl(vtDailyReportingForm.controls.assignmentFromVocationalDepartmentGroup, 'AssignmentPhotoFile', $event)">
+                                </ion-checkbox>
+                                <ion-label>{{ Constants.Messages.DefaultImageText }}</ion-label>
+                            </ion-item>
+
+                            <ion-item *ngIf="assignmentPhotoFile != null && assignmentPhotoFile.Base64Data != ''">
+                                <ion-label position="stacked">Image Preview:</ion-label>
+
+                                <ion-img
+                                    [src]="vtDailyReportingForm.controls.assignmentFromVocationalDepartmentGroup.controls['AssignmentPhotoFile'].value">
+                                </ion-img>
+                                <ion-input type="text" hidden formControlName="AssignmentPhotoFile"
+                                    [required]="isAllowAssignmentFromVocationalDepartment"></ion-input>
+                            </ion-item>
+                        </div>
+                    </fieldset>
+                    <!-- assignment-from-vocational-department end -->
+
+                    <!-- Teaching Non Vocational Subject -->
+                    <fieldset formGroupName="teachingNonVocationalSubjectGroup"
+                        *ngIf="isAllowTeachingNonVocationalSubject">
+                        <legend>Teaching Non Vocational Subject</legend>
+
+                        <div>
+                            <ion-item>
+                                <ion-label position="floating">Other Class Taken Details<span
+                                        class="span-required">*</span></ion-label>
+                                <ion-input type="text" name="otherClassTakenDetails"
+                                    placeholder="Enter Other Class Taken Details."
+                                    formControlName="OtherClassTakenDetails"
+                                    [required]="isAllowTeachingNonVocationalSubject"></ion-input>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.teachingNonVocationalSubjectGroup.controls.OtherClassTakenDetails.invalid && vtDailyReportingForm.controls.teachingNonVocationalSubjectGroup.controls.OtherClassTakenDetails.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.teachingNonVocationalSubjectGroup,
+                                    'OtherClassTakenDetails')}}
+                                </div>
+                            </ion-item>
+
+                            <ion-item>
+                                <ion-label position="floating">Other Class Time<span class="span-required">*</span>
+                                </ion-label>
+                                <ion-input type="tel" name="otherClassTime" formControlName="OtherClassTime"
+                                    placeholder="Enter Other Class Time." maxlength="3"
+                                    [required]="isAllowTeachingNonVocationalSubject"></ion-input>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.teachingNonVocationalSubjectGroup.controls.OtherClassTime.invalid && vtDailyReportingForm.controls.teachingNonVocationalSubjectGroup.controls.OtherClassTime.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.teachingNonVocationalSubjectGroup,
+                                    'OtherClassTime')}}
+                                </div>
+                            </ion-item>
+                        </div>
+                    </fieldset>
+                    <!-- /Teaching Non Vocational Subject -->
+
+
+                    <!-- Work assigned by Head Master -->
+                    <fieldset formGroupName="workAssignedByHeadMasterGroup" *ngIf="isAllowWorkAssignedByHeadMaster">
+                        <legend>Work Assigned by Head Master</legend>
+                        <div>
+                            <ion-item>
+                                <ion-label position="floating">Other Work<span class="span-required">*</span>
+                                </ion-label>
+                                <ion-input type="text" name="workAssignedByHeadMaster" placeholder="Enter Other Work."
+                                    formControlName="WorkAssignedByHeadMaster"
+                                    [required]="isAllowWorkAssignedByHeadMaster"></ion-input>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.workAssignedByHeadMasterGroup.controls.WorkAssignedByHeadMaster.invalid && vtDailyReportingForm.controls.workAssignedByHeadMasterGroup.controls.WorkAssignedByHeadMaster.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.workAssignedByHeadMasterGroup,
+                                    'WorkAssignedByHeadMaster')}}
+                                </div>
+                            </ion-item>
+                        </div>
+                    </fieldset>
+                    <!-- Work assigned by Head Master -->
+
+
+                    <!-- School Exam Duty -->
+                    <fieldset formGroupName="schoolExamDutyGroup" *ngIf="isAllowSchoolExamDuty">
+                        <legend>School Exam Duty</legend>
+
+                        <div class="vt-daily-type school-exam-duty">
+                            <ion-item>
+                                <ion-label position="floating">Other Work<span class="span-required">*</span>
+                                </ion-label>
+                                <ion-input type="text" name="schoolExamDuty" formControlName="SchoolExamDuty"
+                                    placeholder="Enter Other Work." [required]="isAllowSchoolExamDuty"></ion-input>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.schoolExamDutyGroup.controls.SchoolExamDuty.invalid && vtDailyReportingForm.controls.schoolExamDutyGroup.controls.SchoolExamDuty.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.schoolExamDutyGroup,
+                                    'SchoolExamDuty')}}
+                                </div>
+                            </ion-item>
+
+                        </div>
+                    </fieldset>
+                    <!-- School Exam Duty -->
+
+
+                    <!-- Other Work -->
+                    <fieldset formGroupName="otherWorkGroup" *ngIf="isAllowOtherWork">
+                        <legend>Other Work</legend>
+
+                        <div class="vt-daily-type other-work">
+                            <ion-item>
+                                <ion-label position="floating">Other Work<span class="span-required">*</span>
+                                </ion-label>
+                                <ion-input type="text" name="otherWork" formControlName="OtherWork"
+                                    placeholder="Enter Other Work." [required]="isAllowOtherWork"></ion-input>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.otherWorkGroup.controls.OtherWork.invalid && vtDailyReportingForm.controls.otherWorkGroup.controls.OtherWork.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.otherWorkGroup, 'OtherWork')}}
+                                </div>
+                            </ion-item>
+                        </div>
+                    </fieldset>
+                    <!-- Other Work -->
+
+                    <!-- holiday -->
+                    <fieldset formGroupName="holidayGroup" *ngIf="isAllowHoliday">
+                        <legend>Holiday</legend>
+                        <div class="vt-daily-type holiday">
+                            <ion-item>
+                                <ion-label position="floating">Holiday Type<span class="span-required">*</span>
+                                </ion-label>
+                                <ion-select name="holidayTypeId" formControlName="HolidayTypeId" [required]="false"
+                                    placeholder="Select Holiday Type.">
+                                    <ion-select-option [value]="holidayTypeItem.DataValueId"
+                                        *ngFor="let holidayTypeItem of holidayTypeList">
+                                        {{ holidayTypeItem.Name }}
+                                    </ion-select-option>
+                                </ion-select>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.holidayGroup.controls.HolidayTypeId.invalid && vtDailyReportingForm.controls.holidayGroup.controls.HolidayTypeId.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.holidayGroup, 'HolidayTypeId')}}
+                                </div>
+                            </ion-item>
+
+                            <div *ngIf="vtDailyReportingForm.controls.holidayGroup.controls.HolidayTypeId.value != 132">
+                                <ion-item>
+                                    <ion-label position="floating">Holiday Details</ion-label>
+                                    <ion-input type="text" name="holidayDetails" formControlName="HolidayDetails"
+                                        placeholder="Enter Holiday Details.">
+                                    </ion-input>
+
+                                    <div class="error-message"
+                                        *ngIf="vtDailyReportingForm.controls.holidayGroup.controls.HolidayDetails.invalid && vtDailyReportingForm.controls.holidayGroup.controls.HolidayDetails.touched">
+                                        {{getErrorMessage(vtDailyReportingForm.controls.holidayGroup,
+                                        'HolidayDetails')}}
+                                    </div>
+                                </ion-item>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <!-- holiday end -->
+
+
+                    <!-- observational-day -->
+                    <fieldset formGroupName="observationDayGroup" *ngIf="isAllowObservationDay">
+                        <legend>Observational Day</legend>
+                        <div class="vt-daily-type observational-day"
+                            *ngIf="vtDailyReportingForm.controls.ReportType.value == '123'">
+                            <ion-item>
+                                <ion-label position="floating">Student Count<span class="span-required">*</span>
+                                </ion-label>
+                                <ion-input type="text" name="obStudentCount" formControlName="OBStudentCount"
+                                    placeholder="Enter Student Count." [required]="isAllowObservationDay"></ion-input>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.observationDayGroup.controls.OBStudentCount.invalid && vtDailyReportingForm.controls.observationDayGroup.controls.OBStudentCount.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.observationDayGroup,
+                                    'OBStudentCount')}}
+                                </div>
+                            </ion-item>
+
+                            <ion-item>
+                                <ion-label position="floating">Observation Details<span class="span-required">*</span>
+                                </ion-label>
+                                <ion-input type="text" name="observationDetails" formControlName="ObservationDetails"
+                                    [required]="isAllowObservationDay" placeholder="Enter Observation Details.">
+                                </ion-input>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.observationDayGroup.controls.ObservationDetails.invalid && vtDailyReportingForm.controls.observationDayGroup.controls.ObservationDetails.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.observationDayGroup,
+                                    'ObservationDetails')}}
+                                </div>
+                            </ion-item>
+                        </div>
+                    </fieldset>
+                    <!-- observational-day end -->
+
+
+                    <!-- leave -->
+                    <fieldset formGroupName="leaveGroup" *ngIf="isAllowLeave">
+                        <legend>Leave</legend>
+
+                        <div class="vt-daily-type leave">
+                            <ion-item>
+                                <ion-label position="floating">Leave Type<span class="span-required">*</span>
+                                </ion-label>
+                                <ion-select name="leaveTypeId" formControlName="LeaveTypeId"
+                                    placeholder="Select Leave Type." [required]="isAllowLeave">
+                                    <ion-select-option [value]="leaveTypeItem.DataValueId"
+                                        *ngFor="let leaveTypeItem of leaveTypeList">
+                                        {{ leaveTypeItem.Name }}
+                                    </ion-select-option>
+                                </ion-select>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.leaveGroup.controls.LeaveTypeId.invalid && vtDailyReportingForm.controls.leaveGroup.controls.LeaveTypeId.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.leaveGroup, 'LeaveTypeId')}}
+                                </div>
+                            </ion-item>
+
+                            <ion-item>
+                                <ion-label position="floating">Leave Approval Status<span class="span-required">*</span>
+                                </ion-label>
+                                <ion-select name="leaveApprovalStatus" formControlName="LeaveApprovalStatus"
+                                    placeholder="Select Leave Approval Status Type." [required]="isAllowLeave">
+                                    <ion-select-option value="Yes">Yes</ion-select-option>
+                                    <ion-select-option value="No">No</ion-select-option>
+                                </ion-select>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.leaveGroup.controls.LeaveApprovalStatus.invalid && vtDailyReportingForm.controls.leaveGroup.controls.LeaveApprovalStatus.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.leaveGroup, 'LeaveApprovalStatus')}}
+                                </div>
+                            </ion-item>
+
+                            <div
+                                *ngIf="vtDailyReportingForm.controls.leaveGroup.controls.LeaveApprovalStatus.value == 'Yes'">
+                                <ion-item>
+                                    <ion-label position="floating">Leave Approver<span class="span-required">*</span>
+                                    </ion-label>
+                                    <ion-select name="leaveApprover" placeholder="Select Leave Approver."
+                                        formControlName="LeaveApprover" [required]="isAllowLeave">
+                                        <ion-select-option [value]="leaveApproverItem.DataValueId"
+                                            *ngFor="let leaveApproverItem of leaveApproverList">
+                                            {{ leaveApproverItem.Name }}
+                                        </ion-select-option>
+                                    </ion-select>
+
+                                    <div class="error-message"
+                                        *ngIf="vtDailyReportingForm.controls.leaveGroup.controls.LeaveApprover.invalid && vtDailyReportingForm.controls.leaveGroup.controls.LeaveApprover.touched">
+                                        {{getErrorMessage(vtDailyReportingForm.controls.leaveGroup, 'LeaveApprover')}}
+                                    </div>
+                                </ion-item>
+                            </div>
+
+                            <ion-item>
+                                <ion-label position="floating">Leave Reason<span class="span-required">*</span>
+                                </ion-label>
+                                <ion-input type="text" name="leaveReason" placeholder="Enter Leave Reason."
+                                    formControlName="LeaveReason" [required]="isAllowLeave"></ion-input>
+
+                                <div class="error-message"
+                                    *ngIf="vtDailyReportingForm.controls.leaveGroup.controls.LeaveReason.invalid && vtDailyReportingForm.controls.leaveGroup.controls.LeaveReason.touched">
+                                    {{getErrorMessage(vtDailyReportingForm.controls.leaveGroup, 'LeaveReason')}}
+                                </div>
+                            </ion-item>
+                        </div>
+                    </fieldset>
+                    <!-- leave end -->
+
+                </ion-list>
+                <ion-button shape="round" expand="block" type="submit">Submit</ion-button>
+            </form>
+        </ion-card-content>
+    </ion-card>
+
+</ion-content>

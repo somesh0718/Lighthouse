@@ -1,0 +1,26 @@
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Models\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.deps.json
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Models\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Models\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.pdb
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Models\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Entities.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Models\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Entities.pdb
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Models\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.csproj.AssemblyReference.cache
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Models\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Models\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.AssemblyInfoInputs.cache
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Models\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.AssemblyInfo.cs
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Models\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.csproj.CoreCompileInputs.cache
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Models\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.csproj.CopyComplete
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Models\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.dll
+C:\Users\likitha\Desktop\.netProject\Services\Igmite.Lighthouse.Models\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Models\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.deps.json
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Models\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Models\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Models\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Entities.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Models\bin\Debug\netcoreapp2.2\Igmite.Lighthouse.Entities.pdb
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Models\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.csproj.AssemblyReference.cache
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Models\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Models\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.AssemblyInfoInputs.cache
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Models\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.AssemblyInfo.cs
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Models\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.csproj.CoreCompileInputs.cache
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Models\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.csproj.CopyComplete
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Models\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.dll
+C:\Users\somes\OneDrive\Desktop\.Net Project\.netProject\Services\Igmite.Lighthouse.Models\obj\Debug\netcoreapp2.2\Igmite.Lighthouse.Models.pdb
